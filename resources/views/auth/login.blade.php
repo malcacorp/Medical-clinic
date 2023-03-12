@@ -1,56 +1,81 @@
 <x-guest-layout>
     <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
-
-        <x-validation-errors class="mb-4" />
-
-        @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ session('status') }}
+        <div class="row">
+            <div class="col-12 col-md-6 px-0 login-img" style="background-image: url({{asset('images/login-img.png')}}) ">
             </div>
-        @endif
+            <div class="col-12 col-md-6">
+                <div class="card-body">
+                    <h1 class="text-center mt-5 pt-4">Welcome Back!</h1>
+                    <x-validation-errors class="mb-3 rounded-0" />
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+                    @if (session('status'))
+                        <div class="alert alert-success mb-3 rounded-0" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
-            <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                    <form method="POST" action="{{ route('login') }}" class="mt-5 w-75 m-auto pb-5">
+                        @csrf
+                        <div class="mb-3">
+                            {{-- <x-label value="{{ __('Email') }}" /> --}}
+
+                            <x-input class="{{ $errors->has('email') ? 'is-invalid' : '' }} login-input" type="email"
+                                name="email" :value="old('email')" placeholder="Enter Email Address" required />
+                            <x-input-error for="email"></x-input-error>
+                        </div>
+
+                        <div class="mb-3">
+                            {{-- <x-label value="{{ __('Password') }}" /> --}}
+
+                            <x-input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }} login-input"
+                                type="password" name="password" placeholder="Password" required
+                                autocomplete="current-password" />
+                            <x-input-error for="password"></x-input-error>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="custom-control custom-checkbox">
+                                <x-checkbox id="remember_me" name="remember" />
+                                <label class="custom-control-label" for="remember_me">
+                                    {{ __('Remember Me') }}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary text-white  w-100 login-input">
+                                {{ __('Login') }}
+                            </button>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-danger  text-white w-100 login-input">
+                                {{ __('Login with Google') }}
+                            </button>
+                        </div>
+
+                        <div class="mt-4">
+                            <div class="">                      
+                                @if (Route::has('register'))
+                                    <a href="{{ route('register') }}" class="btn btn-info text-white w-100" style="line-height: 3; border-radius: 2rem">{{ __('Create a new account!') }}</a>
+                                @endif                                
+                            </div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <div class="d-flex justify-content-center">
+                          @if (Route::has('password.request'))
+                                    <a class="text-muted me-3" href="{{ route('password.request') }}">
+                                        {{ __('Forgot your password?') }}
+                                    </a>
+                                @endif
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
-            </div>
-
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" />
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-button class="ml-4">
-                    {{ __('Log in') }}
-                </x-button>
-            </div>
-            <div class="flex items-center justify-end">
-              New user?
-              @if (Route::has('register'))
-                    <a class="underline ml-4 text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
-                        {{ __('Register') }}
-                    </a>
-                @endif
-            </div>
-        </form>
+        </div>
     </x-authentication-card>
 </x-guest-layout>
