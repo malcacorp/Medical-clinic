@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
@@ -97,11 +98,11 @@
                 </div>
                 
             </a> --}}
-            <a class="logo" href="{{route('dashboard')}}">                
-              <div class="sidebar-brand-icon">
-                  <img width="100%" src="{{asset('images/logo.png')}}"/>
-              </div>                
-          </a>
+            <a class="logo" href="{{ route('dashboard') }}">
+                <div class="sidebar-brand-icon">
+                    <img width="100%" src="{{ asset('images/logo.png') }}" />
+                </div>
+            </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-2">

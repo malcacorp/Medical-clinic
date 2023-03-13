@@ -122,7 +122,7 @@ class Patients extends Component
         $this->height = $patient->height;
         $this->eye_color = $patient->eye_color;
         $this->address = $patient->address;
-    
+   
         $this->openModal();
     }
      /**
