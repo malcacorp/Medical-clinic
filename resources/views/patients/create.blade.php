@@ -71,6 +71,7 @@
                                 {{ __('Save Patient') }}
                             </x-button>
                         </div>
+                    </form>
                 </div>
             </div>
         </div>
