@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\Patients;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,7 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::resource('patients', \App\Http\Controllers\PatientController::class);
+    // Route::resource('patients', \App\Http\Controllers\PatientController::class);
+    Route::get('patients', Patients::class)->name('patients');
 
 });
