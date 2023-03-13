@@ -2,9 +2,10 @@
 namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Patient;
+use Illuminate\Validation\Rule;
 class Patients extends Component
 {
-    public $patients, $last_name, $first_name, $email, $birthdate, $phone_number, $weight, $height, $eye_color, $patient_id;
+    public $patients, $last_name, $first_name, $id_number, $sex, $address, $email, $birthdate, $phone_number, $weight, $height, $eye_color, $patient_id;
     public $isOpen = 0;
     /**
      * The attributes that are mass assignable.
@@ -52,6 +53,8 @@ class Patients extends Component
     private function resetInputFields(){
         $this->last_name = '';
         $this->first_name = '';
+        $this->id_number = '';
+        $this->sex = '';
         $this->patient_id = '';
         $this->email = '';
         $this->phone_number = '';
@@ -59,6 +62,7 @@ class Patients extends Component
         $this->weight = '';
         $this->height = '';
         $this->eye_color = '';
+        $this->address = '';
     }
     /**
      * The attributes that are mass assignable.
@@ -70,6 +74,7 @@ class Patients extends Component
         $this->validate([
             'last_name' => 'required',
             'first_name' => 'required',
+            'id_number' => ['required', Rule::unique('patients')->ignore($this->patient_id)]
         ]);
    
         // Patient::updateOrCreate(['id' => $this->patient_id], [
@@ -80,12 +85,15 @@ class Patients extends Component
         Patient::updateOrCreate(['id' => $this->patient_id], [
               'last_name' => $this->last_name,
               'first_name' => $this->first_name,
+              'id_number' => $this->id_number,
+              'sex' => $this->sex,
               'email' => $this->email,
               'phone_number' => $this->phone_number,
               'birthdate' => $this->birthdate,
               'weight' => $this->weight,
               'height' => $this->height,
               'eye_color' => $this->eye_color,
+              'address' => $this->address,
           ]);
   
         session()->flash('message', 
@@ -105,12 +113,15 @@ class Patients extends Component
         $this->patient_id = $id;
         $this->last_name = $patient->last_name;
         $this->first_name = $patient->first_name;
+        $this->id_number = $patient->id_number;
+        $this->sex = $patient->sex;
         $this->email = $patient->email;
         $this->phone_number = $patient->phone_number;
         $this->birthdate = $patient->birthdate;
         $this->weight = $patient->weight;
         $this->height = $patient->height;
         $this->eye_color = $patient->eye_color;
+        $this->address = $patient->address;
     
         $this->openModal();
     }
