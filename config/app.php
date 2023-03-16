@@ -54,9 +54,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://malcamedia.com'),
 
-    'asset_url' => env('ASSET_URL'. 'public'),
+    'asset_url' => env('ASSET_URL'. 'https://malcamedia.com/public'),
 
     /*
     |--------------------------------------------------------------------------

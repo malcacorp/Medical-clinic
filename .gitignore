@@ -20,3 +20,4 @@ yarn-error.log
 *.zip
 server.php
 /Clinicsoftware
+.htaccess
