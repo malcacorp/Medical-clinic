@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('user_id')->unsigned();
             $table->string('id_number',20)->unique()->nullable();
             $table->string('first_name',128)->nullable();
             $table->string('last_name',128)->nullable();
@@ -60,6 +61,7 @@ return new class extends Migration
             // $table->integer('id_religion')->nullable();
             // $table->boolean('status')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -68,7 +70,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('patients');
     }

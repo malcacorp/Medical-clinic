@@ -83,17 +83,18 @@ class Patients extends Component
         // ]);
 
         Patient::updateOrCreate(['id' => $this->patient_id], [
-              'last_name' => $this->last_name,
-              'first_name' => $this->first_name,
-              'id_number' => $this->id_number,
-              'sex' => $this->sex,
-              'email' => $this->email,
-              'phone_number' => $this->phone_number,
-              'birthdate' => $this->birthdate,
-              'weight' => $this->weight,
-              'height' => $this->height,
-              'eye_color' => $this->eye_color,
-              'address' => $this->address,
+          'last_name' => $this->last_name,
+          'first_name' => $this->first_name,
+          'id_number' => $this->id_number,
+          'sex' => $this->sex,
+          'email' => $this->email,
+          'phone_number' => $this->phone_number,
+          'birthdate' => $this->birthdate,
+          'weight' => $this->weight,
+          'height' => $this->height,
+          'eye_color' => $this->eye_color,
+          'address' => $this->address,
+          'user_id' => null,
           ]);
   
         session()->flash('message', 

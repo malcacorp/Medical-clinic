@@ -28,4 +28,9 @@ class Patient extends Model
     'address',
     'medical_condition',
   ];
+
+  public function user()
+  {
+    return $this->belongsTo('App\Models\User');
+  }
 }
