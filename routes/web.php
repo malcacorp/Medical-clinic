@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Patients;
+use App\Http\Livewire\Intake;
+use App\Http\Livewire\Users;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +16,17 @@ use App\Http\Livewire\Patients;
 |
 */
 
+// Sql Debuger
+// DB::listen(function($query){
+//   //Imprimimos la consulta ejecutada
+//   echo "<pre> {$query->sql } </pre>";
+// });
+
 Route::get('/', function () {
     return view('auth.login');
 });
+
+Route::get('intake', Intake::class)->name('intake');
 
 Route::middleware([
     'auth:sanctum',
