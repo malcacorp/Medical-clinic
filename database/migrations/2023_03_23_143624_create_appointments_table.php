@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->nullable()->unsigned();
-            $table->integer('patient_id')->nullable()->unsigned();
-            $table->integer('employee_id')->nullable()->unsigned();
+            $table->bigInteger('user_id')->nullable()->unsigned();
+            $table->bigInteger('patient_id')->nullable()->unsigned();
+            $table->bigInteger('employee_id')->nullable()->unsigned();
             $table->string('assessment_type')->nullable();
             $table->date('date');
             $table->time('time');
