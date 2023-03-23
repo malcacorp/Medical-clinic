@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Patient extends Model
+class Employee extends Model
 {
   use HasFactory;
 
@@ -19,14 +19,13 @@ class Patient extends Model
     'first_name',
     'last_name',
     'sex',
+    'profession',
+    'position',
+    'speciality',
     'email',
     'phone_number',
     'birthdate',
-    'height',
-    'weight',
-    'eye_color',
     'address',
-    'medical_condition',
   ];
 
   public function user()

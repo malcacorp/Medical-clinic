@@ -19,5 +19,7 @@
     </head>
     <body class="bg-light font-sans antialiased">
         {{ $slot }}
+      @livewireScripts
+      <script src="{{ asset('js/utils.js') }}"></script>
     </body>
 </html>

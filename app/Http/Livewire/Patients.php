@@ -2,10 +2,15 @@
 namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Patient;
+
+use App\Models\Team;
+use App\Models\User;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 class Patients extends Component
 {
-    public $patients, $last_name, $first_name, $id_number, $sex, $address, $email, $birthdate, $phone_number, $weight, $height, $eye_color, $patient_id;
+    public $patients, $last_name, $first_name, $id_number, $sex = 'Male', $address, $email, $birthdate, $phone_number, $weight, $height, $eye_color, $patient_id;
     public $isOpen = 0;
     /**
      * The attributes that are mass assignable.
@@ -54,7 +59,7 @@ class Patients extends Component
         $this->last_name = '';
         $this->first_name = '';
         $this->id_number = '';
-        $this->sex = '';
+        $this->sex = 'Male';
         $this->patient_id = '';
         $this->email = '';
         $this->phone_number = '';
@@ -74,7 +79,8 @@ class Patients extends Component
         $this->validate([
             'last_name' => 'required',
             'first_name' => 'required',
-            'id_number' => ['required', Rule::unique('patients')->ignore($this->patient_id)]
+            'id_number' => ['required', Rule::unique('patients')->ignore($this->patient_id)],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         ]);
    
         // Patient::updateOrCreate(['id' => $this->patient_id], [
@@ -82,25 +88,54 @@ class Patients extends Component
         //     'first_name' => $this->first_name
         // ]);
 
-        Patient::updateOrCreate(['id' => $this->patient_id], [
-              'last_name' => $this->last_name,
-              'first_name' => $this->first_name,
-              'id_number' => $this->id_number,
-              'sex' => $this->sex,
+        return DB::transaction(function () {
+          return tap(
+            User::create([
+              'name' => $this->first_name . ' ' . $this->last_name,
               'email' => $this->email,
-              'phone_number' => $this->phone_number,
-              'birthdate' => $this->birthdate,
-              'weight' => $this->weight,
-              'height' => $this->height,
-              'eye_color' => $this->eye_color,
-              'address' => $this->address,
-          ]);
+              'password' => Hash::make($this->id_number),
+            ]),
+            function (User $user) {
+              $this->createTeam($user);
+              $patient = Patient::updateOrCreate(['id' => $this->patient_id], [
+                  'last_name' => $this->last_name,
+                  'first_name' => $this->first_name,
+                  'id_number' => $this->id_number,
+                  'sex' => $this->sex,
+                  'email' => $this->email,
+                  'phone_number' => $this->phone_number,
+                  'birthdate' => $this->birthdate,
+                  'weight' => $this->weight,
+                  'height' => $this->height,
+                  'eye_color' => $this->eye_color,
+                  'address' => $this->address,
+                  ]);
+              $user->patient()->save($patient);
+    
+              session()->flash('message', 
+              $this->patient_id ? 'Patient Updated Successfully.' : 'Patient Created Successfully.');
+    
+              $this->closeModal();
+              $this->resetInputFields();
+            }
+          );
+        });
+
+        // Patient::updateOrCreate(['id' => $this->patient_id], [
+        //   'last_name' => $this->last_name,
+        //   'first_name' => $this->first_name,
+        //   'id_number' => $this->id_number,
+        //   'sex' => $this->sex,
+        //   'email' => $this->email,
+        //   'phone_number' => $this->phone_number,
+        //   'birthdate' => $this->birthdate,
+        //   'weight' => $this->weight,
+        //   'height' => $this->height,
+        //   'eye_color' => $this->eye_color,
+        //   'address' => $this->address,
+        //   'user_id' => null,
+        //   ]);
   
-        session()->flash('message', 
-            $this->patient_id ? 'Patient Updated Successfully.' : 'Patient Created Successfully.');
-  
-        $this->closeModal();
-        $this->resetInputFields();
     }
     /**
      * The attributes that are mass assignable.
@@ -134,5 +169,14 @@ class Patients extends Component
     {
         Patient::find($id)->delete();
         session()->flash('message', 'Patient Deleted Successfully.');
+    }
+
+    protected function createTeam(User $user): void
+    {
+      $user->ownedTeams()->save(Team::forceCreate([
+        'user_id' => $user->id,
+        'name' => explode(' ', $user->name, 2)[0] . "'s Team",
+        'personal_team' => true,
+      ]));
     }
 }

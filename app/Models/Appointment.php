@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Patient extends Model
+class Appointment extends Model
 {
   use HasFactory;
 
@@ -15,22 +15,24 @@ class Patient extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    'id_number',
-    'first_name',
-    'last_name',
-    'sex',
-    'email',
-    'phone_number',
-    'birthdate',
-    'height',
-    'weight',
-    'eye_color',
-    'address',
-    'medical_condition',
+    'assessment_type',
+    'date',
+    'time',
+    'medical_concerns',
   ];
 
   public function user()
   {
     return $this->belongsTo('App\Models\User');
+  }
+
+  public function employee()
+  {
+    return $this->belongsTo('App\Models\Employee');
+  }
+
+  public function patient()
+  {
+    return $this->belongsTo('App\Models\Patient');
   }
 }

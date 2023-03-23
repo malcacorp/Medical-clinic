@@ -29,7 +29,7 @@
                         <div class="col col-md-6 px-4">
                             <x-label for="sex" value="{{ __('Sex') }}" />
                             <select class="form-select" name="sex" wire:model="sex">
-                              <option value="Male">Male</option>
+                              <option value="Male" selected>Male</option>
                               <option value="Female">Female</option>
                           </select>                            
                         </div>

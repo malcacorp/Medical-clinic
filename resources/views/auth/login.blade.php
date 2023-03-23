@@ -58,8 +58,8 @@
 
                         <div class="mt-4">
                             <div class="">                      
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="btn btn-info text-white w-100" style="line-height: 3; border-radius: 2rem">{{ __('Create a new account!') }}</a>
+                                @if (Route::has('intake'))
+                                    <a href="{{ route('intake') }}" class="btn btn-info text-white w-100" style="line-height: 3; border-radius: 2rem">{{ __('Patient Registration') }}</a>
                                 @endif                                
                             </div>
                         </div>
