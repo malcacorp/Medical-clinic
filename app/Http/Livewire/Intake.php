@@ -168,6 +168,7 @@ class Intake extends Component
               'height' => $this->height,
               'eye_color' => $this->eye_color,
               'address' => $this->address,
+              'user_id' => null,
               ]);
           $user->patient()->save($patient);
 
