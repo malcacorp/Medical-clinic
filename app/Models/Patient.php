@@ -27,6 +27,7 @@ class Patient extends Model
     'eye_color',
     'address',
     'medical_condition',
+    'patient_file_path',
   ];
 
   public function user()

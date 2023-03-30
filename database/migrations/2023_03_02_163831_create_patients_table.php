@@ -27,6 +27,7 @@ return new class extends Migration
             $table->float('weight')->nullable();
             $table->string('eye_color')->nullable();
             $table->text('address')->nullable();
+            $table->text('patient_file_path')->nullable();
 
             $table->text('medical_condition')->nullable();
 
