@@ -115,38 +115,6 @@ class Intake extends Component
       'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
     ]);
 
-    // User::updateOrCreate(['id' => $this->user_id], [
-    //   'email' => $this->email,
-    //   'name' => $this->first_name . ' ' . $this->last_name,
-    //   'password' => Hash::make($this->password),
-    // ]);
-
-    // $user = User::create([
-    //   'name' => $this->first_name . ' ' . $this->last_name,
-    //   'email' => $this->email,
-    //   'password' => Hash::make($this->password),
-    // ]);
-    // $user = new User;
-    // $user->name = $this->first_name . ' ' . $this->last_name;
-    // $user->email = $this->email;
-    // $user->password = Hash::make($this->password);
-    // $user->save();
-    // dump($user);
-    // Patient::updateOrCreate(['id' => $this->patient_id], [
-    //   'last_name' => $this->last_name,
-    //   'first_name' => $this->first_name,
-    //   'id_number' => $this->id_number,
-    //   'sex' => $this->sex,
-    //   'email' => $this->email,
-    //   'phone_number' => $this->phone_number,
-    //   'birthdate' => $this->birthdate,
-    //   'weight' => $this->weight,
-    //   'height' => $this->height,
-    //   'eye_color' => $this->eye_color,
-    //   'address' => $this->address,
-    //   'user_id' => null,
-    //   ]);
-
     return DB::transaction(function () {
       return tap(
         User::create([
@@ -182,20 +150,9 @@ class Intake extends Component
 
           $this->isEdit = true;
           $this->openMedicalCondition();
-          // $this->resetInputFields();
         }
       );
     });
-
-    // session()->flash(
-    //   'message',
-    //   $this->patient_id ? 'Patient Updated Successfully.' : 'Patient Created Successfully.'
-    // );
-
-    // // $this->closePatientForm();
-    // $this->resetInputFields();
-
-
   }
   /**
    * The attributes that are mass assignable.
@@ -242,17 +199,6 @@ class Intake extends Component
     public function schedule(){
       return redirect()->to('/dashboard');
     }
-
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array
-   */
-  // public function delete($id)
-  // {
-  //   Intake::find($id)->delete();
-  //   session()->flash('message', 'Intake Deleted Successfully.');
-  // }
 
   /**
    * Create a personal team for the user.
