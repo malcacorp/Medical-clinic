@@ -224,7 +224,7 @@ class Patients extends Component
 
     public function savePatientFile($storagePath = 'files'){
         $this->validate([
-            'file' => 'image|max:1024', // 1MB Max
+            'file' => ['nullable',  'mimes:jpg,jpeg,png', 'max:1024'], // 1MB Max
         ]);
 
         if (isset($this->file)) {
