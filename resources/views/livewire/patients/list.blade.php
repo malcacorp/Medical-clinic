@@ -45,6 +45,8 @@
                                   class="btn btn-primary btn-sm">Edit</button>
                               <button wire:click="delete({{ $patient->id }})"
                                   class="btn btn-danger btn-sm">Delete</button>
+                              <button wire:click="showHistory({{ $patient->id }})"
+                                  class="btn btn-warning btn-sm">Show History</button>
                           </td>
                       </tr>
                   @empty
