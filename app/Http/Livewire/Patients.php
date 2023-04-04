@@ -392,4 +392,11 @@ class Patients extends Component
     {      
       $this->histories = MedicalAssessment::where('patient_id', $id)->get();
     }
+
+    public function assessment($id) {
+      $this->edit($id);
+      $this->editAssessment();
+      $this->resetComponent();
+      $this->handleTabs('isOpenCondition', 'isOpenList');
+    }
 }
