@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Livewire;
+use App\Models\MedicalAssessment;
 use Livewire\Component;
 use App\Models\Patient;
 
@@ -18,9 +19,9 @@ class Patients extends Component
 
     public $patients, $last_name, $first_name, $id_number, $sex, $address, $email, $birthdate, $phone_number, $weight, $height, $eye_color;
     public $file, $photo;
-    public $pressure, $temperature, $diagnostic, $treatment, $medical_condition;
-    public $patient_id, $user_id;
-    public $user, $patient, $patient_file_path;
+    public $patient_id, $user_id, $assessment_id;
+    public $user, $patient, $patient_file_path, $histories;
+    public $assessment_type, $temperature, $blood_pressure, $medical_condition, $medical_history, $alergic, $alergies, $medical_concerns, $diagnostic, $treatment, $active_assessment=true;
     public $isOpenList = true;
     public $isOpenCreate = false;
 
@@ -113,6 +114,27 @@ class Patients extends Component
         $this->eye_color = '';
         $this->address = '';
         $this->patient_file_path = null;
+
+        $this->blood_pressure = '';
+        $this->temperature = '';
+        $this->medical_condition = '';
+
+        $this->medical_history = '';
+        $this->alergic = '';
+        $this->alergies = '';
+        $this->medical_concerns = '';
+        $this->diagnostic = '';
+        $this->treatment = '';
+        $this->active_assessment=true;
+    }
+
+    public function resetComponent() {
+      $this->isOpenList = false;
+      $this->isOpenCreate = false;  
+      $this->isOpenCreateTwo = false;
+      $this->isOpenCondition = false;
+      $this->isOpenConditionTwo = false;
+      $this->isOpenHistory = false;
     }
     /**
      * The attributes that are mass assignable.
@@ -163,11 +185,12 @@ class Patients extends Component
                   ]);
               $user->patient()->save($patient);
 
-              // $this->patient = $patient;
-              $this->patient = Patient::find($this->patient_id);
-              // $this->patient_id = $patient->id;
-    
+              $this->user = $user;
+              
               session()->flash('message', $this->patient_id ? 'Patient Updated Successfully.' : 'Patient Created Successfully.');
+              $this->patient_id = $patient->id;
+              $this->user_id = $user->id;
+              $this->patient = Patient::find($this->patient_id);
               return true;
             }
           );
@@ -178,9 +201,9 @@ class Patients extends Component
      *
      * @var array
      */
-    public function edit($id)
-    {
-        $patient = Patient::findOrFail($id);
+    public function edit($id = null)
+    {        
+        $patient = Patient::find($id);
         $this->patient_id = $id;
         $this->user_id = $patient->user_id;
         $this->last_name = $patient->last_name;
@@ -198,7 +221,9 @@ class Patients extends Component
 
         $this->user = User::find($this->user_id);
         $this->patient = Patient::find($id);
-   
+
+        $this->histories = MedicalAssessment::where('patient_id', $this->patient_id)->get();
+  
         $this->openCreateUpdate();
         $this->closeList();
     }
@@ -222,7 +247,7 @@ class Patients extends Component
       ]));
     }
 
-    public function savePatientFile($storagePath = 'files'){
+    public function savePatientFile(){
         $this->validate([
             'file' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'], // 1MB Max
         ]);
@@ -231,7 +256,7 @@ class Patients extends Component
             $this->updatePatientFile($this->file);
             session()->flash('message','File updated successfully.');
         }
-        $this->handleTabs('isOpenCondition', 'isOpenCreateTwo');
+        $this->handleTabs('isOpenCondition', 'isOpenCreateTwo', 'editAssessment');
         return;
 
         // session()->flash('message','Error on uploading.');
@@ -296,5 +321,75 @@ class Patients extends Component
     public function deleteProfilePhoto()
     {
         $this->user->deleteProfilePhoto();
+    }
+
+    public function updateAssessment(){
+      $this->validate([
+        'weight' => ['required', 'numeric'],
+        'height' => ['required', 'numeric'],
+        'blood_pressure' => 'required',
+        'medical_condition' => 'required',        
+      ]);
+
+      return DB::transaction(function () {
+        return tap(
+          MedicalAssessment::updateOrCreate(['id' => $this->assessment_id],[
+            'assessment_type' => $this->assessment_type,
+            'height' => $this->height,
+            'weight' => $this->weight,
+            'temperature' => $this->temperature,
+            'blood_pressure' => $this->blood_pressure,
+            'medical_condition' => $this->medical_condition,
+            'medical_history' => $this->medical_history,
+            'alergic' => $this->alergic,
+            'alergies' => $this->alergies,
+            'medical_concerns' => $this->medical_concerns,
+            'diagnostic' => $this->diagnostic,
+            'treatment' => $this->treatment,
+            'active' => intval($this->active_assessment),
+          ]),
+          function (MedicalAssessment $medicalAssessment) {
+            if(!$this->assessment_id) {
+              $patient = Patient::find($this->patient_id);
+              $patient->medicalAssessment()->save($medicalAssessment);
+              $this->assessment_id = $medicalAssessment->id;
+            }
+
+            session()->flash('message', $this->patient_id ? 'Assessment Updated Successfully.' : 'Assessment Created Successfully.');
+            return true;
+          }
+        );
+      });
+    }
+
+    public function editAssessment()
+    {
+        $assessment = MedicalAssessment::where('patient_id', $this->patient_id)->where('active', 1)->first();
+        if($assessment){
+          $this->assessment_id = $assessment->id;        
+          $this->weight = $assessment->weight;
+          $this->height = $assessment->height;
+          $this->temperature = $assessment->temperature;
+          $this->blood_pressure = $assessment->blood_pressure;
+          $this->medical_condition = $assessment->medical_condition;
+          $this->medical_history = $assessment->medical_history;
+          $this->alergic = $assessment->alergic;
+          $this->alergies = $assessment->alergies;
+          $this->medical_concerns = $assessment->medical_concerns;
+          $this->diagnostic = $assessment->diagnostic;
+          $this->treatment = $assessment->treatment;
+          $this->active_assessment = $assessment->active_assessment;
+        }
+    }
+
+    public function showHistory($id) {
+      $this->edit($id);
+      $this->resetComponent();
+      $this->handleTabs('isOpenHistory', 'isOpenConditionTwo', $this->listHistory($id));
+    }
+
+    public function listHistory($id)
+    {      
+      $this->histories = MedicalAssessment::where('patient_id', $id)->get();
     }
 }

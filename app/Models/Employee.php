@@ -32,4 +32,9 @@ class Employee extends Model
   {
     return $this->belongsTo('App\Models\User');
   }
+
+  public function medical_assessment()
+  {
+    return $this->hasMany('App\Models\MedicalAssessment');
+  }
 }

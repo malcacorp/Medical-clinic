@@ -9,6 +9,7 @@
                             @csrf
                             <input type="hidden" wire:model="patient_id">
                             <input type="hidden" wire:model="user_id">
+                            <input type="hidden" wire:model="assessment_id">
 
                             <div class="row mb-4 mb-4">
                                 <div class="col col-md-3 px-4">
@@ -28,9 +29,9 @@
                                         wire:model="temperature" />
                                 </div>
                                 <div class="col col-md-3 px-4">
-                                    <x-label for="pressure" value="{{ __('Pressure') }}" />
-                                    <x-input id="pressure" class="block mt-1 w-full" type="text" name="pressure"
-                                        :value="old('pressure')" autocomplete="pressure" wire:model="pressure" />
+                                    <x-label for="blood_pressure" value="{{ __('Pressure') }}" />
+                                    <x-input id="blood_pressure" class="block mt-1 w-full" type="text" name="blood_pressure"
+                                        :value="old('blood_pressure')" autocomplete="blood_pressure" wire:model="blood_pressure" />
                                 </div>
                             </div>
 
@@ -48,7 +49,7 @@
                                     type="button">
                                     {{ __('Previus') }}
                                 </button>
-                                <button class="btn btn-success text-white" wire:click.prevent="handleTabs('isOpenConditionTwo', 'isOpenCondition')"
+                                <button class="btn btn-success text-white" wire:click.prevent="handleTabs('isOpenConditionTwo', 'isOpenCondition', 'updateAssessment')"
                                     type="button">
                                     {{ __('Next') }}
                                 </button>
