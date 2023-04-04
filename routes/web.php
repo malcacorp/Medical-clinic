@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Patients;
 use App\Http\Livewire\Intake;
 use App\Http\Livewire\Users;
+use App\Http\Livewire\Employees;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,5 +40,6 @@ Route::middleware([
 
     // Route::resource('patients', \App\Http\Controllers\PatientController::class);
     Route::get('patients', Patients::class)->name('patients');
+    Route::get('employees', Employees::class)->name('employees');
 
 });
