@@ -115,13 +115,21 @@
                 </x-nav-link>
             </li>
 
-            <!-- Nav Item - Dashboard -->
+            <!-- Nav Item - Patients -->
             <li class="nav-item">
                 <x-nav-link href="{{ route('patients') }}" :active="request()->routeIs('patients')">
                     <i class="fas fa-hospital-user"></i>
                     {{ __('Patients') }}
                 </x-nav-link>
             </li>
+
+            <!-- Nav Item - Staff -->
+            <li class="nav-item">
+              <x-nav-link href="{{ route('employees') }}" :active="request()->routeIs('employees')">
+                  <i class="fas fa-hospital-user"></i>
+                  {{ __('Staff') }}
+              </x-nav-link>
+          </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
