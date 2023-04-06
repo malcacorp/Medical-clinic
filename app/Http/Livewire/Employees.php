@@ -186,7 +186,7 @@ class Employees extends Component
         $this->position = $employee->position;
         $this->speciality = $employee->speciality;
 
-        // $this->user = User::find($this->user_id);
+        $this->user = User::find($this->user_id);
         $this->employee = Employee::find($id);
 
   
