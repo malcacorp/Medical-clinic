@@ -2,15 +2,23 @@
   
 namespace App\Http\Livewire;
   
+use App\Models\Team;
+use App\Models\User;
 use Livewire\Component;
 use App\Models\Employee;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
+use Livewire\WithFileUploads;
+use Spatie\Permission\Models\Role;
   
 class Employees extends Component
 {
-    public $employees, $id_number, $first_name, $last_name, $sex, $address, $email, $birthdate, $phone_number, $profession, $position, $speciality, $employee_id;
-    public $employee, $photo;
+    use WithFileUploads;
+
+    public $employees, $id_number, $first_name, $last_name, $sex, $address, $email, $birthdate, $phone_number, $profession, $position, $speciality;
+    public $employee_id, $user_id;
+    public $employee, $user, $photo;
     public $isOpenUpdate = 0, $isOpenList = 1;
   
     /**
@@ -76,6 +84,7 @@ class Employees extends Component
      */
     private function resetInputFields(){
         $this->employee_id = '';
+        $this->user_id = '';
         $this->id_number = '';
         $this->first_name = '';
         $this->last_name = '';
@@ -101,27 +110,56 @@ class Employees extends Component
             'first_name' => 'required',
             'last_name' => 'required',
             'sex' => 'required',
-            'email' => 'required',
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->user_id)],
             'phone_number' => 'required',
             'position' => 'required',
+            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'address' => 'required',
         ]);
+
+        $user = User::firstOrNew(['id' => $this->user_id], // Condición de búsqueda
+            [  
+              'name' => $this->first_name . ' ' . $this->last_name,
+              'email' => $this->email,
+              'password' => Hash::make($this->id_number),
+            ]
+        );
+
+        if (!$user->exists) {
+            $user->save();
+            $this->createTeam($user);
+        }
+
+        if (isset($this->photo)) {
+            $user->updateProfilePhoto($this->photo);
+        }
    
-        Employee::updateOrCreate(['id' => $this->employee_id], [
+        $employee = Employee::updateOrCreate(['id' => $this->employee_id], [
             'id_number' => $this->id_number,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
+            'first_name' => strtoupper($this->first_name),
+            'last_name' => strtoupper($this->last_name),
             'birthdate' => $this->birthdate,
             'sex' => $this->sex,
             'email' => $this->email,
             'phone_number' => $this->phone_number,
-            'address' => $this->address,
-            'profession' => $this->profession,
-            'position' => $this->position,
-            'speciality' => $this->speciality,
+            'address' => strtoupper($this->address),
+            'profession' => strtoupper($this->profession),
+            'position' => strtoupper($this->position),
+            'speciality' => strtoupper($this->speciality),
+            'user_id' => null,
         ]);
-  
+
+        $roleEmployee = Role::where('name', 'standard')->first();
+        $user->assignRole($roleEmployee);
+
+        $this->user = $user;
+        
         session()->flash('message', 
             $this->employee_id ? 'Employee Updated Successfully.' : 'Employee Created Successfully.');
+        $this->employee_id = $employee->id;
+        $this->user_id = $user->id;
+        $this->employee = Employee::find($this->employee_id);
+  
   
         $this->handleTabs('isOpenList', 'isOpenUpdate');
         $this->resetInputFields();
@@ -135,6 +173,7 @@ class Employees extends Component
     {
         $employee = Employee::findOrFail($id);
         $this->employee_id = $id;
+        $this->user_id = $employee->user_id;
         $this->id_number = $employee->id_number;
         $this->first_name = $employee->first_name;
         $this->last_name = $employee->last_name;
@@ -162,5 +201,24 @@ class Employees extends Component
     {
         Employee::find($id)->delete();
         session()->flash('message', 'Employee Deleted Successfully.');
+    }
+
+    protected function createTeam(User $user): void
+    {
+      $user->ownedTeams()->save(Team::forceCreate([
+        'user_id' => $user->id,
+        'name' => explode(' ', $user->name, 2)[0] . "'s Team",
+        'personal_team' => true,
+      ]));
+    }
+
+    /**
+     * Delete the user's profile photo.
+     *
+     * @return void
+     */
+    public function deleteProfilePhoto()
+    {
+        $this->user->deleteProfilePhoto();
     }
 }

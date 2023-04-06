@@ -19,7 +19,10 @@ class UserSeeder extends Seeder
     public function run()
     {
       $roleAdmin = Role::create(['name' => 'admin']);
-      $roleGuest = Role::create(['name' => 'guest']);
+      $roleGuest = Role::create(['name' => 'patient']);
+      Role::create(['name' => 'doctor']);
+      Role::create(['name' => 'secretary']);
+      Role::create(['name' => 'standard']);
 
       $adminPermission = Permission::all();
       $roleAdmin->syncPermissions($adminPermission);

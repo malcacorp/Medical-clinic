@@ -25,6 +25,6 @@
 
 </div>
 <div class="mt-4">
-    <a class="btn btn-info" wire:click.prevent="handleTabs('isOpenUpdate', 'isOpenShow')">Edit</a>
-    <a class="btn btn-default" wire:click.prevent="handleTabs('isOpenList', 'isOpenShow')">Back</a>
+    {{-- <a class="btn btn-info" wire:click.prevent="edit({{$role->id}})">Edit</a> --}}
+    <a class="btn btn-secondary" wire:click.prevent="handleTabs('isOpenList', 'isOpenShow')">Back</a>
 </div>

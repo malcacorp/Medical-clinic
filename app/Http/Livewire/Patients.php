@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Http\UploadedFile;
+use Spatie\Permission\Models\Role;
 use Livewire\WithFileUploads;
+
 class Patients extends Component
 {
     use WithFileUploads;
@@ -155,46 +157,50 @@ class Patients extends Component
             'address' => 'required',
         ]);
 
-        return DB::transaction(function () {
-          return tap(
-            User::updateOrCreate(['id' => $this->user_id],[
+        $user = User::firstOrNew(['id' => $this->user_id], // Condición de búsqueda
+            [  
               'name' => $this->first_name . ' ' . $this->last_name,
               'email' => $this->email,
               'password' => Hash::make($this->id_number),
-            ]),
-            function (User $user) {
-              $this->createTeam($user);
+            ]
+        );
 
-              if (isset($this->photo)) {
-                  $user->updateProfilePhoto($this->photo);
-              }
+        if (!$user->exists) {
+            $user->save();
+            $this->createTeam($user);
+        }
 
-              $patient = Patient::updateOrCreate(['id' => $this->patient_id], [
-                  'last_name' => $this->last_name,
-                  'first_name' => $this->first_name,
-                  'id_number' => $this->id_number,
-                  'sex' => $this->sex,
-                  'email' => $this->email,
-                  'phone_number' => $this->phone_number,
-                  'birthdate' => $this->birthdate,
-                  'weight' => $this->weight,
-                  'height' => $this->height,
-                  'eye_color' => $this->eye_color,
-                  'address' => $this->address,
-                  'user_id' => null,
-                  ]);
-              $user->patient()->save($patient);
 
-              $this->user = $user;
-              
-              session()->flash('message', $this->patient_id ? 'Patient Updated Successfully.' : 'Patient Created Successfully.');
-              $this->patient_id = $patient->id;
-              $this->user_id = $user->id;
-              $this->patient = Patient::find($this->patient_id);
-              return true;
-            }
-          );
-        });  
+        if (isset($this->photo)) {
+            $user->updateProfilePhoto($this->photo);
+        }
+
+        $patient = Patient::updateOrCreate(['id' => $this->patient_id], [
+            'last_name' => strtoupper($this->last_name),
+            'first_name' => strtoupper($this->first_name),
+            'id_number' => $this->id_number,
+            'sex' => $this->sex,
+            'email' => $this->email,
+            'phone_number' => $this->phone_number,
+            'birthdate' => $this->birthdate,
+            'weight' => $this->weight,
+            'height' => $this->height,
+            'eye_color' => strtoupper($this->eye_color),
+            'address' => strtoupper($this->address),
+            'user_id' => null,
+            ]);
+        $user->patient()->save($patient);
+        
+        $rolePatient = Role::where('name', 'patient')->first();
+        $user->assignRole($rolePatient);
+
+        $this->user = $user;
+        
+        session()->flash('message', $this->patient_id ? 'Patient Updated Successfully.' : 'Patient Created Successfully.');
+        $this->patient_id = $patient->id;
+        $this->user_id = $user->id;
+        $this->patient = Patient::find($this->patient_id);
+        return true;
     }
     /**
      * The attributes that are mass assignable.
