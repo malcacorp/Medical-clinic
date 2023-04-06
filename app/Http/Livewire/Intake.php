@@ -12,6 +12,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Jetstream\Jetstream;
+use Spatie\Permission\Models\Role;
 
 class Intake extends Component
 // class Intake extends Component implements CreatesNewUsers
@@ -125,8 +126,8 @@ class Intake extends Component
         function (User $user) {
           $this->createTeam($user);
           $patient = Patient::updateOrCreate(['id' => $this->patient_id], [
-              'last_name' => $this->last_name,
-              'first_name' => $this->first_name,
+              'first_name' => strtoupper($this->first_name),
+              'last_name' => strtoupper($this->last_name),
               'id_number' => $this->id_number,
               'sex' => $this->sex,
               'email' => $this->email,
@@ -134,11 +135,14 @@ class Intake extends Component
               'birthdate' => $this->birthdate,
               'weight' => $this->weight,
               'height' => $this->height,
-              'eye_color' => $this->eye_color,
+              'eye_color' => strtoupper($this->eye_color),
               'address' => $this->address,
               'user_id' => null,
               ]);
           $user->patient()->save($patient);
+          
+          $rolePatient = Role::where('name', 'patient')->first();
+          $user->assignRole($rolePatient);
 
           $this->patient_id = $patient->id;
           $this->user = $user;

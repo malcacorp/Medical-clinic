@@ -8,6 +8,7 @@
                       <form style="display: block">
                           @csrf
                           <input type="hidden" wire:model="employee_id">
+                          <input type="hidden" wire:model="user_id">
 
                           <div class="row mb-4 mb-4">
                               <div class="col col-md-6 px-4">
@@ -114,12 +115,12 @@
                           </div>
                       </form>
                   </div>
-                  {{-- <div class="col col-md-2">
+                  <div class="col col-md-2">
                       {{-- <div class="mb-3">
                           <img id="frame" src="" class="img-fluid mb-3" style="max-height: 200px" />
                           <input class="form-control" type="file" id="formFile" onchange="preview()">
                           {{-- <button onclick="clearImage()" class="btn btn-primary mt-3">Click me</button>
-                      </div> 
+                      </div> --}}
                       @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                           <div class="mb-3" x-data="{ photoName: null, photoPreview: null }">
                               <!-- Profile Photo File Input -->
@@ -135,10 +136,10 @@
 
                               <x-label for="photo" value="{{ __('Photo') }}" />
 
-                              @if ($employee != null)
+                              @if ($user != null)
                                   <!-- Current Profile Photo -->
                                   <div class="mt-2" x-show="! photoPreview">
-                                      <img src="{{ asset('storage/' . $employee->profile_photo_path) }}"
+                                      <img src="{{ asset('storage/' . $user->profile_photo_path) }}"
                                           class="rounded-circle" height="200px" width="200px">
                                   </div>
                               @endif
@@ -153,8 +154,8 @@
                                   {{ __('Select A New Photo') }}
                               </x-secondary-button>
 
-                              @if ($employee != null)
-                                  @if ($employee->profile_photo_path)
+                              @if ($user != null)
+                                  @if ($user->profile_photo_path)
                                       <x-secondary-button type="button" class="mt-2"
                                           wire:click="deleteProfilePhoto">
                                           {{ __('Remove Photo') }}
@@ -165,7 +166,7 @@
                               <x-input-error for="photo" class="mt-2" />
                           </div>
                       @endif
-                  </div> --}}
+                  </div>
               </div>
           </div>
 
