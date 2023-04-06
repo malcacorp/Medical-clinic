@@ -5,7 +5,8 @@ use App\Http\Livewire\Patients;
 use App\Http\Livewire\Intake;
 use App\Http\Livewire\Users;
 use App\Http\Livewire\Employees;
-
+use App\Http\Livewire\Permissions;
+use App\Http\Livewire\Roles;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,6 +38,10 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    
+    Route::get('permissions', Permissions::class)->name('permissions');
+    Route::get('roles', Roles::class)->name('roles');
+    Route::get('users', Users::class)->name('users');
 
     // Route::resource('patients', \App\Http\Controllers\PatientController::class);
     Route::get('patients', Patients::class)->name('patients');

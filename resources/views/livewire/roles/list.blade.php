@@ -1,0 +1,40 @@
+
+<div class="bg-light p-4 rounded">
+  {{-- <h2>Permissions</h2> --}}
+  {{-- <div class="lead">
+      Manage your roles here.
+      <a href="{{ route('roles.create') }}" class="btn btn-primary btn-sm float-right">Add roles</a>
+  </div> --}}
+  
+  {{-- <div class="mt-2">
+      @include('layouts.partials.messages')
+  </div> --}}
+
+  <table class="table table-striped">
+      <thead>
+      <tr>
+          <th scope="col" width="15%">Name</th>
+          <th scope="col">Guard</th> 
+          <th scope="col" colspan="3" width="1%"></th> 
+      </tr>
+      </thead>
+      <tbody>
+          @foreach($roles as $role)
+              <tr>
+                  <td>{{ $role->name }}</td>
+                  <td>{{ $role->guard_name }}</td>
+                  <td><a class="btn btn-info btn-sm" wire:click="edit({{ $role->id }})">Edit</a></td>
+                  <td>
+                    <button wire:click="show({{ $role->id }})"
+                      class="btn btn-success btn-sm">Show</button>
+                  </td>
+                  <td>
+                    <button wire:click="delete({{ $role->id }})"
+                      class="btn btn-danger btn-sm">Delete</button>                      
+                  </td>
+              </tr>
+          @endforeach
+      </tbody>
+  </table>
+
+</div>

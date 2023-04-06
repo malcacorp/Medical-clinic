@@ -125,11 +125,35 @@
 
             <!-- Nav Item - Staff -->
             <li class="nav-item">
-              <x-nav-link href="{{ route('employees') }}" :active="request()->routeIs('employees')">
-                  <i class="fas fa-hospital-user"></i>
-                  {{ __('Staff') }}
-              </x-nav-link>
-          </li>
+                <x-nav-link href="{{ route('employees') }}" :active="request()->routeIs('employees')">
+                    <i class="fas fa-hospital-user"></i>
+                    {{ __('Staff') }}
+                </x-nav-link>
+            </li>
+
+            <!-- Nav Item - Users -->
+            <li class="nav-item">
+                <x-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
+                    <i class="fas fa-ruler"></i>
+                    {{ __('Users') }}
+                </x-nav-link>
+            </li>
+
+            <!-- Nav Item - Permissions -->
+            <li class="nav-item">
+                <x-nav-link href="{{ route('permissions') }}" :active="request()->routeIs('permissions')">
+                    <i class="fas fa-hospital-user"></i>
+                    {{ __('Permissions') }}
+                </x-nav-link>
+            </li>
+
+            <!-- Nav Item - Roles -->
+            <li class="nav-item">
+                <x-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')">
+                    <i class="fas fa-ruler"></i>
+                    {{ __('Roles') }}
+                </x-nav-link>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
