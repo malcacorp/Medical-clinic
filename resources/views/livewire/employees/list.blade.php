@@ -41,10 +41,15 @@
                               {{ $employee->phone_number }}
                           </td>
                           <td class="px-5">
+                            @can("edit-employee")
                               <button wire:click="edit({{ $employee->id }})"
                                   class="btn btn-primary btn-sm">Edit</button>
+                            @endcan
+
+                            @can("delete-employee")
                               <button wire:click="delete({{ $employee->id }})"
                                   class="btn btn-danger btn-sm">Delete</button>
+                            @endcan
                           </td>
                       </tr>
                   @empty

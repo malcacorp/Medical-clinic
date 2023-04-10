@@ -23,14 +23,22 @@
               <tr>
                   <td>{{ $role->name }}</td>
                   <td>{{ $role->guard_name }}</td>
-                  <td><a class="btn btn-info btn-sm" wire:click="edit({{ $role->id }})">Edit</a></td>
                   <td>
-                    <button wire:click="show({{ $role->id }})"
-                      class="btn btn-success btn-sm">Show</button>
+                    @can("edit-role")
+                      <a class="btn btn-info btn-sm" wire:click="edit({{ $role->id }})">Edit</a>
+                    @endcan
                   </td>
                   <td>
-                    <button wire:click="delete({{ $role->id }})"
-                      class="btn btn-danger btn-sm">Delete</button>                      
+                    @can("show-role")
+                      <button wire:click="show({{ $role->id }})"
+                        class="btn btn-success btn-sm">Show</button>
+                    @endcan
+                  </td>
+                  <td>
+                    @can("delete-role")
+                      <button wire:click="delete({{ $role->id }})"
+                        class="btn btn-danger btn-sm">Delete</button>
+                    @endcan              
                   </td>
               </tr>
           @endforeach

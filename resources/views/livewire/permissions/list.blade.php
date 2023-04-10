@@ -24,13 +24,15 @@
                         <td>{{ $permission->name }}</td>
                         <td>{{ $permission->guard_name }}</td>
                         {{-- route('permissions.edit', $permission->id) --}}
-                        <td><a class="btn btn-info btn-sm" wire:click="edit({{ $permission->id }})">Edit</a></td>
                         <td>
-                          <button wire:click="delete({{ $permission->id }})"
-                            class="btn btn-danger btn-sm">Delete</button>
-                            {{-- {!! Form::open(['method' => 'DELETE','route' => ['permissions.destroy', $permission->id],'style'=>'display:inline']) !!} --}}
-                            {{-- {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!} --}}
-                            {!! Form::close() !!}
+                          @can("edit-permission")
+                            <a class="btn btn-info btn-sm" wire:click="edit({{ $permission->id }})">Edit</a></td>
+                          @endcan
+                        <td>
+                          @can("delete-permission")
+                            <button wire:click="delete({{ $permission->id }})"
+                              class="btn btn-danger btn-sm">Delete</button>
+                          @endcan                              
                         </td>
                     </tr>
                 @endforeach

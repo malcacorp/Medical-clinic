@@ -7,6 +7,7 @@ use App\Http\Livewire\Users;
 use App\Http\Livewire\Employees;
 use App\Http\Livewire\Permissions;
 use App\Http\Livewire\Roles;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,26 +26,37 @@ use App\Http\Livewire\Roles;
 // });
 
 Route::get('/', function () {
-    return view('auth.login');
+  return view('auth.login');
 });
 
 Route::get('intake', Intake::class)->name('intake');
 
 Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
+  'auth:sanctum',
+  config('jetstream.auth_session'),
+  'verified'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-    
-    Route::get('permissions', Permissions::class)->name('permissions');
-    Route::get('roles', Roles::class)->name('roles');
-    Route::get('users', Users::class)->name('users');
+  Route::get('/dashboard', function () {
+    return view('dashboard');
+  })->name('dashboard');
+});
 
-    // Route::resource('patients', \App\Http\Controllers\PatientController::class);
-    Route::get('patients', Patients::class)->name('patients');
-    Route::get('employees', Employees::class)->name('employees');
+Route::group(['middleware' => ['permission:list-employees']], function () {
+  Route::get('employees', Employees::class)->name('employees');
+});
 
+Route::group(['middleware' => ['permission:list-patients']], function () {
+  Route::get('patients', Patients::class)->name('patients');
+});
+
+Route::group(['middleware' => ['permission:list-permissions']], function () {
+  Route::get('permissions', Permissions::class)->name('permissions');
+});
+
+Route::group(['middleware' => ['permission:list-roles']], function () {
+  Route::get('roles', Roles::class)->name('roles');
+});
+
+Route::group(['middleware' => ['permission:list-users']], function () {
+  Route::get('users', Users::class)->name('users');
 });

@@ -41,14 +41,25 @@
                                 {{ $patient->phone_number }}
                             </td>
                             <td class="px-5">
+                              @can("edit-patient")
                                 <button wire:click="edit({{ $patient->id }})"
                                     class="btn btn-primary btn-sm">Edit</button>
+                              @endcan
+
+                              @can("delete-patient")
                                 <button wire:click="delete({{ $patient->id }})"
                                     class="btn btn-danger btn-sm">Delete</button>
+                              @endcan
+
+                              @can("show-patient-history")
                                 <button wire:click="showHistory({{ $patient->id }})"
                                     class="btn btn-warning btn-sm">Show History</button>
+                              @endcan
+
+                              @can("create-assessment")
                                 <button wire:click="assessment({{ $patient->id }})"
                                     class="btn btn-success btn-sm">Assessment</button>
+                              @endcan
                             </td>
                         </tr>
                     @empty
