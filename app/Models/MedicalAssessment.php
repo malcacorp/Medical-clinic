@@ -15,7 +15,8 @@ class MedicalAssessment extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    'assessment_type',
+    'doctor_id',
+    'nurse_id',
     'height',
     'weight',
     'temperature',

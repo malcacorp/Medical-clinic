@@ -43,7 +43,7 @@
                                     {{ __('Previus') }}
                                 </button>
                                 <button class="btn btn-success text-white"
-                                    wire:click.prevent="handleTabs('isOpenHistory', 'isOpenConditionTwo', 'updateAssessment')"
+                                    wire:click.prevent="handleTabs('isOpenHistories', 'isOpenConditionTwo', 'updateAssessment')"
                                     type="button">
                                     {{ __('Submit') }}
                                 </button>

@@ -20,10 +20,10 @@ use App\Http\Livewire\Roles;
 */
 
 // Sql Debuger
-// DB::listen(function($query){
-//   //Imprimimos la consulta ejecutada
-//   echo "<pre> {$query->sql } </pre>";
-// });
+DB::listen(function($query){
+  //Imprimimos la consulta ejecutada
+  echo "<pre> {$query->sql } </pre>";
+});
 
 Route::get('/', function () {
   return view('auth.login');

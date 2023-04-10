@@ -46,7 +46,9 @@ class PermissionSeeder extends Seeder
       Permission::create(['name' => 'delete-patient']);
 
       Permission::create(['name' => 'show-patient-history']);
-      Permission::create(['name' => 'create-assesment']);
+      Permission::create(['name' => 'create-assessment']);
+      Permission::create(['name' => 'edit-nurse-comments']);
+      Permission::create(['name' => 'edit-doctor-comments']);
 
     }
 }
