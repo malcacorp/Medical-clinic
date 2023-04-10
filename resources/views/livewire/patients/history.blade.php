@@ -1,72 +1,62 @@
-<div class="card shadow mb-4">
-  <div class="card-body">
-    <div class="flex justify-content-center mt-4">
-      <button class="btn btn-primary text-white mb-3" wire:click.prevent="handleTabs('isOpenCreate','isOpenHistory')"
-          type="button">
-          {{ __('Patient Profile') }}
-      </button>
-      {{-- <button class="btn btn-success text-white" wire:click.prevent="store()"
-      type="button">
-      {{ __('Save Patient') }}
-    </button> --}}
-    </div>
-    <div class="table-responsive">
-          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                  <tr>
-                      <th>Date</th>
-                      <th>Type Assessment</th>
-                      <th>Medical Condition</th>
-                      <th>Diagnostic</th>
-                      <th>Treatment</th>
-                      <th> </th>
-                  </tr>
-              </thead>
-              <tfoot>
-                  <tr>
-                      <th>Date</th>
-                      <th>Type Assessment</th>
-                      <th>Medical Condition</th>
-                      <th>Diagnostic</th>
-                      <th>Treatment</th>
-                      {{-- <th> </th> --}}
-                  </tr>
-              </tfoot>
-              <tbody>
-                  @forelse ($histories as $history)
-                      <tr>
-                          <td whitespace-nowrap">
-                              {{ $history->created_at }}
-                          </td>
-                          <td whitespace-nowrap">
-                              {{ $history->type_assessment }}
-                          </td>
-                          <td whitespace-nowrap">
-                              {{ $history->medical_condition }}
-                          </td>
-                          <td whitespace-nowrap">
-                              {{ $history->diagnostic }}
-                          </td>
-                          <td whitespace-nowrap">
-                              {{ $history->treatment }}
-                          </td>
-                          {{-- <td class="px-5">
-                              <button wire:click="edit({{ $history->id }})"
-                                  class="btn btn-primary btn-sm">Edit</button>
-                              <button wire:click="delete({{ $history->id }})"
-                                  class="btn btn-danger btn-sm">Delete</button>
-                          </td> --}}
-                      </tr>
-                  @empty
-                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                          <td colspan="2"
-                              class="px-5 font-medium text-gray-900 whitespace-nowrap">
-                              {{ __('No history found') }}
-                          </td>
-                      </tr>
-                  @endforelse
-              </tbody>
-          </table>
+<div class="py-12">
+  <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+      <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-4 py-4">
+              {{-- <x-validation-errors class="mb-4" /> --}}
+              <div class="row">
+                <div class="col text-center">
+                  <h2>Date: <strong>{{$historyToShow->date}}</strong></h2>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col">
+                  <h3>Doctor: <strong>{{$historyToShow->doctorName ? $historyToShow->doctorName : null}}</strong></h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <h3>Patients's Medical Condition: <strong>{{$historyToShow->diagnostic}}</strong></h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <h3>Treatment and Prescription: <strong>{{$historyToShow->treatment}}</strong></h3>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col">
+                  <h3>Nurse: <strong>{{$historyToShow->nurseName ? $historyToShow->nurseName : null}}</strong></h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <h3>Initial Medical Condition: <strong>{{$historyToShow->medical_condition}}</strong></h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <h3>Blood Pressure: <strong>{{$historyToShow->blood_pressure}}</strong></h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <h3>Temperature: <strong>{{$historyToShow->temperature}}</strong></h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <h3>Weight: <strong>{{$historyToShow->weight}}</strong></h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <h3>Height: <strong>{{$historyToShow->height}}</strong></h3>
+                </div>
+              </div>
+              <hr>
+            </div>
       </div>
   </div>
 </div>

@@ -33,6 +33,8 @@ class Roles extends Component
     public function create()
     {
         $this->resetInputFields();
+        $this->permissions = Permission::get();
+        $this->rolePermissions = [];
         $this->handleTabs('isOpenUpdate','isOpenList');
         // $this->openUpdate();
     }

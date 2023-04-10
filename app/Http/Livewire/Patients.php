@@ -3,10 +3,12 @@ namespace App\Http\Livewire;
 use App\Models\MedicalAssessment;
 use Livewire\Component;
 use App\Models\Patient;
+use App\Models\Employee;
 
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +24,7 @@ class Patients extends Component
     public $patients, $last_name, $first_name, $id_number, $sex, $address, $email, $birthdate, $phone_number, $weight, $height, $eye_color;
     public $file, $photo;
     public $patient_id, $user_id, $assessment_id;
-    public $user, $patient, $patient_file_path, $histories;
+    public $user, $patient, $patient_file_path, $histories, $historyToShow;
     public $assessment_type, $temperature, $blood_pressure, $medical_condition, $medical_history, $alergic, $alergies, $medical_concerns, $diagnostic, $treatment, $active_assessment=true;
     public $isOpenList = true;
     public $isOpenCreate = false;
@@ -30,7 +32,9 @@ class Patients extends Component
     public $isOpenCreateTwo = false;
     public $isOpenCondition = false;
     public $isOpenConditionTwo = false;
-    public $isOpenHistory = false;
+    public $isOpenHistories = false;
+    public $isShowHistory = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -136,7 +140,7 @@ class Patients extends Component
       $this->isOpenCreateTwo = false;
       $this->isOpenCondition = false;
       $this->isOpenConditionTwo = false;
-      $this->isOpenHistory = false;
+      $this->isOpenHistories = false;
     }
     /**
      * The attributes that are mass assignable.
@@ -337,9 +341,13 @@ class Patients extends Component
         'medical_condition' => 'required',        
       ]);
 
-      return DB::transaction(function () {
+      $currentUser = Auth::user();
+
+      return DB::transaction(function () use ($currentUser) {
         return tap(
           MedicalAssessment::updateOrCreate(['id' => $this->assessment_id],[
+            'doctor_id' => $currentUser->hasRole('doctor') ? $currentUser->id : null,
+            'nurse_id' => !$currentUser->hasRole('doctor') ? $currentUser->id : null,
             'assessment_type' => $this->assessment_type,
             'height' => $this->height,
             'weight' => $this->weight,
@@ -352,7 +360,7 @@ class Patients extends Component
             'medical_concerns' => $this->medical_concerns,
             'diagnostic' => $this->diagnostic,
             'treatment' => $this->treatment,
-            'active' => intval($this->active_assessment),
+            'active' => $this->active_assessment!=null ? intval($this->active_assessment) : 1,
           ]),
           function (MedicalAssessment $medicalAssessment) {
             if(!$this->assessment_id) {
@@ -360,6 +368,7 @@ class Patients extends Component
               $patient->medicalAssessment()->save($medicalAssessment);
               $this->assessment_id = $medicalAssessment->id;
             }
+            $this->listHistory($this->patient_id);
 
             session()->flash('message', $this->patient_id ? 'Assessment Updated Successfully.' : 'Assessment Created Successfully.');
             return true;
@@ -388,10 +397,10 @@ class Patients extends Component
         }
     }
 
-    public function showHistory($id) {
+    public function showHistories($id) {
       $this->edit($id);
       $this->resetComponent();
-      $this->handleTabs('isOpenHistory', 'isOpenConditionTwo', $this->listHistory($id));
+      $this->handleTabs('isOpenHistories', 'isOpenConditionTwo', $this->listHistory($id));
     }
 
     public function listHistory($id)
@@ -404,5 +413,23 @@ class Patients extends Component
       $this->editAssessment();
       $this->resetComponent();
       $this->handleTabs('isOpenCondition', 'isOpenList');
+    }
+
+    public function showHistory($id)
+    {      
+      $historyToShow = MedicalAssessment::where('id', $id)->first();
+      $timestamp = $historyToShow->created_at->timestamp;
+      $historyToShow->date = date('d-m-Y', $timestamp);
+
+      $doctor = Employee::find($historyToShow->doctor_id);
+      if($doctor)
+        $historyToShow->doctorName = $doctor->first_name. " " .$doctor->last_name;
+
+      $nurse = Employee::find($historyToShow->nurse_id);
+      if($nurse)
+        $historyToShow->nurseName = $nurse->first_name. " " .$nurse->last_name;
+
+      $this->historyToShow = $historyToShow;
+      $this->handleTabs('isShowHistory', 'isOpenHistories');
     }
 }

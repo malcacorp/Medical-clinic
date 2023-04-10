@@ -41,7 +41,12 @@
                   @include('livewire.patients.form-condition-two')
               @endif
 
-              @if ($isOpenHistory)
+              @if ($isOpenHistories)
+                  @include('livewire.patients.nav-pills')
+                  @include('livewire.patients.histories')
+              @endif
+
+              @if ($isShowHistory)
                   @include('livewire.patients.nav-pills')
                   @include('livewire.patients.history')
               @endif

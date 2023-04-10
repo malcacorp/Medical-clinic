@@ -52,7 +52,7 @@
                               @endcan
 
                               @can("show-patient-history")
-                                <button wire:click="showHistory({{ $patient->id }})"
+                                <button wire:click="showHistories({{ $patient->id }})"
                                     class="btn btn-warning btn-sm">Show History</button>
                               @endcan
 

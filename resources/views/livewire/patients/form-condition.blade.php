@@ -49,10 +49,18 @@
                                     type="button">
                                     {{ __('Previus') }}
                                 </button>
-                                <button class="btn btn-success text-white" wire:click.prevent="handleTabs('isOpenConditionTwo', 'isOpenCondition', 'updateAssessment')"
-                                    type="button">
-                                    {{ __('Next') }}
-                                </button>
+                                @can("edit-doctor-comments")
+                                  <button class="btn btn-success text-white" wire:click.prevent="handleTabs('isOpenConditionTwo', 'isOpenCondition', 'updateAssessment')"
+                                      type="button">
+                                      {{ __('Next') }}
+                                  </button>
+                                @else
+                                  <button class="btn btn-success text-white"
+                                      wire:click.prevent="handleTabs('isOpenHistories', 'isOpenCondition', 'updateAssessment')"
+                                      type="button">
+                                      {{ __('Submit') }}
+                                  </button>
+                                @endcan
                             </div>
                         </form>
                     </div>
