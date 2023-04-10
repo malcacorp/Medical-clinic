@@ -109,51 +109,61 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    {{ __('Dashboard') }}
-                </x-nav-link>
+              <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                {{ __('Dashboard') }}
+              </x-nav-link>
             </li>
 
             <!-- Nav Item - Patients -->
-            <li class="nav-item">
+            @can("list-patients")
+              <li class="nav-item">
                 <x-nav-link href="{{ route('patients') }}" :active="request()->routeIs('patients')">
-                    <i class="fas fa-hospital-user"></i>
-                    {{ __('Patients') }}
+                  <i class="fas fa-hospital-user"></i>
+                  {{ __('Patients') }}
                 </x-nav-link>
-            </li>
+              </li>
+            @endcan
 
             <!-- Nav Item - Staff -->
-            <li class="nav-item">
-                <x-nav-link href="{{ route('employees') }}" :active="request()->routeIs('employees')">
-                    <i class="fas fa-hospital-user"></i>
-                    {{ __('Staff') }}
-                </x-nav-link>
-            </li>
+            @can("list-employees")
+              <li class="nav-item">
+                  <x-nav-link href="{{ route('employees') }}" :active="request()->routeIs('employees')">
+                      <i class="fas fa-hospital-user"></i>
+                      {{ __('Staff') }}
+                  </x-nav-link>
+              </li>
+            @endcan
 
             <!-- Nav Item - Users -->
+            @can("list-users")
             <li class="nav-item">
                 <x-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
                     <i class="fas fa-ruler"></i>
                     {{ __('Users') }}
                 </x-nav-link>
             </li>
+            @endcan
 
             <!-- Nav Item - Permissions -->
-            <li class="nav-item">
-                <x-nav-link href="{{ route('permissions') }}" :active="request()->routeIs('permissions')">
-                    <i class="fas fa-hospital-user"></i>
-                    {{ __('Permissions') }}
-                </x-nav-link>
-            </li>
+            @can("list-permissions")
+              <li class="nav-item">
+                  <x-nav-link href="{{ route('permissions') }}" :active="request()->routeIs('permissions')">
+                      <i class="fas fa-hospital-user"></i>
+                      {{ __('Permissions') }}
+                  </x-nav-link>
+              </li>
+            @endcan
 
             <!-- Nav Item - Roles -->
-            <li class="nav-item">
-                <x-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')">
-                    <i class="fas fa-ruler"></i>
-                    {{ __('Roles') }}
-                </x-nav-link>
-            </li>
+            @can("list-roles")
+              <li class="nav-item">
+                  <x-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')">
+                      <i class="fas fa-ruler"></i>
+                      {{ __('Roles') }}
+                  </x-nav-link>
+              </li>
+            @endcan
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

@@ -1,5 +1,5 @@
 <x-slot name="header">
-  <h2 class="h4 font-weight-bold">
+  <h2 class="ms-4 h3">
       {{ __('Staff') }}
   </h2>
 </x-slot>
@@ -8,12 +8,9 @@
   <div class="mx-auto">
       <div class="">
           @if (session()->has('message'))
-              <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3"
-                  role="alert">
+              <div class="alert alert-info" role="alert">
                   <div class="flex">
-                      <div>
-                          <p class="text-sm">{{ session('message') }}</p>
-                      </div>
+                      {{ session('message') }}</p>
                   </div>
               </div>
           @endif

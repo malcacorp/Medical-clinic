@@ -48,7 +48,9 @@ class UserSeeder extends Seeder
       ]);
       $user->assignRole($roleGuest);
 
-      User::factory(10)->create();
+      User::factory(10)->create([
+        'password' => Hash::make('12345678'),
+      ]);
         
     }
 }
