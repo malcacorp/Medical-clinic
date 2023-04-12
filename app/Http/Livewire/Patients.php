@@ -24,7 +24,7 @@ class Patients extends Component
     public $patients, $last_name, $first_name, $id_number, $sex, $address, $email, $birthdate, $phone_number, $weight, $height, $eye_color;
     public $file, $photo;
     public $patient_id, $user_id, $assessment_id;
-    public $user, $patient, $patient_file_path, $histories, $historyToShow;
+    public $user, $patient, $patient_file_path, $histories, $historyToShow, $positionPage, $totalPatientHistories;
     public $assessment_type, $temperature, $blood_pressure, $medical_condition, $medical_history, $alergic, $alergies, $medical_concerns, $diagnostic, $treatment, $active_assessment=true;
     public $isOpenList = true;
     public $isOpenCreate = false;
@@ -406,6 +406,7 @@ class Patients extends Component
     public function listHistory($id)
     {      
       $this->histories = MedicalAssessment::where('patient_id', $id)->get();
+      $this->totalPatientHistories = count($this->histories);
     }
 
     public function assessment($id) {
@@ -418,6 +419,13 @@ class Patients extends Component
     public function showHistory($id)
     {      
       $historyToShow = MedicalAssessment::where('id', $id)->first();
+      
+      foreach ($this->histories as $index=>$history) {
+        if ($history->id == $id){
+          $this->positionPage = $index;
+        }
+      }
+
       $timestamp = $historyToShow->created_at->timestamp;
       $historyToShow->date = date('d-m-Y', $timestamp);
 
@@ -431,5 +439,17 @@ class Patients extends Component
 
       $this->historyToShow = $historyToShow;
       $this->handleTabs('isShowHistory', 'isOpenHistories');
+    }
+
+    public function nextPage(){
+      $this->positionPage = $this->positionPage + 1;
+      $idHistoryToShow = $this->histories[$this->positionPage]->id;
+      $this->showHistory($idHistoryToShow);
+    }
+    
+    public function previousPage(){
+      $this->positionPage = $this->positionPage - 1;
+      $idHistoryToShow = $this->histories[$this->positionPage]->id;
+      $this->showHistory($idHistoryToShow);
     }
 }
