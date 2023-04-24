@@ -7,6 +7,7 @@ use App\Http\Livewire\Users;
 use App\Http\Livewire\Employees;
 use App\Http\Livewire\Permissions;
 use App\Http\Livewire\Roles;
+use App\Http\Livewire\Schedule;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,4 +60,8 @@ Route::group(['middleware' => ['permission:list-roles']], function () {
 
 Route::group(['middleware' => ['permission:list-users']], function () {
   Route::get('users', Users::class)->name('users');
+});
+
+Route::group(['middleware' => ['permission:view-schedule']], function () {
+  Route::get('schedule', Schedule::class)->name('schedule');
 });
