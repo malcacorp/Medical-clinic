@@ -78,6 +78,13 @@
 
     @livewireStyles
 
+    <!-- For calendar -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <!-- Scripts -->
     {{-- <script src="{{ mix('js/app.js') }}" defer></script> --}}
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -114,6 +121,16 @@
                 {{ __('Dashboard') }}
               </x-nav-link>
             </li>
+
+            <!-- Nav Item - Schedule -->
+            @can("view-schedule")
+              <li class="nav-item">
+                  <x-nav-link href="{{ route('schedule') }}" :active="request()->routeIs('schedule')">
+                      <i class="fas fa-calendar"></i>
+                      {{ __('Schedule') }}
+                  </x-nav-link>
+              </li>
+            @endcan
 
             <!-- Nav Item - Patients -->
             @can("list-patients")
@@ -248,7 +265,7 @@
 
     @livewireScripts
 
-    {{-- @stack('scripts') --}}
+    @stack('scripts')
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
