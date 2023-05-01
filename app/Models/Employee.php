@@ -37,4 +37,14 @@ class Employee extends Model
   {
     return $this->hasMany('App\Models\MedicalAssessment');
   }
+
+  public function events()
+  {
+      return $this->hasMany('App\Models\Event');
+  }
+
+  public function appointments()
+  {
+      return $this->hasMany('App\Models\Appointment');
+  }
 }

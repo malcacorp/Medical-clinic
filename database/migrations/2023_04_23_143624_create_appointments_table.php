@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('event_id')->nullable()->unsigned();
             $table->bigInteger('user_id')->nullable()->unsigned();
             $table->bigInteger('patient_id')->nullable()->unsigned();
             $table->bigInteger('employee_id')->nullable()->unsigned();
@@ -23,6 +24,8 @@ return new class extends Migration
             $table->time('time');
             $table->string('medical_concerns')->nullable();
             $table->timestamps();
+
+            $table->foreign('event_id')->references('id')->on('events');  
         });
     }
 

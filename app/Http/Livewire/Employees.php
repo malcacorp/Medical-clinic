@@ -146,8 +146,10 @@ class Employees extends Component
             'profession' => strtoupper($this->profession),
             'position' => strtoupper($this->position),
             'speciality' => strtoupper($this->speciality),
-            'user_id' => null,
+            // 'user_id' => $user->id,
         ]);
+
+        $user->employee()->save($employee);
 
         $roleEmployee = Role::where('name', 'standard')->first();
         $user->assignRole($roleEmployee);

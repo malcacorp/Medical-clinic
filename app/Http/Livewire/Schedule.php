@@ -1,13 +1,20 @@
 <?php
 namespace App\Http\Livewire;
+use App\Models\Appointment;
 use Livewire\Component;
 use App\Models\Event;
+use App\Models\Employee;
+use App\Models\Patient;
  
 class Schedule extends Component
 {
     public $events = '';
     public $title;
     public $info;
+    public $isEmployee;
+    public $selectedDate;
+    public $doctors = [];
+    public $doctorSelected;
 
     // public function mount($title)
     // {
@@ -29,13 +36,25 @@ class Schedule extends Component
     */
     public function addevent($event)
     {
-        $input['title'] = $event['title'];
-        $input['start'] = $event['start'];
-        $event = Event::create($input);
+        $user = auth()->user();
+        $employee = Employee::where('user_id', $user->id)->first();
+        $exists = $employee !== null;
+        $role = $user->role;
+        //  print($role);
+        if ($exists){
+          // $input['doctor_id'] = $user->id;
+          $input['title'] = $event['title'];
+          $input['start'] = $event['start'];
+          $event = Event::create($input);
 
-        $this->reset();
-
-        $this->emit('eventAdded', $event->id, $event->title, $event->start );
+          $employee->events()->save($event);
+  
+          $this->reset();
+  
+          $this->emit('eventAdded', $event->id, $event->title, $event->start );
+        }else{
+          $this->emit('doctorNotExists');
+        }
     }
  
     /**
@@ -55,6 +74,39 @@ class Schedule extends Component
       // Emitir una señal de Livewire para actualizar la interfaz de usuario
       $this->emit('refreshCalendar');
     }
+    public function addAppointment($appointment)
+    {
+        $user = auth()->user();
+        $employee = Employee::find(intval($appointment['doctorId']))->first();
+        $patient = Patient::where("user_id",$user->id)->first();
+        $exists = $patient !== null;
+        // $role = $user->role;
+        //  print($role);
+        if ($exists){
+          // $input['doctor_id'] = $user->id;
+          // $input['employee_id'] = intval($appointment['doctorId']);
+          $input['medical_concerns'] = $appointment['medical_concerns'];
+          $input['date'] = $appointment['date'];
+          $input['time'] = $appointment['time'];
+          $appointment = Appointment::create($input);
+
+          $employee->appointments()->save($appointment);
+          $patient->appointments()->save($appointment);
+          
+          $input['title'] = "Medical Appointment";
+          $input['start'] = $appointment['date'];
+          $event = Event::create($input);
+          $event->appointment()->save($appointment);
+          $employee->events()->save($event);
+  
+          $this->reset();
+  
+          $this->emit('eventAdded', $event->id, $event->title, $event->start );
+          // $this->emit('appointmentAdded', $appointment->id, $appointment->medical_concerns	, $appointment->date );
+        }else{
+          $this->emit('isNotPatient');
+        }
+    }
  
     /**
     * Write code on Method
@@ -62,8 +114,35 @@ class Schedule extends Component
     * 
     */
     public function render()
-    {       
-        $events = Event::select('id','title','start')->get();
+    {
+        $user = auth()->user();
+        $employee = Employee::where('user_id', $user->id)->first();
+        if($employee){
+          $events = Event::select('id','title','start')->where('employee_id', $employee->id)->get();
+          $this->isEmployee = true;
+        }
+        else{
+          $patient = Patient::where("user_id", $user->id)->first();
+          if($patient){
+            $patientEvents = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
+                  ->select('events.id','events.title','events.start')
+                  ->where('appointments.patient_id', $patient->id)
+                  ->orWhere('title', 'Available')
+                  ->get();
+            $doctorEvents = Event::select('id','title','start')->where('title', 'Available')->get();
+            $events = $patientEvents->merge($doctorEvents);            
+          }else{
+            $events = Event::select('id','title','start')->where('title', 'Available')->get();
+          }
+
+          $doctors = Event::join('employees', 'events.employee_id', '=', 'employees.id')
+            ->select('employees.id','employees.first_name')
+            ->groupBy('employees.id','employees.first_name')
+            ->get();
+            // print($doctors);
+          $this->doctors = $doctors;
+          $this->isEmployee = false;
+        }
  
         $this->events = json_encode($events);
  

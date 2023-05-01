@@ -15,9 +15,12 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('employee_id')->nullable()->unsigned(); //Doctor id on employees table
             $table->string('title');
             $table->string('start');
             $table->timestamps();
+
+            $table->foreign('employee_id')->references('id')->on('employees');  
         });
     }
  

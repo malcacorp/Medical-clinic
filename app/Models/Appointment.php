@@ -15,6 +15,7 @@ class Appointment extends Model
    * @var array<int, string>
    */
   protected $fillable = [
+    'employee_id',
     'assessment_type',
     'date',
     'time',
@@ -34,5 +35,9 @@ class Appointment extends Model
   public function patient()
   {
     return $this->belongsTo('App\Models\Patient');
+  }
+  public function event()
+  {
+    return $this->belongsTo('App\Models\Event');
   }
 }

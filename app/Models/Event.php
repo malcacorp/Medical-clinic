@@ -18,4 +18,13 @@ class Event extends Model
     'title',
     'start',
   ];
+
+  public function employee()
+  {
+      return $this->belongsTo('App\Models\Employee');
+  }
+  public function appointment()
+  {
+      return $this->hasOne('App\Models\Appointment');
+  }
 }
