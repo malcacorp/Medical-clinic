@@ -49,6 +49,8 @@ class PermissionSeeder extends Seeder
       Permission::create(['name' => 'create-assessment']);
       Permission::create(['name' => 'edit-nurse-comments']);
       Permission::create(['name' => 'edit-doctor-comments']);
+      
+      Permission::create(['name' => 'view-schedule']);
 
     }
 }

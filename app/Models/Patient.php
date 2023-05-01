@@ -39,4 +39,9 @@ class Patient extends Model
   {
     return $this->hasMany('App\Models\MedicalAssessment');
   }
+
+  public function appointments()
+  {
+    return $this->hasMany('App\Models\Appointment');
+  }
 }
