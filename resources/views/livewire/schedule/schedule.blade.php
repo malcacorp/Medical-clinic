@@ -170,8 +170,11 @@
                     //       // Livewire.emit('eliminarEvento', );
                     //   }
                     // }
-                    @this.showAppointment(info.event.id);
-                    $('#show-appointment-button').click();
+                    if(info.event.title == "Medical Appointment"){
+                      @this.showAppointment(info.event.id);
+                      $('#show-appointment-button').click();
+                    }
+                    
                 },
                 // timeFormat: 'h:mm A', // formato de 12 horas con AM/PM
                 editable: true,
