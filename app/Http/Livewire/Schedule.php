@@ -15,6 +15,7 @@ class Schedule extends Component
     public $selectedDate;
     public $doctors = [];
     public $doctorSelected;
+    public $currentAppointmentDate = "", $currentAppointmentTime = "", $currentAppointmentPatient = "", $currentAppointmentReason = "", $currentAppointmentPhone = "";
 
     // public function mount($title)
     // {
@@ -80,32 +81,63 @@ class Schedule extends Component
         $employee = Employee::find(intval($appointment['doctorId']))->first();
         $patient = Patient::where("user_id",$user->id)->first();
         $exists = $patient !== null;
-        // $role = $user->role;
-        //  print($role);
+        
         if ($exists){
-          // $input['doctor_id'] = $user->id;
-          // $input['employee_id'] = intval($appointment['doctorId']);
-          $input['medical_concerns'] = $appointment['medical_concerns'];
-          $input['date'] = $appointment['date'];
-          $input['time'] = $appointment['time'];
-          $appointment = Appointment::create($input);
-
-          $employee->appointments()->save($appointment);
-          $patient->appointments()->save($appointment);
+          $availability = Event::where("title", "=", "Available")
+                                ->where("start", "LIKE", "%".$appointment['date']."T".$appointment['time']."%")
+                                ->where("employee_id", $appointment['doctorId'])
+                                ->first();
           
-          $input['title'] = "Medical Appointment";
-          $input['start'] = $appointment['date'];
-          $event = Event::create($input);
-          $event->appointment()->save($appointment);
-          $employee->events()->save($event);
+          if($availability != null){            
+            $input['medical_concerns'] = $appointment['medical_concerns'];
+            $input['date'] = $appointment['date'];
+            $input['time'] = $appointment['time'];
+            $appointment = Appointment::create($input);
   
-          $this->reset();
-  
-          $this->emit('eventAdded', $event->id, $event->title, $event->start );
-          // $this->emit('appointmentAdded', $appointment->id, $appointment->medical_concerns	, $appointment->date );
-        }else{
+            $employee->appointments()->save($appointment);
+            $patient->appointments()->save($appointment);
+            
+            $input['title'] = "Medical Appointment";
+            $input['start'] = $appointment['date'].'T'.$appointment['time'];
+            $event = Event::create($input);
+            $event->appointment()->save($appointment);
+            $employee->events()->save($event);
+            $this->reset();
+            
+            $this->emit('eventAdded', $event->id, $event->title, $event->start );
+            $this->emit('eventRemoved', $availability->id);
+            $availability->delete();
+          }else
+            $this->emit('notAvailability');
+          
+        }else
           $this->emit('isNotPatient');
-        }
+    }
+
+    public function showAppointment($id){
+      $currentEvent = Event::find(intval($id));
+      $currentEvent = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
+                  ->join('patients', 'patients.id', '=', 'appointments.patient_id')
+                  ->select('events.id','events.title','appointments.date','appointments.time', 'appointments.medical_concerns', 'patients.first_name', 'patients.last_name', 'patients.phone_number')
+                  ->where('events.id', $id)
+                  ->orWhere('title', 'Available')
+                  ->first();
+      // print($currentEvent);
+      // $currentDate = explode('T', $currentEvent->start);
+      // $this->currentAppointmentDate = {
+      //   "date": $currentEvent->date,
+      // }
+      // $datos = array(
+      //     'date' => $currentEvent->date,
+      //     'time' => $currentEvent->time,
+      //     'patient' => $currentEvent->first_name." ".$currentEvent->last_name
+      // );
+      // $this->currentAppointment = json_encode($datos);
+      $this->currentAppointmentDate = $currentEvent->date;
+      $this->currentAppointmentTime = $currentEvent->time;
+      $this->currentAppointmentPatient = $currentEvent->first_name." ".$currentEvent->last_name;
+      $this->currentAppointmentPhone = $currentEvent->phone_number;
+      $this->currentAppointmentReason = $currentEvent->medical_concerns;
     }
  
     /**

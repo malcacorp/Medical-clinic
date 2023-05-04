@@ -7,6 +7,7 @@
                 </h2>
             </x-slot>
             <button id="add-appointment-button" class="btn btn-primary text-white rounded m-3 d-none">Create appointment</button>
+            <button id="show-appointment-button" class="btn btn-primary text-white rounded m-3 d-none">Show appointment</button>
             <div class="card shadow bg-light">
                 <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">
                     <div id='calendar-container' wire:ignore>
@@ -27,7 +28,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="add-appointment-modal-label">New Appointment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('add-appointment-modal')">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -53,8 +54,45 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('add-appointment-modal')">Close</button>
                     <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="show-appointment-modal" tabindex="-1" role="dialog" aria-labelledby="show-appointment-modal-label"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="show-appointment-modal-label">Appointment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('show-appointment-modal')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                  <div class="row">
+                    <label>Date: {{$currentAppointmentDate}}</label>
+                  </div>
+                  <div class="row">
+                    <label>Time: {{$currentAppointmentTime}}</label>
+                  </div>
+                  <div class="row">
+                    <label>Patient: {{$currentAppointmentPatient}}</label>
+                  </div>
+                  <div class="row">
+                    <label>Phone number: {{$currentAppointmentPhone}}</label>
+                  </div>
+                  <div class="row">
+                    <label>Reason: {{$currentAppointmentReason}}</label>
+                  </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('show-appointment-modal')">Close</button>
+                    {{-- <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button> --}}
                 </div>
             </div>
         </div>
@@ -78,14 +116,16 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                slotDuration: '01:00:00', //  1 hour interval
+                slotDuration: '00:30:00', //  1 hour interval
+                defaultTimedEventDuration: '00:30:00',
                 dateClick(info) {
+                  console.log(info.dateStr);
                     if(@this.isEmployee){
                       if (info.dateStr.length <= 10) {
                           var start = prompt('Ingrese una hora en la que estará disponible:', '08:00:00');
-                          var date = new Date(info.dateStr + 'T' + start);
+                          var date = info.dateStr + 'T' + start;
                       } else {
-                          var date = new Date(info.dateStr);
+                          var date = info.dateStr;
                       }
 
                       if (info.dateStr.length <= 10 && (start == "" || start == null)) {
@@ -108,23 +148,30 @@
                           }
                       }
                     }else{
+                      if (info.dateStr.length <= 10) {                          
+                        document.getElementById('appointment-start').value = info.dateStr + "T08:00";
+                      } else {
+                        const arrDate = info.dateStr.split('T');
+                        const date = arrDate[0];
+                        const arrTime = arrDate[1].split("-");
+                        const time = arrTime[0]
+                        document.getElementById('appointment-start').value = date + "T" + time;
+                      }
                       $('#add-appointment-button').click();
-                      // document.getElementById('selectedDate').innerHTML = info.dateStr;
-                      document.getElementById('appointment-start').value = info.dateStr + "T08:00";
-                      console.log(info)
-                      // console.log(@this.selectedDate);
                     }
                 },
                 eventClick: function(info) {
-                  console.log(info);
-                    if(@this.isEmployee){
-                      if (confirm('¿Estás seguro de que deseas eliminar este evento?')) {
-                          @this.removeEvent(info.event.id);
-                          calendar.getEventById(info.event.id).remove();
-                          // @this.emit('refreshCalendar');
-                          // Livewire.emit('eliminarEvento', );
-                      }
-                    }
+                  console.log(info.event.id);
+                    // if(@this.isEmployee){
+                    //   if (confirm('¿Estás seguro de que deseas eliminar este evento?')) {
+                    //       @this.removeEvent(info.event.id);
+                    //       calendar.getEventById(info.event.id).remove();
+                    //       // @this.emit('refreshCalendar');
+                    //       // Livewire.emit('eliminarEvento', );
+                    //   }
+                    // }
+                    @this.showAppointment(info.event.id);
+                    $('#show-appointment-button').click();
                 },
                 // timeFormat: 'h:mm A', // formato de 12 horas con AM/PM
                 editable: true,
@@ -167,6 +214,13 @@
                 calendar.addEvent(event);
             });
 
+            @this.on('eventRemoved', function(eventId) {
+                // Busca el evento por ID
+                var event = calendar.getEventById(eventId);
+                // Elimina el evento del calendario
+                event.remove();
+            });
+
             @this.on('doctorNotExists', function() {
                 alert("Esta opción sólo está disponible para médicos");
             });
@@ -175,20 +229,39 @@
                 alert("Esta opción sólo está disponible para pacientes");
             });
 
-            // Open modal for creating appoitment
+            @this.on('notAvailability', function() {
+                alert("No hay disponibilidad a esta hora con este doctor");
+            });
+
+            // Open modal for creating appointment
             document.getElementById('add-appointment-button').addEventListener('click', function() {
                 $('#add-appointment-modal').modal('show');
+            });
+
+            // Open modal for showing appointment
+            document.getElementById('show-appointment-button').addEventListener('click', function() {
+                $('#show-appointment-modal').modal('show');
             });
 
             // Guarda el evento en el calendario cuando se hace clic en el botón correspondiente dentro del modal
             document.getElementById('save-appointment-button').addEventListener('click', function() {
                 const doctorId = document.getElementById('doctorSelected').value;
-                if(doctorId != null &&  doctorId != ""){
-                  alert("Guardar");
+                const reason = document.getElementById('appointment-reason').value;
+                if(doctorId == null ||  doctorId == ""){
+                  alert("Select a doctor.");
+                  return;                 
+                }
+
+                if(reason == null ||  reason == ""){
+                  alert("Write a reason for medical appointment.");
+                  return;  
+                }
+
                   let date = document.getElementById('appointment-start').value;
                   let strDate = 'abcdefghij';
                   const char = ',';
                   const position = 10;
+
                   strDate = date.substring(0, position) + char + date.substring(position);
                   const arrDate = strDate.split(',T');
                   var appointment = {
@@ -199,12 +272,17 @@
                       // end: document.getElementById('appointment-end').value
                   };
                   @this.addAppointment(appointment);
-                  $('#add-appointment-modal').modal('hide');
-                }else{
-                  alert("Select a doctor.");
-                }
+                  $('#add-appointment-modal').modal('hide');                
             });
+            
         });
+
+        const closeModal = (id) => {
+              // $("#"+id).removeClass('show');
+              // $("#"+id).hide();
+              // $(".modal-backdrop").removeClass("show");
+              // $(".modal-backdrop").remove();
+            }
     </script>
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.css' rel='stylesheet' />
 @endpush
