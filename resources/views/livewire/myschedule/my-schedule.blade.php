@@ -2,56 +2,18 @@
     <h2 class="ms-4 h3">
         {{ __('Work Schedule') }}
     </h2>
-    <style>
-        .table {
-            width: 50%;
-            margin: auto;
-        }
-
-        .small-input {
-            width: 40%;
-            max-width: 150px;
-        }
-
-        input[type="time"],
-        select {
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        @media screen and (max-width: 1200px) {
-            .input-group {
-                display: block !important;
-            }
-
-            .small-input {
-                width: 100% !important;
-                max-width: none !important;
-                margin-top: 4px;
-            }
-
-            .table {
-                width: 100%;
-            }
-
-            input[type="time"],
-            select {
-                max-width: 80px;
-            }
-
-            .button-container {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-top: 10px;
-            }
-        }
-    </style>
 </x-slot>
 
 
 <div>
     <div>
+          @if (session()->has('message'))
+              <div class="alert alert-info" role="alert">
+                  <div class="flex">
+                      {{ session('message') }}</p>
+                  </div>
+              </div>
+          @endif
         <table class="table">
             <thead>
                 <tr>
@@ -70,22 +32,14 @@
                         <div class="row">
 
                             <div class="input-group flex-column: align-items-center col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="mon_am">
-                                <select class="form-select small-input mx-1" name="mon_am_pm">
-                                    <option value="AM">AM</option>
-                                    <option value="PM">PM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="mon_am" wire:model = "data.Monday.start">
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="input-group flex-column: align-items-center col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="mon_pm">
-                                <select class="form-select small-input mx-1" name="mon_pm_pm">
-                                    <option value="PM">PM</option>
-                                    <option value="AM">AM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="mon_pm" wire:model = "data.Monday.end">
                             </div>
                         </div>
                     </td>
@@ -98,22 +52,14 @@
                     <td>
                         <div class="row">
                             <div class="input-group col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="tue_am">
-                                <select class="form-select small-input mx-1" name="tue_am_pm">
-                                    <option value="AM">AM</option>
-                                    <option value="PM">PM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="tue_am" wire:model = "data.Tuesday.start">
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="input-group col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="tue_pm">
-                                <select class="form-select small-input mx-1" name="tue_pm_pm">
-                                    <option value="PM">PM</option>
-                                    <option value="AM">AM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="tue_pm" wire:model = "data.Tuesday.end">
                             </div>
                         </div>
                     </td>
@@ -126,22 +72,14 @@
                     <td>
                         <div class="row">
                             <div class="input-group col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="wed_am">
-                                <select class="form-select small-input mx-1" name="wed_am_pm">
-                                    <option value="AM">AM</option>
-                                    <option value="PM">PM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="wed_am" wire:model = "data.Wednesday.start">
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="input-group col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="wed_pm">
-                                <select class="form-select small-input mx-1" name="wed_pm_pm">
-                                    <option value="PM">PM</option>
-                                    <option value="AM">AM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="wed_pm" wire:model = "data.Wednesday.end">
                             </div>
                         </div>
                     </td>
@@ -154,22 +92,14 @@
                     <td>
                         <div class="row">
                             <div class="input-group col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="thu_am">
-                                <select class="form-select small-input mx-1" name="thu_am_pm">
-                                    <option value="AM">AM</option>
-                                    <option value="PM">PM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="thu_am" wire:model = "data.Thursday.start">
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="input-group col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="thu_pm">
-                                <select class="form-select small-input mx-1" name="thu_pm_pm">
-                                    <option value="PM">PM</option>
-                                    <option value="AM">AM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="thu_pm" wire:model = "data.Thursday.end">
                             </div>
                         </div>
                     </td>
@@ -182,22 +112,14 @@
                     <td>
                         <div class="row">
                             <div class="input-group col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="fri_am">
-                                <select class="form-select small-input mx-1" name="fri_am_pm">
-                                    <option value="AM">AM</option>
-                                    <option value="PM">PM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="fri_am" wire:model = "data.Friday.start">
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="input-group col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="fri_pm">
-                                <select class="form-select small-input mx-1" name="fri_pm_pm">
-                                    <option value="PM">PM</option>
-                                    <option value="AM">AM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="fri_pm" wire:model = "data.Friday.end">
                             </div>
                         </div>
                     </td>
@@ -210,22 +132,14 @@
                     <td>
                         <div class="row">
                             <div class="input-group col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="sat_am">
-                                <select class="form-select small-input mx-1" name="sat_am_pm">
-                                    <option value="AM">AM</option>
-                                    <option value="PM">PM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="sat_am" wire:model = "data.Saturday.start">
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="input-group col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="sat_pm">
-                                <select class="form-select small-input mx-1" name="sat_pm_pm">
-                                    <option value="PM">PM</option>
-                                    <option value="AM">AM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="sat_pm" wire:model = "data.Saturday.end">
                             </div>
                         </div>
                     </td>
@@ -237,22 +151,14 @@
                     <td>
                         <div class="row">
                             <div class="input-group col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="sun_am">
-                                <select class="form-select small-input mx-1" name="sun_am_pm">
-                                    <option value="AM">AM</option>
-                                    <option value="PM">PM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="sun_am" wire:model = "data.Sunday.start">
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="input-group col-sm-8 col-md-6">
-                                <input type="time" class="form-control small-input" name="sun_pm">
-                                <select class="form-select small-input mx-1" name="sun_pm_pm">
-                                    <option value="PM">PM</option>
-                                    <option value="AM">AM</option>
-                                </select>
+                                <input type="time" class="form-control small-input" name="sun_pm" wire:model = "data.Sunday.end">
                             </div>
                         </div>
                     </td>
@@ -262,6 +168,6 @@
         </table>
     </div>
     <div style="display: flex; justify-content: center; align-items: center;">
-        <button class="btn btn-primary text-white py-1 m-4 px-3 rounded">Submit</button>
+        <button class="btn btn-primary text-white py-1 m-4 px-3 rounded" wire:click="store()">Submit</button>
     </div>
 </div>

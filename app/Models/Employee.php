@@ -47,4 +47,9 @@ class Employee extends Model
   {
       return $this->hasMany('App\Models\Appointment');
   }
+
+  public function schedules()
+  {
+      return $this->hasMany('App\Models\Schedule');
+  }
 }

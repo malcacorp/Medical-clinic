@@ -51,6 +51,7 @@ class PermissionSeeder extends Seeder
       Permission::create(['name' => 'edit-doctor-comments']);
       
       Permission::create(['name' => 'view-schedule']);
+      Permission::create(['name' => 'view-myschedule']);
 
     }
 }

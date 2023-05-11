@@ -132,7 +132,7 @@
               </li>
             @endcan
 
-            @can("view-schedule")
+            @can("view-myschedule")
               <li class="nav-item">
                   <x-nav-link href="{{ route('my-schedule') }}" :active="request()->routeIs('my-schedule')">
                       <i class="fas fa-calendar"></i>

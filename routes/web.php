@@ -80,6 +80,6 @@ Route::group(['middleware' => ['permission:view-schedule']], function () {
   Route::get('schedule', Schedule::class)->name('schedule');
 });
 
-Route::group(['middleware' => ['permission:view-schedule']], function () {
+Route::group(['middleware' => ['permission:view-myschedule']], function () {
   Route::get('my-schedule', MySchedule::class)->name('my-schedule');
 });
