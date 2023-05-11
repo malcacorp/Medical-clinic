@@ -5,9 +5,14 @@ use App\Http\Livewire\Patients;
 use App\Http\Livewire\Intake;
 use App\Http\Livewire\Users;
 use App\Http\Livewire\Employees;
+use App\Http\Livewire\MySchedule;
+use App\Http\Livewire\Patients2\Index;
 use App\Http\Livewire\Permissions;
 use App\Http\Livewire\Roles;
 use App\Http\Livewire\Schedule;
+
+use App\Http\Livewire\Patients2\PatientsForms;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,11 +25,11 @@ use App\Http\Livewire\Schedule;
 |
 */
 
-// Sql Debuger
+/* // Sql Debuger
 DB::listen(function($query){
   //Imprimimos la consulta ejecutada
   echo "<pre> {$query->sql } </pre>";
-});
+}); */
 
 Route::get('/', function () {
   return view('auth.login');
@@ -50,6 +55,15 @@ Route::group(['middleware' => ['permission:list-patients']], function () {
   Route::get('patients', Patients::class)->name('patients');
 });
 
+Route::group(['middleware' => ['permission:list-patients']], function () {
+  Route::get('patients2', Index::class)->name('patients2');
+  Route::get('/patients2/create', PatientsForms::class)->name('patients-create');
+  Route::get('/patients2/{id}', PatientsForms::class)->name('patient-edit');
+  Route::get('/patients2/{id}/{toShow}', PatientsForms::class)->name('patient-histories');
+
+});
+
+
 Route::group(['middleware' => ['permission:list-permissions']], function () {
   Route::get('permissions', Permissions::class)->name('permissions');
 });
@@ -64,4 +78,8 @@ Route::group(['middleware' => ['permission:list-users']], function () {
 
 Route::group(['middleware' => ['permission:view-schedule']], function () {
   Route::get('schedule', Schedule::class)->name('schedule');
+});
+
+Route::group(['middleware' => ['permission:view-myschedule']], function () {
+  Route::get('my-schedule', MySchedule::class)->name('my-schedule');
 });

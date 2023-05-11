@@ -132,10 +132,29 @@
               </li>
             @endcan
 
+            @can("view-myschedule")
+              <li class="nav-item">
+                  <x-nav-link href="{{ route('my-schedule') }}" :active="request()->routeIs('my-schedule')">
+                      <i class="fas fa-calendar"></i>
+                      {{ __('My Schedule') }}
+                  </x-nav-link>
+              </li>
+            @endcan
+
             <!-- Nav Item - Patients -->
-            @can("list-patients")
+           {{--  @can("list-patients")
               <li class="nav-item">
                 <x-nav-link href="{{ route('patients') }}" :active="request()->routeIs('patients')">
+                  <i class="fas fa-hospital-user"></i>
+                  {{ __('Patients') }}
+                </x-nav-link>
+              </li>
+            @endcan --}}
+
+            <!-- Nav Item - Patients2 -->
+            @can("list-patients")
+              <li class="nav-item">
+                <x-nav-link href="{{ route('patients2') }}" :active="request()->routeIs('patients2')">
                   <i class="fas fa-hospital-user"></i>
                   {{ __('Patients') }}
                 </x-nav-link>

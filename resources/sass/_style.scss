@@ -17,3 +17,47 @@
 a.nav-item.nav-link {
   padding-top: 30px;
 }
+
+.table {
+  width: 50%;
+  margin: auto;
+}
+
+.small-input {
+  width: 40%;
+  max-width: 150px;
+}
+
+input[type="time"],
+select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1200px) {
+  .input-group {
+      display: block !important;
+  }
+
+  .small-input {
+      width: 100% !important;
+      max-width: none !important;
+      margin-top: 4px;
+  }
+
+  .table {
+      width: 100%;
+  }
+
+  input[type="time"],
+  select {
+      max-width: 80px;
+  }
+
+  .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+  }
+}
