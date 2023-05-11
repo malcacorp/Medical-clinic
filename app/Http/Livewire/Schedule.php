@@ -16,12 +16,14 @@ class Schedule extends Component
     public $doctors = [];
     public $doctorSelected;
     public $currentAppointmentDate = "", $currentAppointmentTime = "", $currentAppointmentPatient = "", $currentAppointmentReason = "", $currentAppointmentPhone = "";
-
+    public $showModal= false;
     // public function mount($title)
     // {
     //     $this->title = $title;
 
     // }
+
+    protected $listeners = ['closeModal'];
  
     public function getevent()
     {       
@@ -97,7 +99,7 @@ class Schedule extends Component
             $employee->appointments()->save($appointment);
             $patient->appointments()->save($appointment);
             
-            $input['title'] = "Medical Appointment";
+            $input['title'] = "Appointment";
             $input['start'] = $appointment['date'].'T'.$appointment['time'];
             $event = Event::create($input);
             $event->appointment()->save($appointment);
@@ -150,16 +152,24 @@ class Schedule extends Component
         $user = auth()->user();
         $employee = Employee::where('user_id', $user->id)->first();
         if($employee){
-          $events = Event::select('id','title','start')->where('employee_id', $employee->id)->get();
+          $availables = Event::select('id','title','start')->where('employee_id', $employee->id)->get();
+          $appointments = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
+                          ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+                          ->select('events.id','start')
+                          ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
+                          ->where('events.employee_id', $employee->id)->get();
+          $events = $availables->merge($appointments);            
           $this->isEmployee = true;
         }
         else{
           $patient = Patient::where("user_id", $user->id)->first();
           if($patient){
             $patientEvents = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
-                  ->select('events.id','events.title','events.start')
+                  ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+                  ->select('events.id','events.start')
+                  ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
                   ->where('appointments.patient_id', $patient->id)
-                  ->orWhere('title', 'Available')
+                  // ->orWhere('title', 'Available')
                   ->get();
             $doctorEvents = Event::select('id','title','start')->where('title', 'Available')->get();
             $events = $patientEvents->merge($doctorEvents);            
@@ -178,6 +188,12 @@ class Schedule extends Component
  
         $this->events = json_encode($events);
  
-        return view('livewire.schedule.schedule');
+        return view('livewire.schedule.schedule')->with('showModal', $this->showModal);
+    }
+
+    public function closeModal()
+    {
+        $this->emit('closeModal');
+        $this->showModal = false;
     }
 }
