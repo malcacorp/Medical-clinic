@@ -22,44 +22,46 @@
         </div>
     </div>
 
-    <div class="modal fade" id="add-appointment-modal" tabindex="-1" role="dialog" aria-labelledby="add-appointment-modal-label"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="add-appointment-modal-label">New Appointment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('add-appointment-modal')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="add-appointment-form">                        
-                        <div class="form-group">
-                            <label for="appointment-start">Date and time</label>
-                            <input type="datetime-local" class="form-control" id="appointment-start" >
-                        </div>
-                        <div class="form-group">
-                          <label for="doctor">Select doctor</label>
-                          <select id="doctorSelected" class="form-control">
-                              <option value="">-- Select --</option>
-                              @foreach ($doctors as $doctor)
-                                  <option value={{$doctor->id}}>{{ $doctor->first_name }}</option>
-                              @endforeach
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="appointment-reason">Reason for medical appointment</label>
-                          <textarea type="text" class="form-control" id="appointment-reason" placeholder="Reason for medical appointment"></textarea>
-                        </div>                        
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('add-appointment-modal')">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    @if ($showModal)
+      <div class="modal fade" id="add-appointment-modal" tabindex="-1" role="dialog" aria-labelledby="add-appointment-modal-label"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="add-appointment-modal-label">New Appointment</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="closeModal()">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <form id="add-appointment-form">                        
+                          <div class="form-group">
+                              <label for="appointment-start">Date and time</label>
+                              <input type="datetime-local" class="form-control" id="appointment-start" >
+                          </div>
+                          <div class="form-group">
+                            <label for="doctor">Select doctor</label>
+                            <select id="doctorSelected" class="form-control">
+                                <option value="">-- Select --</option>
+                                @foreach ($doctors as $doctor)
+                                    <option value={{$doctor->id}}>{{ $doctor->first_name }}</option>
+                                @endforeach
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="appointment-reason">Reason for medical appointment</label>
+                            <textarea type="text" class="form-control" id="appointment-reason" placeholder="Reason for medical appointment"></textarea>
+                          </div>                        
+                      </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('add-appointment-modal')">Close</button>
+                      <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+    @endif
 
     <div class="modal fade" id="show-appointment-modal" tabindex="-1" role="dialog" aria-labelledby="show-appointment-modal-label"
         aria-hidden="true">
@@ -170,9 +172,11 @@
                     //       // Livewire.emit('eliminarEvento', );
                     //   }
                     // }
-                    if(info.event.title == "Medical Appointment"){
+                    if(info.event.title.includes("Appointment")){
                       @this.showAppointment(info.event.id);
-                      $('#show-appointment-button').click();
+                      setTimeout(function () {
+                        $('#show-appointment-button').click();
+                      }, 200);
                     }
                     
                 },
