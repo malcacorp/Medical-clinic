@@ -22,14 +22,13 @@
         </div>
     </div>
 
-    @if ($showModal)
       <div class="modal fade" id="add-appointment-modal" tabindex="-1" role="dialog" aria-labelledby="add-appointment-modal-label"
           aria-hidden="true">
           <div class="modal-dialog" role="document">
               <div class="modal-content">
                   <div class="modal-header">
                       <h5 class="modal-title" id="add-appointment-modal-label">New Appointment</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="closeModal()">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                       </button>
                   </div>
@@ -55,13 +54,12 @@
                       </form>
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('add-appointment-modal')">Close</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                       <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button>
                   </div>
               </div>
           </div>
       </div>
-    @endif
 
     <div class="modal fade" id="show-appointment-modal" tabindex="-1" role="dialog" aria-labelledby="show-appointment-modal-label"
         aria-hidden="true">
@@ -69,7 +67,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="show-appointment-modal-label">Appointment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('show-appointment-modal')">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -96,7 +94,7 @@
                   @if ($isEmployee)
                     <button type="button" class="btn btn-warning" wire:click="openProfile({{$currentAppointmentPatientId}})" data-dismiss="modal" onclick="closeModal('add-appointment-modal')">Patient</button>
                   @endif
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('show-appointment-modal')">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     {{-- <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button> --}}
                 </div>
             </div>
