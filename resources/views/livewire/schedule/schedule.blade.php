@@ -91,6 +91,7 @@
                     
                 </div>
                 <div class="modal-footer">
+                  <button type="button" class="" wire:click="openProfile({{$currentAppointmentPatientId}})" data-dismiss="modal" onclick="closeModal('add-appointment-modal')">Patient</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('show-appointment-modal')">Close</button>
                     {{-- <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button> --}}
                 </div>

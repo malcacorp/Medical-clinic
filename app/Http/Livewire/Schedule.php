@@ -15,7 +15,8 @@ class Schedule extends Component
     public $selectedDate;
     public $doctors = [];
     public $doctorSelected;
-    public $currentAppointmentDate = "", $currentAppointmentTime = "", $currentAppointmentPatient = "", $currentAppointmentReason = "", $currentAppointmentPhone = "";
+    public $currentAppointmentDate = "", $currentAppointmentTime = "", $currentAppointmentPatient = "", $currentAppointmentReason = ""; 
+    public $currentAppointmentPhone = "", $currentAppointmentPatientId;
 
     // public function mount($title)
     // {
@@ -118,7 +119,7 @@ class Schedule extends Component
       $currentEvent = Event::find(intval($id));
       $currentEvent = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
                   ->join('patients', 'patients.id', '=', 'appointments.patient_id')
-                  ->select('events.id','events.title','appointments.date','appointments.time', 'appointments.medical_concerns', 'patients.first_name', 'patients.last_name', 'patients.phone_number')
+                  ->select('events.id','events.title','appointments.date','appointments.time', 'appointments.medical_concerns', 'patients.id as patient_id', 'patients.first_name', 'patients.last_name', 'patients.phone_number')
                   ->where('events.id', $id)
                   ->orWhere('title', 'Available')
                   ->first();
@@ -133,6 +134,7 @@ class Schedule extends Component
       //     'patient' => $currentEvent->first_name." ".$currentEvent->last_name
       // );
       // $this->currentAppointment = json_encode($datos);
+      $this->currentAppointmentPatientId = $currentEvent->patient_id;
       $this->currentAppointmentDate = $currentEvent->date;
       $this->currentAppointmentTime = $currentEvent->time;
       $this->currentAppointmentPatient = $currentEvent->first_name." ".$currentEvent->last_name;
@@ -145,6 +147,11 @@ class Schedule extends Component
     *
     * 
     */
+        //Profile redirect
+    public function openProfile($id){
+      return redirect()->route('patient-edit', ['id' => $id]); 
+    }
+    //End Profile redirect
     public function render()
     {
         $user = auth()->user();
