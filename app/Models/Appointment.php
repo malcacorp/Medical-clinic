@@ -20,6 +20,7 @@ class Appointment extends Model
     'date',
     'time',
     'medical_concerns',
+    'status',
   ];
 
   public function user()
