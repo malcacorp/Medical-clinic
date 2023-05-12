@@ -28,7 +28,7 @@
               <div class="modal-content">
                   <div class="modal-header">
                       <h5 class="modal-title" id="add-appointment-modal-label">New Appointment</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('add-appointment-modal')">
                           <span aria-hidden="true">&times;</span>
                       </button>
                   </div>
@@ -54,7 +54,7 @@
                       </form>
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('add-appointment-modal')">Close</button>
                       <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button>
                   </div>
               </div>
@@ -67,7 +67,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="show-appointment-modal-label">Appointment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('show-appointment-modal')">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -94,7 +94,7 @@
                   @if ($isEmployee)
                     <button type="button" class="btn btn-warning" wire:click="openProfile({{$currentAppointmentPatientId}})" data-dismiss="modal" onclick="closeModal('add-appointment-modal')">Patient</button>
                   @endif
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"onclick=" closeModal('show-appointment-modal')">Close</button>
                     {{-- <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button> --}}
                 </div>
             </div>
@@ -286,11 +286,8 @@
         });
 
         const closeModal = (id) => {
-              // $("#"+id).removeClass('show');
-              // $("#"+id).hide();
-              // $(".modal-backdrop").removeClass("show");
-              // $(".modal-backdrop").remove();
-            }
+          $('#'+id).modal('hide');
+        }
     </script>
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.css' rel='stylesheet' />
 @endpush
