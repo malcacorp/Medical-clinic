@@ -96,6 +96,7 @@ class Schedule extends Component
             $input['medical_concerns'] = $appointment['medical_concerns'];
             $input['date'] = $appointment['date'];
             $input['time'] = $appointment['time'];
+            $input['status'] = "Pending";
             $appointment = Appointment::create($input);
   
             $employee->appointments()->save($appointment);
