@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\Appointment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Patients;
 use App\Http\Livewire\Intake;
@@ -70,6 +71,10 @@ Route::group(['middleware' => ['permission:list-permissions']], function () {
 
 Route::group(['middleware' => ['permission:list-roles']], function () {
   Route::get('roles', Roles::class)->name('roles');
+});
+
+Route::group(['middleware' => ['permission:list-roles']], function () {
+  Route::get('appointment', Appointment::class)->name('appointment');
 });
 
 Route::group(['middleware' => ['permission:list-users']], function () {
