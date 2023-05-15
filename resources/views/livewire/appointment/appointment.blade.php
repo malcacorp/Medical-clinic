@@ -11,37 +11,36 @@
                 <div class="row">
 
                     <div class="col col-md-5 aling-items-center">
-                        <form style="display: block">
 
-                            {{-- Data and time --}}
-                            <label for="appointment-reason">Date and time</label>
-                            <input type="datetime-local" class="form-control" id="">
+                        <form wire:submit.prevent="store" style="display: block">
+                            @csrf
+                            {{-- Date and Time --}}
+                            <label for="appointment-date">Date and time</label>
+                            <input type="date" class="form-control" wire:model.lazy="date" id="appointment-date"
+                                name="date" required>
+                            <input type="time" class="form-control" wire:model.lazy="time" name="time"
+                                required>
 
                             {{-- Select Doctor --}}
                             <label for="doctor">Select doctor</label>
-                            <select id="doctorSelected" class="form-control">
+                            <select class="form-control" wire:model="doctor_id" id="doctor">
                                 <option value="">-- Select --</option>
                                 @foreach ($doctors as $doctor)
-                              <option value={{$doctor->id}}>{{ $doctor->first_name }}</option>
-                              @endforeach
+                                    <option value={{ $doctor->id }}>{{ $doctor->first_name }}</option>
+                                @endforeach
                             </select>
 
                             {{-- Reason --}}
                             <label for="appointment-reason">Reason for medical appointment</label>
-                            <textarea type="text" class="form-control" id="appointment-reason" placeholder="Reason for medical appointment"></textarea>
+                            <textarea class="form-control" wire:model.lazy="medical_concerns" name="medical_concerns" required></textarea>
 
-                            {{-- Button --}}
+                            {{-- Buttons --}}
                             <div class="flex justify-content-center mt-4">
-                                <button class="btn btn-dark text-white" type="button">
-                                    {{ __('Delete appointment') }}
-                                </button>
-                                <button class="btn btn-danger text-white" type="button">
-                                    {{ __('Back') }}
-                                </button>
-                                <button class="btn btn-success text-white" type="button">
-                                    {{ __('Submit') }}
-                                </button>
-
+                                <button type="button"
+                                    class="btn btn-dark text-white">{{ __('Delete appointment') }}</button>
+                                <button type="button" class="btn btn-danger text-white">{{ __('Back') }}</button>
+                                <button type="submit" class="btn btn-success text-white">{{ __('Submit') }}</button>
+                            </div>
                         </form>
 
                     </div>

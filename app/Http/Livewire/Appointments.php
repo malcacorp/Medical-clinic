@@ -19,13 +19,14 @@ class Appointments extends Component
 
   public function render()
   {
-    $this->appointments = Appointment::join('patients AS p', 'appointments.patient_id', '=', 'p.id')
-                                      ->join('employees AS e', 'appointments.employee_id', '=', 'e.id')
+    $this->appointments = Appointment::leftJoin('patients AS p', 'appointments.patient_id', '=', 'p.id')
+                                      ->leftJoin('employees AS e', 'appointments.employee_id', '=', 'e.id')
+                                      ->where('status', '=', 'Pending')
                                       ->select('appointments.*', 'p.*', 'e.*')
                                       ->selectRaw("CONCAT(e.first_name, ' ', e.last_name) AS doctor_name")
                                       ->selectRaw("CONCAT(p.first_name, ' ', p.last_name) AS patient_name")
-                                      ->where('status', 'Pending')->get();
-    /* dd($this->appointments); */
+                                      ->get();
+    // dd($this->appointments);
     return view('livewire.appointment.index');
   }
 
@@ -36,10 +37,7 @@ class Appointments extends Component
    */
   public function create()
   {
-    $this->resetInputFields();
-    $this->appointmentPermissions = [];
-    $this->handleTabs('isOpenUpdate', 'isOpenList');
-    // $this->openUpdate();
+    return redirect()->route('appointment');
   }
 
   
