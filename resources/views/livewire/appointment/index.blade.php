@@ -15,8 +15,7 @@
                 </div>
             @endif
 
-            <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">Create New
-                Role</button>
+            <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">Create New Appointment</button>
 
 
 
@@ -41,14 +40,14 @@
                                 <td>{{ $appointment->date }}</td>
                                 <td>{{ $appointment->time }}</td>
                                 {{-- <td>{{ $appointment->guard_name }}</td> --}}
-                                <td>
 
+                                <td>
                                     <a class="btn btn-info btn-sm" wire:click="edit({{ $appointment->id }})">Edit</a>
 
                                 </td>
                                 <td>
-                                  <button wire:click="show({{ $appointment->id }})"
-                                    class="btn btn-success btn-sm">Show</button>
+                                    <button wire:click="show({{ $appointment->id }})"
+                                        class="btn btn-success btn-sm">Show</button>
                                     {{-- <button wire:click="show({{ $appointment->id }})"
                                         class="btn btn-success btn-sm">Show</button> --}}
 

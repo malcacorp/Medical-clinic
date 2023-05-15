@@ -192,14 +192,14 @@
             @endcan
 
             <!-- Nav Item - Appointment -->
-           {{--  @can("list-roles")
+            @can("list-roles")
               <li class="nav-item">
                   <x-nav-link href="{{ route('appointments') }}" :active="request()->routeIs('appointments')">
                       <i class="fas fa-ruler"></i>
                       {{ __('Appointments') }}
                   </x-nav-link>
               </li>
-            @endcan --}}
+            @endcan
 
             <!-- Nav Item - Roles -->
             @can("list-roles")
