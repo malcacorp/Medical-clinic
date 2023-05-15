@@ -76,7 +76,7 @@ Route::group(['middleware' => ['permission:list-roles']], function () {
 
 Route::group(['middleware' => ['permission:list-roles']], function () {
   Route::get('appointments', Appointments::class)->name('appointments');
-  Route::get('appointments', AppointmentForms::class)->name('appointments');
+  // Route::get('appointments', AppointmentForms::class)->name('appointments');
   Route::get('appointment/{id}', AppointmentForms::class)->name('appointment');
 });
 
