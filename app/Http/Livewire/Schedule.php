@@ -159,18 +159,35 @@ class Schedule extends Component
     public function render()
     {
         $user = auth()->user();
+        // dd($user->roles->contains('name', 'nurse'));
         $employee = Employee::where('user_id', $user->id)->first();
+        $isAdmin = $user->roles->contains('name', 'admin');
         if($employee){
-          $availables = Event::select('id','title','start')->where('employee_id', $employee->id)->get();
-          $appointments = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
-                          ->join('patients', 'appointments.patient_id', '=', 'patients.id')
-                          ->select('events.id','start')
-                          ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
-                          ->where('events.employee_id', $employee->id)->get();
-          $events = $availables->merge($appointments);            
           $this->isEmployee = true;
-        }
-        else{
+          $isNurse = $user->roles->contains('name', 'nurse');
+          $isDoctor = $user->roles->contains('name', 'doctor');
+
+          if($isNurse){
+            $availables = Event::select('id','title','start')->get();
+            $appointments = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
+                            ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+                            ->select('events.id','start')
+                            ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
+                            ->where('appointments.status', 'Pending')->get();
+            $events = $availables->merge($appointments); 
+          }
+
+          if($isDoctor){
+            $availables = Event::select('id','title','start')->where('employee_id', $employee->id)->get();
+            $appointments = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
+                            ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+                            ->select('events.id','start')
+                            ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
+                            ->where('events.employee_id', $employee->id)
+                            ->where('appointments.status', 'Pending')->get();
+                            $events = $availables->merge($appointments); 
+          }                     
+        }else{
           $patient = Patient::where("user_id", $user->id)->first();
           if($patient){
             $patientEvents = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
@@ -182,6 +199,17 @@ class Schedule extends Component
                   ->get();
             $doctorEvents = Event::select('id','title','start')->where('title', 'Available')->get();
             $events = $patientEvents->merge($doctorEvents);            
+            return;
+          }
+          
+          if($isAdmin){
+            $availables = Event::select('id','title','start')->get();
+            $appointments = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
+                            ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+                            ->select('events.id','start')
+                            ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
+                            ->where('appointments.status', 'Pending')->get();
+            $events = $availables->merge($appointments); 
           }else{
             $events = Event::select('id','title','start')->where('title', 'Available')->get();
           }
