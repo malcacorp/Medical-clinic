@@ -42,20 +42,20 @@
                                 {{-- <td>{{ $appointment->guard_name }}</td> --}}
 
                                 <td>
-                                    <a class="btn btn-info btn-sm" wire:click="edit({{ $appointment->id }})">Edit</a>
+                                    <a class="btn btn-info btn-sm" wire:click="edit({{ $appointment->appointment_id }})">Edit</a>
 
                                 </td>
                                 <td>
-                                    <button wire:click="show({{ $appointment->id }})"
-                                        class="btn btn-success btn-sm">Show</button>
+                                    {{-- <button wire:click="show({{ $appointment->appointment_id }})"
+                                        class="btn btn-success btn-sm">Show</button> --}}
                                     {{-- <button wire:click="show({{ $appointment->id }})"
                                         class="btn btn-success btn-sm">Show</button> --}}
 
                                 </td>
                                 <td>
 
-                                    <button wire:click="delete({{ $appointment->id }})"
-                                        class="btn btn-danger btn-sm">Delete</button>
+                                    {{-- <button wire:click="delete({{ $appointment->appointment_id }})"
+                                        class="btn btn-danger btn-sm">Delete</button> --}}
 
                                 </td>
                             </tr>
