@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Appointment;
 
+use App\Models\Event;
 use Illuminate\Validation\Rule;
 
 
@@ -22,7 +23,7 @@ class Appointments extends Component
     $this->appointments = Appointment::leftJoin('patients AS p', 'appointments.patient_id', '=', 'p.id')
                                       ->leftJoin('employees AS e', 'appointments.employee_id', '=', 'e.id')
                                       ->where('status', '=', 'Pending')
-                                      ->select('appointments.*', 'p.*', 'e.*')
+                                      ->select('appointments.*', 'p.*', 'e.*', 'appointments.id AS appointment_id')
                                       ->selectRaw("CONCAT(e.first_name, ' ', e.last_name) AS doctor_name")
                                       ->selectRaw("CONCAT(p.first_name, ' ', p.last_name) AS patient_name")
                                       ->get();
@@ -37,7 +38,7 @@ class Appointments extends Component
    */
   public function create()
   {
-    return redirect()->route('appointment');
+    return redirect()->route('appointment.create');
   }
 
   
@@ -137,7 +138,17 @@ class Appointments extends Component
    */
   public function delete($id)
   {
-    Appointment::find($id)->delete();
-    session()->flash('message', 'Appointment Deleted Successfully.');
+    $appointment = Appointment::find($id);
+    $appointment->status = 'Canceled';
+    $appointment->save();
+
+    $event = Event::find($appointment->event_id);
+
+    $event->update([
+      'title' => 'Available'
+    ]);
+
+    session()->flash('message', 'Appointment deleted successfully.');
+
   }
 }
