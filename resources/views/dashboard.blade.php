@@ -4,7 +4,7 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    @if (auth()->check() && auth()->user()->roles->contains('patient'))
+    @if (auth()->check() && auth()->user()->roles->contains('name','patient'))
         <x-welcome-patient />
     @else
         <x-welcome />
