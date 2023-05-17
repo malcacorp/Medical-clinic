@@ -6,8 +6,10 @@
                     {{ __('Schedule') }}
                 </h2>
             </x-slot>
-            <button id="add-appointment-button" class="btn btn-primary text-white rounded m-3 d-none">Create appointment</button>
-            <button id="show-appointment-button" class="btn btn-primary text-white rounded m-3 d-none">Show appointment</button>
+            <button id="add-appointment-button" class="btn btn-primary text-white rounded m-3">Create
+                appointment</button>
+            <button id="show-appointment-button" class="btn btn-primary text-white rounded m-3 d-none">Show
+                appointment</button>
             <div class="card shadow bg-light">
                 <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">
                     <div id='calendar-container' wire:ignore>
@@ -21,81 +23,84 @@
             </div>
         </div>
     </div>
-
-      <div class="modal fade" id="add-appointment-modal" tabindex="-1" role="dialog" aria-labelledby="add-appointment-modal-label"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="add-appointment-modal-label">New Appointment</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('add-appointment-modal')">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  <div class="modal-body">
-                      <form id="add-appointment-form">                        
-                          <div class="form-group">
-                              <label for="appointment-start">Date and time</label>
-                              <input type="datetime-local" class="form-control" id="appointment-start" >
-                          </div>
-                          <div class="form-group">
-                            <label for="doctor">Select doctor</label>
-                            <select id="doctorSelected" class="form-control">
+    <div class="modal fade" id="add-appointment-modal" tabindex="-1" role="dialog"
+        aria-labelledby="add-appointment-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-appointment-modal-label">New Appointment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        onclick="closeModal('add-appointment-modal')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-appointment-form">
+                        <div class="form-group">
+                            <label for="availability">Select a date</label>
+                            <select id="availability" class="form-control">
                                 <option value="">-- Select --</option>
-                                @foreach ($doctors as $doctor)
-                                    <option value={{$doctor->id}}>{{ $doctor->first_name }}</option>
+                                @foreach ($availableDates as $availableDate)
+                                    <option value={{ $availableDate->id."|".$availableDate->employee_id."|".$availableDate->date."|".$availableDate->time }}>{{ $availableDate->doctorName }} | {{ $availableDate->date }} | {{ $availableDate->time }}</option>
                                 @endforeach
                             </select>
-                          </div>
-                          <div class="form-group">
+                        </div>                        
+
+                        <div class="form-group">
                             <label for="appointment-reason">Reason for medical appointment</label>
                             <textarea type="text" class="form-control" id="appointment-reason" placeholder="Reason for medical appointment"></textarea>
-                          </div>                        
-                      </form>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('add-appointment-modal')">Close</button>
-                      <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button>
-                  </div>
-              </div>
-          </div>
-      </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        onclick="closeModal('add-appointment-modal')">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="modal fade" id="show-appointment-modal" tabindex="-1" role="dialog" aria-labelledby="show-appointment-modal-label"
-        aria-hidden="true">
+    <div class="modal fade" id="show-appointment-modal" tabindex="-1" role="dialog"
+        aria-labelledby="show-appointment-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="show-appointment-modal-label">Appointment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('show-appointment-modal')">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        onclick="closeModal('show-appointment-modal')">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                
+
                 <div class="modal-body">
-                  <div class="row">
-                    <label>Date: {{$currentAppointmentDate}}</label>
-                  </div>
-                  <div class="row">
-                    <label>Time: {{$currentAppointmentTime}}</label>
-                  </div>
-                  <div class="row">
-                    <label>Patient: {{$currentAppointmentPatient}}</label>
-                  </div>
-                  <div class="row">
-                    <label>Phone number: {{$currentAppointmentPhone}}</label>
-                  </div>
-                  <div class="row">
-                    <label>Reason: {{$currentAppointmentReason}}</label>
-                  </div>
-                    
+                    <div class="row">
+                        <label>Date: {{ $currentAppointmentDate }}</label>
+                    </div>
+                    <div class="row">
+                        <label>Time: {{ $currentAppointmentTime }}</label>
+                    </div>
+                    <div class="row">
+                        <label>Patient: {{ $currentAppointmentPatient }}</label>
+                    </div>
+                    <div class="row">
+                        <label>Phone number: {{ $currentAppointmentPhone }}</label>
+                    </div>
+                    <div class="row">
+                        <label>Reason: {{ $currentAppointmentReason }}</label>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
-                  @if ($isEmployee || $isAdmin)
-                    <button type="button" class="btn btn-warning" wire:click="openProfile({{$currentAppointmentPatientId}})" data-dismiss="modal" onclick="closeModal('add-appointment-modal')">Patient</button>
-                  @endif
-                  <button type="button" class="btn btn-danger text-white" wire:click="cancelAppointment({{$currentAppointmentPatientId}})">Cancel Appointment</button>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal"onclick=" closeModal('show-appointment-modal')">Close</button>
+                    @if ($isEmployee || $isAdmin)
+                        <button type="button" class="btn btn-warning"
+                            wire:click="openProfile({{ $currentAppointmentPatientId }})" data-dismiss="modal"
+                            onclick="closeModal('add-appointment-modal')">Patient</button>
+                    @endif
+                    <button type="button" class="btn btn-danger text-white"
+                        wire:click="cancelAppointment({{ $currentAppointmentPatientId }})">Cancel Appointment</button>
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal"onclick=" closeModal('show-appointment-modal')">Close</button>
                     {{-- <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button> --}}
                 </div>
             </div>
@@ -123,49 +128,51 @@
                 slotDuration: '00:30:00', //  1 hour interval
                 defaultTimedEventDuration: '00:30:00',
                 dateClick(info) {
-                  console.log(info.dateStr);
-                    if(@this.isEmployee){
-                      if (info.dateStr.length <= 10) {
-                          var start = prompt('Ingrese una hora en la que estará disponible:', '08:00:00');
-                          var date = info.dateStr + 'T' + start;
-                      } else {
-                          var date = info.dateStr;
-                      }
+                    // console.log(info.dateStr);
+                    if (@this.isEmployee) {
+                        if (info.dateStr.length <= 10) {
+                            var start = prompt('Ingrese una hora en la que estará disponible:', '08:00:00');
+                            var date = info.dateStr + 'T' + start;
+                        } else {
+                            var date = info.dateStr;
+                        }
 
-                      if (info.dateStr.length <= 10 && (start == "" || start == null)) {
-                          alert('Time Is Required');
-                      } else {
-                          if (date != null && date != '') {
-                              // calendar.addEvent({
-                              //   title: "Available",
-                              //   start: date,
-                              //   // end: end
-                              // });
-                              var eventAdd = {
-                                  title: 'Available',
-                                  start: date
-                              };
-                              @this.addevent(eventAdd);
-                              alert('Great. Now, update your database...');
-                          } else {
-                              alert('Date and Time Is Required');
-                          }
-                      }
-                    }else{
-                      if (info.dateStr.length <= 10) {                          
-                        document.getElementById('appointment-start').value = info.dateStr + "T08:00";
-                      } else {
-                        const arrDate = info.dateStr.split('T');
-                        const date = arrDate[0];
-                        const arrTime = arrDate[1].split("-");
-                        const time = arrTime[0]
-                        document.getElementById('appointment-start').value = date + "T" + time;
-                      }
-                      $('#add-appointment-button').click();
+                        if (info.dateStr.length <= 10 && (start == "" || start == null)) {
+                            alert('Time Is Required');
+                        } else {
+                            if (date != null && date != '') {
+                                // calendar.addEvent({
+                                //   title: "Available",
+                                //   start: date,
+                                //   // end: end
+                                // });
+                                var eventAdd = {
+                                    title: 'Available',
+                                    start: date
+                                };
+                                @this.addevent(eventAdd);
+                                // alert('Great. Now, update your database...');
+                            } else {
+                                alert('Date and Time Is Required');
+                            }
+                        }
+                    } else {
+                        let date;
+                        if (info.dateStr.length <= 10) {
+                            // document.getElementById('appointment-start').value = info.dateStr + "T08:00";
+                            date = info.dateStr;
+                        } else {
+                            const arrDate = info.dateStr.split('T');
+                            const date = arrDate[0];
+                            const arrTime = arrDate[1].split("-");
+                            const time = arrTime[0]
+                            // document.getElementById('appointment-start').value = date + "T" + time;
+                        }
+                        // $('#add-appointment-button').click();
                     }
                 },
                 eventClick: function(info) {
-                  console.log(info.event.id);
+                    // console.log(info);
                     // if(@this.isEmployee){
                     //   if (confirm('¿Estás seguro de que deseas eliminar este evento?')) {
                     //       @this.removeEvent(info.event.id);
@@ -174,13 +181,20 @@
                     //       // Livewire.emit('eliminarEvento', );
                     //   }
                     // }
-                    if(info.event.title.includes("Appointment")){
-                      @this.showAppointment(info.event.id);
-                      setTimeout(function () {
-                        $('#show-appointment-button').click();
-                      }, 200);
+                    if (info.event.title.includes("Appointment")) {
+                        @this.showAppointment(info.event.id);
+                        setTimeout(function() {
+                            $('#show-appointment-button').click();
+                        }, 200);
+                    }else{
+                        const arrDate = info.event.startStr.split('T');
+                        let date = arrDate[0];
+                        
+                        @this.updateSelectedDate(info.event.id);
+                        setTimeout(function() {
+                            $('#add-appointment-button').click();
+                        }, 200);
                     }
-                    
                 },
                 // timeFormat: 'h:mm A', // formato de 12 horas con AM/PM
                 editable: true,
@@ -212,6 +226,10 @@
             calendar.render();
             @this.on(`refreshCalendar`, () => {
                 calendar.refetchEvents()
+            });
+
+            @this.on('updateSelectedDate', function(eventId, eventIdDoctor, eventDate, eventTime) {               
+                document.getElementById("availability").value = eventId+"|"+eventIdDoctor+"|"+eventDate+"|"+eventTime;
             });
 
             @this.on('eventAdded', function(eventId, eventTitle, eventStart) {
@@ -253,41 +271,38 @@
             });
 
             // Guarda el evento en el calendario cuando se hace clic en el botón correspondiente dentro del modal
-            document.getElementById('save-appointment-button').addEventListener('click', function() {
-                const doctorId = document.getElementById('doctorSelected').value;
+            document.getElementById('save-appointment-button').addEventListener('click', function() {              
                 const reason = document.getElementById('appointment-reason').value;
-                if(doctorId == null ||  doctorId == ""){
-                  alert("Select a doctor.");
-                  return;                 
+
+                if (reason == null || reason == "") {
+                    alert("Write a reason for medical appointment.");
+                    return;
                 }
 
-                if(reason == null ||  reason == ""){
-                  alert("Write a reason for medical appointment.");
-                  return;  
-                }
+                let data = document.getElementById("availability").value.split('|')
 
-                  let date = document.getElementById('appointment-start').value;
-                  let strDate = 'abcdefghij';
-                  const char = ',';
-                  const position = 10;
+                // let date = document.getElementById('appointment-start').value;
+                // let strDate = 'abcdefghij';
+                // const char = ',';
+                // const position = 10;
 
-                  strDate = date.substring(0, position) + char + date.substring(position);
-                  const arrDate = strDate.split(',T');
-                  var appointment = {
-                      doctorId: document.getElementById('doctorSelected').value,
-                      medical_concerns: document.getElementById('appointment-reason').value,
-                      date: arrDate[0],
-                      time: arrDate[1]
-                      // end: document.getElementById('appointment-end').value
-                  };
-                  @this.addAppointment(appointment);
-                  $('#add-appointment-modal').modal('hide');                
+                // strDate = date.substring(0, position) + char + date.substring(position);
+                // const arrDate = strDate.split(',T');
+                var appointment = {
+                    doctorId: data[1],
+                    medical_concerns: document.getElementById('appointment-reason').value,
+                    date: data[2],
+                    time: data[3]
+                    // end: document.getElementById('appointment-end').value
+                };
+                @this.addAppointment(appointment);
+                $('#add-appointment-modal').modal('hide');
             });
-            
+
         });
 
         const closeModal = (id) => {
-          $('#'+id).modal('hide');
+            $('#' + id).modal('hide');
         }
     </script>
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.css' rel='stylesheet' />

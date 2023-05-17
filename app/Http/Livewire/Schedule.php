@@ -5,6 +5,7 @@ use Livewire\Component;
 use App\Models\Event;
 use App\Models\Employee;
 use App\Models\Patient;
+use Illuminate\Support\Facades\DB;
  
 class Schedule extends Component
 {
@@ -13,7 +14,7 @@ class Schedule extends Component
     public $info;
     public $isEmployee;
     public $isAdmin;
-    public $selectedDate;
+    public $selectedDate, $availableDates = [];
     public $doctors = [];
     public $doctorSelected;
     public $currentAppointmentId;
@@ -106,15 +107,18 @@ class Schedule extends Component
             
             $input['title'] = "Appointment";
             $input['start'] = $appointment['date'].'T'.$appointment['time'];
-            $event = Event::create($input);
-            $event->appointment()->save($appointment);
-            $employee->events()->save($event);
+            // $event = Event::create($input);
+            $availability->appointment()->save($appointment);
+            $employee->events()->save($availability);
+            $availability->update([
+              'title' => 'Appointment'
+            ]);
             $this->reset();
             
-            $this->emit('eventAdded', $event->id, $event->title, $event->start );
             $this->emit('eventRemoved', $availability->id);
-            $availability->delete();
-            return redirect()->route('schedule');
+            $this->emit('eventAdded', $availability->id, $availability->title." ".$patient->first_name." ".$patient->last_name, $availability->start );
+            // $availability->delete();
+            // return redirect()->route('schedule');
           }else
             $this->emit('notAvailability');
           
@@ -215,7 +219,11 @@ class Schedule extends Component
               $events = Event::select('id','title','start')->where('title', 'Available')->get();
             }
           
-          
+          $this->availableDates = Event::leftJoin("employees AS em", "em.id", "=", "events.employee_id")
+                                        ->select("events.*", DB::raw('DATE(start) AS date'))
+                                        ->selectRaw("CONCAT(em.first_name, ' ', em.last_name) AS doctorName")
+                                        ->selectRaw('SUBSTRING(start, 12, 16) as time')
+                                        ->where("title", "=", "Available")->get();
 
           $doctors = Event::join('employees', 'events.employee_id', '=', 'employees.id')
             ->select('employees.id','employees.first_name')
@@ -249,5 +257,16 @@ class Schedule extends Component
 
       session()->flash('message', 'Appointment deleted successfully.');
       return redirect()->route('schedule');
+    }
+
+    public function updateSelectedDate($id){
+      $selected = Event::leftJoin("employees AS em", "em.id", "=", "events.employee_id")
+                        ->select("events.*", DB::raw('DATE(start) AS date'))
+                        ->selectRaw("CONCAT(em.first_name, ' ', em.last_name) AS doctorName")
+                        ->selectRaw('SUBSTRING(start, 12, 16) as time')
+                        ->where("title", "=", "Available")
+                        ->where("events.id", $id)
+                        ->first();
+      $this->emit('updateSelectedDate', $selected->id, $selected->employee_id, $selected->date, $selected->time );      
     }
 }
