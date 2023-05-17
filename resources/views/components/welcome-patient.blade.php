@@ -15,7 +15,7 @@
 
           <div class="d-flex">
               <div class="flex-grow-1">
-                  <h4>Doctor: {{ 2 }} Freddy 1/20/2023 at 4:pm</h4>
+                  <h4>Doctor: Freddy 1/20/2023 at 4:pm</h4>
               </div>
               <div class="flex-grow-1 text-center"><button class="btn btn-secondary text-white text-right">Cancel
                       Appointment</button>
