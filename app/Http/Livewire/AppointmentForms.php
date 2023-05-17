@@ -118,7 +118,7 @@ class AppointmentForms extends Component
     ]);
 
     session()->flash('message', 'Appointment deleted successfully.');
-      return redirect()->route('appointments');
+    return redirect()->route('appointments');
   }
 
 }

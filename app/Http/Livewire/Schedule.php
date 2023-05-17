@@ -16,6 +16,7 @@ class Schedule extends Component
     public $selectedDate;
     public $doctors = [];
     public $doctorSelected;
+    public $currentAppointmentId;
     public $currentAppointmentDate = "", $currentAppointmentTime = "", $currentAppointmentPatient = "", $currentAppointmentReason = ""; 
     public $currentAppointmentPhone = "", $currentAppointmentPatientId;
     public $showModal= false;
@@ -113,6 +114,7 @@ class Schedule extends Component
             $this->emit('eventAdded', $event->id, $event->title, $event->start );
             $this->emit('eventRemoved', $availability->id);
             $availability->delete();
+            return redirect()->route('schedule');
           }else
             $this->emit('notAvailability');
           
@@ -121,12 +123,12 @@ class Schedule extends Component
     }
 
     public function showAppointment($id){
-      $currentEvent = Event::find(intval($id));
-      $currentEvent = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
-                  ->join('patients', 'patients.id', '=', 'appointments.patient_id')
-                  ->select('events.id','events.title','appointments.date','appointments.time', 'appointments.medical_concerns', 'patients.id as patient_id', 'patients.first_name', 'patients.last_name', 'patients.phone_number')
+      // $currentEvent = Event::find(intval($id));
+      $currentEvent = Event::leftJoin('appointments', 'appointments.event_id', '=', 'events.id')
+                  ->leftJoin('patients', 'patients.id', '=', 'appointments.patient_id')
+                  ->select('events.id','events.title','appointments.date','appointments.time', 'appointments.medical_concerns', 'patients.id as patient_id', 'patients.first_name', 'patients.last_name', 'patients.phone_number', 'appointments.id AS appointment_id')
                   ->where('events.id', $id)
-                  ->orWhere('title', 'Available')
+                  // ->orWhere('title', 'Available')
                   ->first();
       // print($currentEvent);
       // $currentDate = explode('T', $currentEvent->start);
@@ -139,6 +141,7 @@ class Schedule extends Component
       //     'patient' => $currentEvent->first_name." ".$currentEvent->last_name
       // );
       // $this->currentAppointment = json_encode($datos);
+      $this->currentAppointmentId = $currentEvent->appointment_id;
       $this->currentAppointmentPatientId = $currentEvent->patient_id;
       $this->currentAppointmentDate = $currentEvent->date;
       $this->currentAppointmentTime = $currentEvent->time;
@@ -232,5 +235,19 @@ class Schedule extends Component
     {
         $this->emit('closeModal');
         $this->showModal = false;
+    }
+
+    public function cancelAppointment(){
+      // dd($this->currentAppointmentId);
+      $appointment = Appointment::find($this->currentAppointmentId);
+      $appointment->status = 'Canceled';
+      $appointment->save();
+
+      $appointment->event()->update([
+        'title' => 'Available'
+      ]);
+
+      session()->flash('message', 'Appointment deleted successfully.');
+      return redirect()->route('schedule');
     }
 }
