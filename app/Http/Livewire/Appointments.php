@@ -148,6 +148,10 @@ class Appointments extends Component
       'title' => 'Available'
     ]);
 
+    $appointment->event()->dissociate();
+    // Guardar los cambios
+    $appointment->save();
+
     session()->flash('message', 'Appointment deleted successfully.');
 
   }
