@@ -99,6 +99,7 @@ class Schedule extends Component
             $input['medical_concerns'] = $appointment['medical_concerns'];
             $input['date'] = $appointment['date'];
             $input['time'] = $appointment['time'];
+            $input['assessment_type'] = $appointment['assessment_type'];
             $input['status'] = "Pending";
             $appointment = Appointment::create($input);
   
@@ -254,6 +255,10 @@ class Schedule extends Component
       $appointment->event()->update([
         'title' => 'Available'
       ]);
+
+      $appointment->event()->dissociate();
+      // Guardar los cambios
+      $appointment->save();
 
       session()->flash('message', 'Appointment deleted successfully.');
       return redirect()->route('schedule');

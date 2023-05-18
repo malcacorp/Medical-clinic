@@ -19,31 +19,34 @@
                     <form wire:submit.prevent="store" style="display: block">
                         @csrf
                         {{-- Date and Time --}}
-                        <label for="appointment-date">Date and time</label>
-                        <input type="date" class="form-control w-100" wire:model="date" id="appointment-date" name="date"
-                            required>
-                        <input type="time" class="form-control w-100 mt-3" wire:model="time" name="time" required>
-
+                        {{$this->selectedDate}}
+                        <label for="selectedDate">Available Appointments</label>
+                        <select id="selectedDate" class="form-control" wire:model="selectedDate">
+                            <option value="">-- Select --</option>
+                            @foreach ($availableDates as $availableDate)
+                                <option value={{$availableDate->id."|".$availableDate->employee_id."|".$availableDate->date."|".$availableDate->time}}>{{ $availableDate->doctorName }} | {{ $availableDate->date }} | {{ $availableDate->time }}</option>
+                            @endforeach
+                        </select>
+                        
                         {{-- Select Patient --}}
-                        <label for="patient">Select patient</label>
+                        <label class="mt-2 mb-0" for="patient">Patient Name</label>
                         <select class="form-control w-100" wire:model="patient_id" id="patient" @if ($isEdit) disabled @endif>
                             <option value="">-- Select --</option>
                             @foreach ($patients as $patient)
                                 <option value={{ $patient->id }}>{{ $patient->first_name. " " .$patient->last_name }}</option>
                             @endforeach
-                        </select>
+                        </select>                        
 
-                        {{-- Select Doctor --}}
-                        <label for="doctor">Select doctor</label>
-                        <select class="form-control w-100" wire:model="doctor_id" id="doctor" @if ($isEdit) disabled @endif>
+                        <label class="mt-2 mb-0" for="assessment-type">Type of Assessment</label>
+                        <select id="assessment-type" class="form-control" wire:model="assessment_type">
                             <option value="">-- Select --</option>
-                            @foreach ($doctors as $doctor)
-                                <option value={{ $doctor->id }}>{{ $doctor->first_name }}</option>
-                            @endforeach
+                            <option value="Normal Assessment">Normal Assessment</option>
+                            <option value="Presure control">Pressure control</option>
+                            <option value="Medical program">Medical program</option>
                         </select>
 
                         {{-- Reason --}}
-                        <label for="appointment-reason">Reason for medical appointment</label>
+                        <label class="mt-2 mb-0" for="appointment-reason">Reason for medical appointment</label>
                         <textarea class="form-control w-100" wire:model.lazy="medical_concerns" name="medical_concerns" required></textarea>
 
                         {{-- Buttons --}}

@@ -37,14 +37,24 @@
                 <div class="modal-body">
                     <form id="add-appointment-form">
                         <div class="form-group">
-                            <label for="availability">Select a date</label>
+                            <label for="availability">Available Appointments</label>
                             <select id="availability" class="form-control">
                                 <option value="">-- Select --</option>
                                 @foreach ($availableDates as $availableDate)
                                     <option value={{ $availableDate->id."|".$availableDate->employee_id."|".$availableDate->date."|".$availableDate->time }}>{{ $availableDate->doctorName }} | {{ $availableDate->date }} | {{ $availableDate->time }}</option>
                                 @endforeach
                             </select>
-                        </div>                        
+                        </div>
+
+                        <div class="form-group">
+                            <label for="assessment-type">Type of Assessment</label>
+                            <select id="assessment-type" class="form-control">
+                                <option value="">-- Select --</option>
+                                <option value="Normal Assessment">Normal Assessment</option>
+                                <option value="Presure control">Pressure control</option>
+                                <option value="Medical program">Medical program</option>
+                            </select>
+                        </div>
 
                         <div class="form-group">
                             <label for="appointment-reason">Reason for medical appointment</label>
@@ -55,7 +65,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         onclick="closeModal('add-appointment-modal')">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button>
+                    <button type="button" class="btn btn-primary text-white" id="save-appointment-button">Submit</button>
                 </div>
             </div>
         </div>
@@ -101,7 +111,7 @@
                         wire:click="cancelAppointment({{ $currentAppointmentPatientId }})">Cancel Appointment</button>
                     <button type="button" class="btn btn-secondary"
                         data-dismiss="modal"onclick=" closeModal('show-appointment-modal')">Close</button>
-                    {{-- <button type="button" class="btn btn-primary" id="save-appointment-button">Guardar</button> --}}
+                    {{-- <button type="button" class="btn btn-primary text-white" id="save-appointment-button">Submit</button> --}}
                 </div>
             </div>
         </div>
@@ -273,9 +283,15 @@
             // Guarda el evento en el calendario cuando se hace clic en el botón correspondiente dentro del modal
             document.getElementById('save-appointment-button').addEventListener('click', function() {              
                 const reason = document.getElementById('appointment-reason').value;
+                const assessmentType = document.getElementById('assessment-type').value;
 
                 if (reason == null || reason == "") {
                     alert("Write a reason for medical appointment.");
+                    return;
+                }
+
+                if (assessmentType == null || assessmentType == "") {
+                    alert("Write an assessment type for medical appointment.");
                     return;
                 }
 
@@ -291,6 +307,7 @@
                 var appointment = {
                     doctorId: data[1],
                     medical_concerns: document.getElementById('appointment-reason').value,
+                    assessment_type: document.getElementById('assessment-type').value,
                     date: data[2],
                     time: data[3]
                     // end: document.getElementById('appointment-end').value
