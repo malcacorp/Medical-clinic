@@ -3,13 +3,13 @@
         <div class="col-sm-4 m-auto">
             <div class="card p-3 bg-primary" style="margin: 10px 0;">
                 <h2 class="text-center text-white">Number of Patients</h2>
-                <p class="text-center text-white">{{ $this->totalPatients }}</p>
+                <h4 class="text-center text-white">{{ $this->totalPatients }}</h4>
             </div>
         </div>
         <div class="col-sm-4 m-auto">
             <div class="card p-3 bg-primary" style="margin: 10px 0;">
                 <h2 class="text-center text-white">Appointments Today</h2>
-                <p class="text-center text-white">{{ $this->totalAppointments }}</p>
+                <h4 class="text-center text-white">{{ $this->totalAppointments }}</h4>
             </div>
         </div>
     </div>
@@ -34,10 +34,10 @@
                             <tbody>
                               @foreach ($this->appointments as $appointment)
                                 <tr>
-                                    <td>{{$appointment->date}}</td>
-                                    <td>{{$appointment->patientName}}</td>
-                                    <td>{{$appointment->doctorName}}</td>
-                                    <td>{{$appointment->phone_number}}</td>
+                                    <td>{{$appointment->date. " | " .$appointment->time}}</td>
+                                    <td>{{$appointment->patient->first_name . ' ' . $appointment->patient->last_name}}</td>
+                                    <td>{{$appointment->employee->first_name . ' ' . $appointment->employee->last_name}}</td>
+                                    <td>{{$appointment->patient->phone_number}}</td>
                                     <td>{{$appointment->status}}</td>
                                     <td>{{$appointment->assessment_type}}</td>
                                     <td>{{$appointment->medical_concerns}}</td>
