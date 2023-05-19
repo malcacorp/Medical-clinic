@@ -4,9 +4,11 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    @if (auth()->check() && auth()->user()->roles->contains('name','patient'))
+    <x-welcome-admin />
+    {{-- @if (auth()->check() && auth()->user()->roles->contains('name','patient'))
         <x-welcome-patient />
+    @if (auth()->check() && auth()->user()->roles->contains('name', 'admin'))
     @else
         <x-welcome />
-    @endcan
+    @endcan --}}
 </x-app-layout>
