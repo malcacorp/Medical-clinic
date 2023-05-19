@@ -3,6 +3,7 @@
 use App\Http\Livewire\AppointmentForms;
 use App\Http\Livewire\Appointments;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\Patients;
 use App\Http\Livewire\Intake;
 use App\Http\Livewire\Users;
@@ -44,9 +45,10 @@ Route::middleware([
   config('jetstream.auth_session'),
   'verified'
 ])->group(function () {
-  Route::get('/dashboard', function () {
-    return view('dashboard');
-  })->name('dashboard');
+  // Route::get('/dashboard', function () {
+  //   return view('dashboard');
+  // })->name('dashboard');
+  Route::get('dashboard', Dashboard::class)->name('dashboard');
 });
 
 Route::group(['middleware' => ['permission:list-employees']], function () {

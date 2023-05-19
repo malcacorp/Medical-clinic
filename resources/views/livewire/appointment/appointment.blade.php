@@ -19,7 +19,6 @@
                     <form wire:submit.prevent="store" style="display: block">
                         @csrf
                         {{-- Date and Time --}}
-                        {{$this->selectedDate}}
                         <label for="selectedDate">Available Appointments</label>
                         <select id="selectedDate" class="form-control" wire:model="selectedDate">
                             <option value="">-- Select --</option>
