@@ -3,6 +3,7 @@ namespace App\Http\Livewire;
 
 use App\Actions\Fortify\PasswordValidationRules;
 // use Laravel\Jetstream\Team;
+use App\Mail\SendMailDogs;
 use Livewire\Component;
 
 use App\Models\Team;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Jetstream\Jetstream;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
 
 class Intake extends Component
 // class Intake extends Component implements CreatesNewUsers
@@ -146,6 +149,14 @@ class Intake extends Component
 
           $this->patient_id = $patient->id;
           $this->user = $user;
+
+          $details = [
+            'title' => "Welcome to Clinic La Esperanza",
+            'subject' => "Welcome to Clinic La Esperanza",            
+            'message' => 'Welcome, '. $patient->first_name,
+          ];
+
+          Mail::to([$this->email])->send(new SendMail($details));
 
           session()->flash(
             'message',
