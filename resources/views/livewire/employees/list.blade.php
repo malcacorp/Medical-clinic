@@ -50,6 +50,13 @@
                               <button wire:click="delete({{ $employee->id }})"
                                   class="btn btn-danger btn-sm">Delete</button>
                             @endcan
+
+                            @can("view-staff-schedule")
+                                @if ($employee->user->roles->contains('name', 'doctor'))
+                                  <a type="button" class="btn btn-info btn-sm" href="{{ route('staff-schedule', $employee->id) }}">{{ __('View Schedule') }}</a>
+                                @endif
+                            @endcan
+
                           </td>
                       </tr>
                   @empty

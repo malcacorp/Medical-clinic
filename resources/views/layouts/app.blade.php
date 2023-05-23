@@ -107,7 +107,7 @@
             </a> --}}
             <a class="logo" href="{{ route('dashboard') }}">
                 <div class="sidebar-brand-icon">
-                    <img width="100%" src="{{ asset('images/logo.png') }}" />
+                    <img width="100%" src="{{ asset('images/logo-esperanza.png') }}" />
                 </div>
             </a>
 

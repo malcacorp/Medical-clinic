@@ -91,6 +91,10 @@ Route::group(['middleware' => ['permission:view-schedule']], function () {
   Route::get('schedule', Schedule::class)->name('schedule');
 });
 
+Route::group(['middleware' => ['permission:view-staff-schedule']], function () {
+  Route::get('schedule/{id}', Schedule::class)->name('staff-schedule');
+});
+
 Route::group(['middleware' => ['permission:view-myschedule']], function () {
   Route::get('my-schedule', MySchedule::class)->name('my-schedule');
 });

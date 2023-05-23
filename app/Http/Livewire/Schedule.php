@@ -21,12 +21,17 @@ class Schedule extends Component
     public $currentAppointmentDate = "", $currentAppointmentTime = "", $currentAppointmentPatient = "", $currentAppointmentReason = ""; 
     public $currentAppointmentPhone = "", $currentAppointmentPatientId;
     public $showModal= false;
+    public $employeeId, $employeeSchedule = false;
 
-    // public function mount($title)
-    // {
-    //     $this->title = $title;
+    public function mount($id = null)
+    {
+        if($id != null){
+          $this->employeeId = intval($id);
+          $this->employeeSchedule = true;
+          // dd($id);
+        }
 
-    // }
+    }
 
     protected $listeners = ['closeModal'];
  
@@ -45,7 +50,11 @@ class Schedule extends Component
     public function addevent($event)
     {
         $user = auth()->user();
-        $employee = Employee::where('user_id', $user->id)->first();
+        if ($this->employeeSchedule)
+          $employee = Employee::where('user_id', $this->employeeId)->first();
+        else
+          $employee = Employee::where('user_id', $user->id)->first();
+        
         $exists = $employee !== null;
         $role = $user->role;
         //  print($role);
@@ -169,7 +178,11 @@ class Schedule extends Component
     {
         $user = auth()->user();
         // dd($user->roles->contains('name', 'nurse'));
-        $employee = Employee::where('user_id', $user->id)->first();
+        if ($this->employeeSchedule)
+          $employee = Employee::where('user_id', $this->employeeId)->first();
+        else
+          $employee = Employee::where('user_id', $user->id)->first();
+          
         $this->isAdmin = $user->roles->contains('name', 'admin');
         if($employee){
           $this->isEmployee = true;
@@ -209,13 +222,24 @@ class Schedule extends Component
             $doctorEvents = Event::select('id','title','start')->where('title', 'Available')->get();
             $events = $patientEvents->merge($doctorEvents);            
           }elseif($this->isAdmin){
-              $availables = Event::select('id','title','start')->get();
-              $appointments = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
-                              ->join('patients', 'appointments.patient_id', '=', 'patients.id')
-                              ->select('events.id','start')
-                              ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
-                              ->where('appointments.status', 'Pending')->get();
-              $events = $availables->merge($appointments); 
+              if($this->employeeSchedule){
+                $availables = Event::select('id','title','start')->where('employee_id', $this->employeeId)->get();
+                $appointments = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
+                                ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+                                ->select('events.id','start')
+                                ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
+                                ->where('events.employee_id', $this->employeeId)
+                                ->where('appointments.status', 'Pending')->get();
+              }else{
+                $availables = Event::select('id','title','start')->get();
+                $appointments = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
+                                ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+                                ->select('events.id','start')
+                                ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
+                                ->where('appointments.status', 'Pending')->get();
+              }
+              $events = $availables->merge($appointments);
+
             }else{
               $events = Event::select('id','title','start')->where('title', 'Available')->get();
             }
