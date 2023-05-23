@@ -193,7 +193,7 @@
                     //       // Livewire.emit('eliminarEvento', );
                     //   }
                     // }
-                    if (info.event.title.includes("Appointment")) {
+                    if (info.event.title.includes("Appointment") || info.event.title.includes("APPOINTMENT")) {
                         @this.showAppointment(info.event.id);
                         setTimeout(function() {
                             $('#show-appointment-button').click();
