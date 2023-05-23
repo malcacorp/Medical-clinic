@@ -6,8 +6,10 @@
                     {{ __('Schedule') }}
                 </h2>
             </x-slot>
+            @if (!$isAdmin && !$isEmployee)
             <button id="add-appointment-button" class="btn btn-primary text-white rounded m-3">Create
                 appointment</button>
+            @endif
             <button id="show-appointment-button" class="btn btn-primary text-white rounded m-3 d-none">Show
                 appointment</button>
             <div class="card shadow bg-light">
