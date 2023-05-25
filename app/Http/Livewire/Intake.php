@@ -3,12 +3,16 @@ namespace App\Http\Livewire;
 
 use App\Actions\Fortify\PasswordValidationRules;
 // use Laravel\Jetstream\Team;
+use App\Models\Appointment;
+use App\Models\Employee;
+use App\Models\Event;
 use Illuminate\Mail\Markdown;
 use Livewire\Component;
 
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Patient;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -16,19 +20,19 @@ use Laravel\Jetstream\Jetstream;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMail;
-
 class Intake extends Component
-// class Intake extends Component implements CreatesNewUsers
+  // class Intake extends Component implements CreatesNewUsers
 {
   use PasswordValidationRules;
 
   public $email, $password, $password_confirmation, $terms;
   public $user, $last_name, $first_name, $id_number, $sex = "Male", $address, $birthdate, $phone_number, $weight, $height, $eye_color, $patient_id;
-  public $calendar, $medical_condition;
+  public $calendar, $medical_condition, $patient;
   // public $intake, $title, $description, $post_id;
   // public $isOpenPatient = true;
   public $isOpenMedical = 0;
   public $isEdit = 0;
+  public $availableDates=[], $selectedDate;
 
   /**
    * The attributes that are mass assignable.
@@ -39,6 +43,14 @@ class Intake extends Component
   {
     // $this->intake = Intake::all();
     // $this->resetInputFields();
+    $this->availableDates = Event::leftJoin("employees AS em", "em.id", "=", "events.employee_id")
+      ->select("events.*", DB::raw('DATE(start) AS date'))
+      ->selectRaw("CONCAT(em.first_name, ' ', em.last_name) AS doctorName")
+      ->selectRaw('SUBSTRING(start, 12, 16) as time')
+      ->where("title", "=", "Available")
+      ->orderBy("date", "ASC")
+      ->get();
+
     return view('livewire.intake.intake')->layout('layouts.guest');
   }
 
@@ -143,17 +155,19 @@ class Intake extends Component
               'user_id' => null,
               ]);
           $user->patient()->save($patient);
-          
+
           $rolePatient = Role::where('name', 'patient')->first();
           $user->assignRole($rolePatient);
 
           $this->patient_id = $patient->id;
           $this->user = $user;
-          $message = Markdown::parse(nl2br("Hola, ". $patient->first_name. ".\n\n Bienvenido(a) a Clínica La Esperanza. \n\n Puedes reservar una cita haciendo click en el enlace abajo. \n\n [Ir a Clinic Software](https://malcamedia.com) "));
+          $this->patient = $patient;
+          
+          $message = Markdown::parse(nl2br("Hola, " . $patient->first_name . ".\n\n Bienvenido(a) a Clínica La Esperanza. \n\n Puedes reservar una cita haciendo click en el enlace abajo. \n\n [Ir a Clinic Software](https://malcamedia.com) "));
 
           $details = [
             'title' => "Bienvenido(a) a Clínica La Esperanza.",
-            'subject' => "Bienvenido(a) a Clínica La Esperanza.",            
+            'subject' => "Bienvenido(a) a Clínica La Esperanza.",
             'message' => $message,
           ];
 
@@ -170,6 +184,55 @@ class Intake extends Component
       );
     });
   }
+
+  public function addAppointment(){
+      $selectedDate = explode("|", $this->selectedDate);
+      $relatedEvent = Event::where("id", $selectedDate[0])->first();
+
+      $appointment = Appointment::create([
+        'date' => $selectedDate[2],
+        'time' => $selectedDate[3],
+        'medical_concerns' => $this->medical_condition,
+        // 'assessment_type' => $this->assessment_type,
+        'status' => 'Pending',
+      ]);
+
+      $employee = Employee::find(intval($selectedDate[1]))->first();
+      $patient = Patient::find($this->patient_id);
+
+      $patient->appointments()->save($appointment);
+      $employee->appointments()->save($appointment);
+
+      $relatedEvent->update([
+        'start' => $selectedDate[2] . 'T' . $selectedDate[3],
+        'title' => 'Appointment'
+      ]);
+
+      $relatedEvent->appointment()->save($appointment);
+
+      $message = Markdown::parse(nl2br("Hola, ". $patient->first_name. ".\n\n Tu cita médica con el Dr. (Dra.) ".$employee->first_name. " " .$employee->last_name. " será el día " .$appointment->date. " a las ".$appointment->time.". \n\n Si necesitas cancelar tu cita, puedes hacer click en el enlace abajo. \n\n [Ir a Clinic Software](https://malcamedia.com) "));
+
+      $details = [
+        'title' => "Confirmación de Cita Médica",
+        'subject' => "Confirmación de Cita Médica",            
+        'message' => $message,
+      ];
+
+      Mail::to([$patient->email])->send(new SendMail($details));
+      
+      $credentials = [
+          'email' => $this->email,
+          'password' => $this->password,
+      ];
+
+      if(Auth::attempt($credentials)){
+        return redirect()->route("dashboard");
+      }else{
+        return redirect()->route("login");
+      }
+      
+  }
+
   /**
    * The attributes that are mass assignable.
    *
@@ -194,7 +257,8 @@ class Intake extends Component
     $this->openMedicalCondition();
   }
 
-  public function update(){
+  public function update()
+  {
     $patient = Patient::updateOrCreate(['id' => $this->patient_id], [
       'last_name' => $this->last_name,
       'first_name' => $this->first_name,
@@ -207,14 +271,15 @@ class Intake extends Component
       'height' => $this->height,
       'eye_color' => $this->eye_color,
       'address' => $this->address,
-      ]);
+    ]);
 
-      $this->openMedicalCondition();
-    }
+    $this->openMedicalCondition();
+  }
 
-    public function schedule(){
-      return redirect()->to('/dashboard');
-    }
+  public function schedule()
+  {
+    return redirect()->to('/dashboard');
+  }
 
   /**
    * Create a personal team for the user.
