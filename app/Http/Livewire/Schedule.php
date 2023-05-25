@@ -6,6 +6,9 @@ use App\Models\Event;
 use App\Models\Employee;
 use App\Models\Patient;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Markdown;
+use App\Mail\SendMail;
  
 class Schedule extends Component
 {
@@ -123,6 +126,17 @@ class Schedule extends Component
             $availability->update([
               'title' => 'Appointment'
             ]);
+
+            $message = Markdown::parse(nl2br("Hola, ". $patient->first_name. ".\n\n Tu cita médica con el Dr. (Dra.) ".$employee->first_name. " " .$employee->last_name. " será el día " .$appointment->date. " a las ".$appointment->time.". \n\n Si necesitas cancelar tu cita, puedes hacer click en el enlace abajo. \n\n [Ir a Clinic Software](https://malcamedia.com) "));
+
+            $details = [
+              'title' => "Confirmación de Cita Médica",
+              'subject' => "Confirmación de Cita Médica",            
+              'message' => $message,
+            ];
+
+            Mail::to([$patient->email])->send(new SendMail($details));
+
             $this->reset();
             
             $this->emit('eventRemoved', $availability->id);
@@ -276,6 +290,16 @@ class Schedule extends Component
       $appointment->status = 'Canceled';
       $appointment->save();
 
+      $message = Markdown::parse(nl2br("Hola, ". $appointment->patient->first_name. ".\n\n Tu cita médica con el Dr. (Dra.) ".$appointment->employee->first_name. " " .$appointment->employee->last_name. ",  el día " .$appointment->date. " a las ".$appointment->time.", ha sido Cancelada. \n\n [Ir a Clinic Software](https://malcamedia.com) "));
+
+      $details = [
+        'title' => "Cancelación de Cita Médica",
+        'subject' => "Cancelación de Cita Médica",            
+        'message' => $message,
+      ];
+
+      Mail::to([$appointment->patient->email])->send(new SendMail($details));
+
       $appointment->event()->update([
         'title' => 'Available'
       ]);
@@ -283,6 +307,7 @@ class Schedule extends Component
       $appointment->event()->dissociate();
       // Guardar los cambios
       $appointment->save();
+
 
       session()->flash('message', 'Appointment deleted successfully.');
       return redirect()->route('schedule');

@@ -3,7 +3,7 @@ namespace App\Http\Livewire;
 
 use App\Actions\Fortify\PasswordValidationRules;
 // use Laravel\Jetstream\Team;
-use App\Mail\SendMailDogs;
+use Illuminate\Mail\Markdown;
 use Livewire\Component;
 
 use App\Models\Team;
@@ -149,11 +149,12 @@ class Intake extends Component
 
           $this->patient_id = $patient->id;
           $this->user = $user;
+          $message = Markdown::parse(nl2br("Hola, ". $patient->first_name. ".\n\n Bienvenido(a) a Clínica La Esperanza. \n\n Puedes reservar una cita haciendo click en el enlace abajo. \n\n [Ir a Clinic Software](https://malcamedia.com) "));
 
           $details = [
-            'title' => "Welcome to Clinic La Esperanza",
-            'subject' => "Welcome to Clinic La Esperanza",            
-            'message' => 'Welcome, '. $patient->first_name,
+            'title' => "Bienvenido(a) a Clínica La Esperanza.",
+            'subject' => "Bienvenido(a) a Clínica La Esperanza.",            
+            'message' => $message,
           ];
 
           Mail::to([$this->email])->send(new SendMail($details));
