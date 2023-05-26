@@ -2,7 +2,7 @@
   <form method="POST" action="{{route('login')}}">
     @csrf
     <div class="row mb-2">
-      <h3 class="text-center my-4">Would you like to schedule an appointment today?</h3>
+      <h3 class="text-center my-4">Would you like to schedule an appointment?</h3>
       <div class="d-flex justify-content-center">
           <input class="form-check-input" type="radio" name="appointment" id="appointment1" value="yes" onchange="handleChangeRadio(this)" checked>
           <label class="form-check-label ms-2" for="appointment1">
@@ -16,10 +16,14 @@
       <div class="form-check">
       </div>
     
-      <div id="calendar-div" class="col-12 col-md-6 px-4">
-          <x-label for="calendar" value="{{ __('Date') }}" />
-          <x-input id="calendar" class="form-control block mt-1 w-full" type="date" name="calendar"
-              :value="old('calendar')" autocomplete="calendar" wire:model="calendar" onchange="getDate()" />
+      <div class="col-12 col-md-6 px-4">
+          <label for="availability">Available Appointments</label>
+          <select id="availability" class="form-control" wire:model="selectedDate">
+              <option value="">-- Select --</option>
+              @foreach ($availableDates as $availableDate)
+                  <option value={{ $availableDate->id."|".$availableDate->employee_id."|".$availableDate->date."|".$availableDate->time }}>{{ $availableDate->doctorName }} | {{ $availableDate->date }} | {{ $availableDate->time }}</option>
+              @endforeach
+          </select>
       </div>
       <div id="medical-condition-div" class="col-12 col-md-6 px-4">
           <x-label for="medical_condition" value="{{ __('Medical Condition') }}" />
@@ -37,7 +41,7 @@
           <button type="button" class="btn btn-warning mx-1" wire:click.prevent="closeMedicalCondition()">
               {{ __('Back') }}
           </button>
-          <button id="schedule-appointment" type="submit" class="btn btn-info mx-1"  >
+          <button id="schedule-appointment" type="button" class="btn btn-info mx-1"  wire:click="addAppointment()">
               {{ __('Schedule appointment') }}
           </button>
           <button id="finish-button" type="submit" class="btn btn-info mx-1" style="display: none"  >
