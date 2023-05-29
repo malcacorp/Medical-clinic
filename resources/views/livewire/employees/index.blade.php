@@ -16,8 +16,7 @@
           @endif
 
           @if ($isOpenList)
-              <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">Create New
-                  Employee</button>
+              <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">{{__("Create")}} {{__("Employee")}}</button>
               @include('livewire.employees.list')
           @endif
 

@@ -13,8 +13,8 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col" width="15%">Name</th>
-                <th scope="col">Guard</th> 
+              <th scope="col" width="15%">{{ __("Name") }}</th>
+              <th scope="col">{{ __("Guard") }}</th> 
                 <th scope="col" colspan="3" width="1%"></th> 
             </tr>
             </thead>
@@ -26,12 +26,12 @@
                         {{-- route('permissions.edit', $permission->id) --}}
                         <td>
                           @can("edit-permission")
-                            <a class="btn btn-info btn-sm" wire:click="edit({{ $permission->id }})">Edit</a></td>
+                            <a class="btn btn-info btn-sm" wire:click="edit({{ $permission->id }})">{{ __("Edit") }}</a></td>
                           @endcan
                         <td>
                           @can("delete-permission")
                             <button wire:click="delete({{ $permission->id }})"
-                              class="btn btn-danger btn-sm">Delete</button>
+                              class="btn btn-danger btn-sm">{{ __("Delete") }}</button>
                           @endcan                              
                         </td>
                     </tr>

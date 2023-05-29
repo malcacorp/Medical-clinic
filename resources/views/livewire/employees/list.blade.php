@@ -4,21 +4,21 @@
           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                   <tr>
-                      <th>Id Number</th>
-                      <th>First name</th>
-                      <th>Last name</th>
-                      <th>Sex</th>
-                      <th>Phone number</th>
+                      <th>{{ __("Id") }}</th>
+                      <th>{{ __("First name") }}</th>
+                      <th>{{ __("Last name") }}</th>
+                      <th>{{ __("Sex") }}</th>
+                      <th>{{ __("Phone Number") }}</th>
                       <th> </th>
                   </tr>
               </thead>
               <tfoot>
                   <tr>
-                      <th>Id Number</th>
-                      <th>First name</th>
-                      <th>Last name</th>
-                      <th>Sex</th>
-                      <th>Phone number</th>
+                      <th>{{ __("Id") }}</th>
+                      <th>{{ __("First name") }}</th>
+                      <th>{{ __("Last name") }}</th>
+                      <th>{{ __("Sex") }}</th>
+                      <th>{{ __("Phone Number") }}</th>
                       <th> </th>
                   </tr>
               </tfoot>
@@ -43,12 +43,12 @@
                           <td class="px-5">
                             @can("edit-employee")
                               <button wire:click="edit({{ $employee->id }})"
-                                  class="btn btn-primary btn-sm">Edit</button>
+                                  class="btn btn-primary btn-sm">{{ __("Edit") }}</button>
                             @endcan
 
                             @can("delete-employee")
                               <button wire:click="delete({{ $employee->id }})"
-                                  class="btn btn-danger btn-sm">Delete</button>
+                                  class="btn btn-danger btn-sm">{{ __("Delete") }}</button>
                             @endcan
 
                             @can("view-staff-schedule")

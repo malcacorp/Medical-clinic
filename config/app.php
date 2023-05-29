@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Session\SessionManager;
+use Illuminate\Session\Store;
+use Illuminate\Session;
 
 return [
 
