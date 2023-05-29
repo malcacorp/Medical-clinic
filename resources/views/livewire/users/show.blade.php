@@ -10,8 +10,8 @@
 
       <table class="table table-striped">
           <thead>
-              <th scope="col" width="20%">Name</th>
-              <th scope="col" width="1%">Guard</th>
+              <th scope="col" width="20%">{{ __("Name") }}</th>
+              <th scope="col" width="1%">{{ __("Guard") }}</th>
           </thead>
 
           @foreach ($userRoles as $role)

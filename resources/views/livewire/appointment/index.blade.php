@@ -15,7 +15,7 @@
                 </div>
             @endif
 
-            <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">Create New Appointment</button>
+            <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">{{__("Create")}} {{__("Appointment")}}</button>
 
 
 
@@ -23,11 +23,11 @@
                 <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th scope="col" width="15%">Patient</th>
-                            <th scope="col" width="15%">Reason</th>
-                            <th scope="col" width="15%">Doctor</th>
-                            <th scope="col" width="15%">Date</th>
-                            <th scope="col" width="15%">Time</th>
+                            <th scope="col" width="15%">{{ __("Patient") }}</th>
+                            <th scope="col" width="15%">{{ __("Reason") }}</th>
+                            <th scope="col" width="15%">{{ __("Doctor") }}</th>
+                            <th scope="col" width="15%">{{ __("Date") }}</th>
+                            <th scope="col" width="15%">{{ __("Time") }}</th>
                             <th scope="col" colspan="3" width="1%"></th>
                         </tr>
                     </thead>
@@ -42,7 +42,7 @@
                                 {{-- <td>{{ $appointment->guard_name }}</td> --}}
 
                                 <td>
-                                    <a class="btn btn-info btn-sm" wire:click="edit({{ $appointment->appointment_id }})">Edit</a>
+                                    <a class="btn btn-info btn-sm" wire:click="edit({{ $appointment->appointment_id }})">{{ __("Edit") }}</a>
 
                                 </td>
                                 <td>

@@ -15,29 +15,28 @@
                 </div>
             @endif
 
-            <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">Create New
-                Patient</button>
+            <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">{{ __("Create") }} {{ __("Patient") }}</button>
             <div class="card shadow mb-4">
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Id Number</th>
-                                    <th>First name</th>
-                                    <th>Last name</th>
-                                    <th>Sex</th>
-                                    <th>Phone number</th>
+                                    <th>{{ __("Id") }}</th>
+                                    <th>{{ __("First name") }}</th>
+                                    <th>{{ __("Last name") }}</th>
+                                    <th>{{ __("Sex") }}</th>
+                                    <th>{{ __("Phone Number") }}</th>
                                     <th> </th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Id Number</th>
-                                    <th>First name</th>
-                                    <th>Last name</th>
-                                    <th>Sex</th>
-                                    <th>Phone number</th>
+                                    <th>{{ __("Id") }}</th>
+                                    <th>{{ __("First name") }}</th>
+                                    <th>{{ __("Last name") }}</th>
+                                    <th>{{ __("Sex") }}</th>
+                                    <th>{{ __("Phone Number") }}</th>
                                     <th> </th>
                                 </tr>
                             </tfoot>
@@ -62,22 +61,22 @@
                                         <td class="px-5">
                                             @can('edit-patient')
                                                 <button wire:click="irAComponenteB({{ $patient->id }})"
-                                                    class="btn btn-primary btn-sm">Edit</button>
+                                                    class="btn btn-primary btn-sm text-white">{{ __("Edit") }}</button>
                                             @endcan
 
                                             {{-- @can('delete-patient')
                                                 <button wire:click="delete({{ $patient->id }})"
-                                                    class="btn btn-danger btn-sm">Delete</button>
+                                                    class="btn btn-danger btn-sm text-white">Delete</button>
                                             @endcan --}}
 
                                             @can('show-patient-history')
                                                 <button wire:click="showHistories({{ $patient->id }})"
-                                                    class="btn btn-warning btn-sm">Show History</button>
+                                                    class="btn btn-warning btn-sm">{{ __("Show History") }}</button>
                                             @endcan
 
                                             @can('create-assessment')
                                                 <button wire:click="assessment({{ $patient->id }})"
-                                                    class="btn btn-success btn-sm">Assessment</button>
+                                                    class="btn btn-success btn-sm text-white">{{ __("Assessment") }}</button>
                                             @endcan
                                         </td>
                                     </tr>
