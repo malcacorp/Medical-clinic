@@ -30,12 +30,12 @@
               </div>
               <div class="row">
                 <div class="col">
-                  <h3>Patients's {{ __('Medical Condition') }} : <strong>{{$historyToShow->diagnostic}}</strong></h3>
+                  <h3>{{ __('Patient`s Medical Condition') }} : <strong>{{$historyToShow->diagnostic}}</strong></h3>
                 </div>
               </div>
               <div class="row">
                 <div class="col">
-                  <h3>{{ __('Treatment') }} and Prescription: <strong>{{$historyToShow->treatment}}</strong></h3>
+                  <h3>{{ __('Treatment and Prescription') }}: <strong>{{$historyToShow->treatment}}</strong></h3>
                 </div>
               </div>
               <hr>
@@ -46,22 +46,22 @@
               </div>
               <div class="row">
                 <div class="col">
-                  <h3>Initial {{ __('Medical Condition') }} : <strong>{{$historyToShow->medical_condition}}</strong></h3>
+                  <h3>{{ __('Initial Medical Condition') }} : <strong>{{$historyToShow->medical_condition}}</strong></h3>
                 </div>
               </div>
               <div class="row">
                 <div class="col">
-                  <h3>Blood Pressure: <strong>{{$historyToShow->blood_pressure}}</strong></h3>
+                  <h3>{{ __('Blood Pressure') }}: <strong>{{$historyToShow->blood_pressure}}</strong></h3>
                 </div>
               </div>
               <div class="row">
                 <div class="col">
-                  <h3>Temperature: <strong>{{$historyToShow->temperature}}</strong></h3>
+                  <h3>{{ __('Temperature') }}: <strong>{{$historyToShow->temperature}}</strong></h3>
                 </div>
               </div>
               <div class="row">
                 <div class="col">
-                  <h3>Weight: <strong>{{$historyToShow->weight}}</strong></h3>
+                  <h3>{{ __('Weight') }}: <strong>{{$historyToShow->weight}}</strong></h3>
                 </div>
               </div>
               <div class="row">

@@ -10,7 +10,7 @@
             <button id="add-appointment-button" class="btn btn-primary text-white rounded m-3">Create
                 appointment</button>
             @endif
-            <button id="show-appointment-button" class="btn btn-primary text-white rounded m-3 d-none">Show
+            <button id="show-appointment-button" class="btn btn-primary text-white rounded m-3 d-none">{{ __('Show') }}
                 appointment</button>
             <div class="card shadow bg-light">
                 <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">
@@ -129,9 +129,18 @@
             var Draggable = FullCalendar.Draggable;
             var calendarEl = document.getElementById('calendar');
             var checkbox = document.getElementById('drop-remove');
-            var data = @this.events;
+            var originalData = @this.events;
+          
+            var data = JSON.parse(originalData).map((item)=>{
+                let newTitle = item.title;
+                if ("{{app()->getLocale()}}" == "es") {
+                    newTitle = item.title.includes('Appointment') ? item.title.replace('Appointment', 'Cita') : item.title.replace('Available', 'Disponible');
+                }
+                return { ...item, title: newTitle };
+            });
+                        
             var calendar = new Calendar(calendarEl, {
-                events: JSON.parse(data),
+                events: data,
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
@@ -247,7 +256,7 @@
             @this.on('eventAdded', function(eventId, eventTitle, eventStart) {
                 var event = {
                     id: eventId,
-                    title: "{{ __ ('" + eventTitle + "') }}",
+                    title: eventTitle,
                     start: eventStart,
                 };
                 calendar.addEvent(event);

@@ -34,7 +34,7 @@
 
         <x-dropdown id="languageDropdown">
             <x-slot name="trigger">
-                <i class="fas fa-globe text-black" style="font-size: 1.5em"></i>
+                <span class="text-dark mr-2">{{ strtoupper(app()->getLocale()) }}</span><i class="fas fa-globe text-black" style="font-size: 1.5em"><span class=""></span></i>
             </x-slot>
 
             <x-slot name="content">
@@ -95,7 +95,7 @@
                         Spending Alert: We've noticed unusually high spending for your account.
                     </div>
                 </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All
+                <a class="dropdown-item text-center small text-gray-500" href="#">{{ __('Show') }} All
                     Alerts</a>
             </div>
         </li>

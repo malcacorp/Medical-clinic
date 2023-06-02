@@ -28,7 +28,7 @@
                         </select>
                         
                         {{-- Select Patient --}}
-                        <label class="mt-2 mb-0" for="patient">Patient Name</label>
+                        <label class="mt-2 mb-0" for="patient">{{ __('Patient Name') }}</label>
                         <select class="form-control w-100" wire:model="patient_id" id="patient" @if ($isEdit) disabled @endif>
                             <option value="">-- Select --</option>
                             @foreach ($patients as $patient)
@@ -52,7 +52,7 @@
                         <div class="flex justify-content-center mt-4">
                           @if ($appointment)
                             <button type="button"
-                                class="btn btn-danger text-white" wire:click="delete()">{{ __('Cancel appointment') }}</button>                              
+                                class="btn btn-danger text-white" wire:click="delete()">{{ __('Cancel Appointment') }}</button>                              
                           @endif
                             <a type="button" class="btn btn-secondary text-white" href="{{ route('appointments') }}">{{ __('Back') }}</a>
                             <button type="submit" class="btn btn-success text-white">{{ __('Submit') }}</button>

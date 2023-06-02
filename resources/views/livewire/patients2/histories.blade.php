@@ -52,7 +52,7 @@
                           </td>
                           <td class="px-5">
                               <button wire:click="showHistory({{ $history->id }})"
-                                  class="btn btn-primary btn-sm">Show</button>
+                                  class="btn btn-primary btn-sm">{{ __('Show') }}</button>
                               {{-- <button wire:click="delete({{ $history->id }})"
                                   class="btn btn-danger btn-sm">Delete</button> --}}
                           </td>

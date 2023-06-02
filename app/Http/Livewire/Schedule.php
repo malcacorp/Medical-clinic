@@ -235,7 +235,7 @@ class Schedule extends Component
           if($patient){
             $patientEvents = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
                   ->join('patients', 'appointments.patient_id', '=', 'patients.id')
-                  ->select('events.id','events.start', DB::raw("CASE WHEN title = 'Appointment' THEN 'MY APPOINTMENT' END AS title"))
+                  ->select('events.id','events.start', DB::raw("CASE WHEN title = 'Appointment' THEN 'My Appointment' END AS title"))
                   // ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
                   ->where('appointments.patient_id', $patient->id)
                   ->orderby('appointments.date', 'desc')
