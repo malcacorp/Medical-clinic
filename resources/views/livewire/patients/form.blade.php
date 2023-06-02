@@ -12,14 +12,14 @@
 
                             <div class="row mb-4 mb-4">
                                 <div class="col col-md-6 px-4">
-                                    <x-label for="first_name" value="{{ __('First Name') }}" />
+                                    <x-label for="first_name" value="{{ __('First name') }}" />
                                     <x-input id="first_name" class="block mt-1 w-full {{ $errors->has('first_name') ? 'is-invalid' : '' }}" type="text" name="first_name"
                                         :value="old('first_name')" required autofocus autocomplete="first_name"
                                         wire:model="first_name" />                                    
                                     <x-input-error for="first_name"></x-input-error>
                                 </div>
                                 <div class="col col-md-6 px-4">
-                                    <x-label for="last_name" value="{{ __('Last Name') }}" />
+                                    <x-label for="last_name" value="{{ __('Last name') }}" />
                                     <x-input id="last_name" class="block mt-1 w-full {{ $errors->has('last_name') ? 'is-invalid' : '' }}" type="text" name="last_name"
                                         :value="old('last_name')" required autocomplete="last_name" wire:model="last_name" />
                                     <x-input-error for="last_name"></x-input-error>
@@ -28,7 +28,7 @@
 
                             <div class="row mb-4">
                                 <div class="col col-md-6 px-4">
-                                    <x-label for="id_number" value="{{ __('ID Number') }}" />
+                                    <x-label for="id_number" value="{{ __('Id') }}" />
                                     <x-input id="id_number" class="block mt-1 w-full {{ $errors->has('id_number') ? 'is-invalid' : '' }}" type="number" name="id_number"
                                         :value="old('id_number')" required autocomplete="id_number" wire:model="id_number" />
                                     <x-input-error for="id_number"></x-input-error>

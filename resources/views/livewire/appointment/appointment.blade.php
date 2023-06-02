@@ -19,7 +19,7 @@
                     <form wire:submit.prevent="store" style="display: block">
                         @csrf
                         {{-- Date and Time --}}
-                        <label for="selectedDate">Available Appointments</label>
+                        <label for="selectedDate">{{ __('Available Appointments') }}</label>
                         <select id="selectedDate" class="form-control" wire:model="selectedDate">
                             <option value="">-- Select --</option>
                             @foreach ($availableDates as $availableDate)
@@ -36,16 +36,16 @@
                             @endforeach
                         </select>                        
 
-                        <label class="mt-2 mb-0" for="assessment-type">Type of Assessment</label>
+                        <label class="mt-2 mb-0" for="assessment-type">{{__('Assessment Type')}}</label>
                         <select id="assessment-type" class="form-control" wire:model="assessment_type">
                             <option value="">-- Select --</option>
-                            <option value="Normal Assessment">Normal Assessment</option>
-                            <option value="Presure control">Pressure control</option>
-                            <option value="Medical program">Medical program</option>
+                            <option value="{{__('Normal Assessment')}}">{{__('Normal Assessment')}}</option>
+                            <option value="{{__('Pressure control')}}">{{__('Pressure control')}}</option>
+                            <option value="{{__('Medical program')}}">{{__('Medical program')}}</option>
                         </select>
 
                         {{-- Reason --}}
-                        <label class="mt-2 mb-0" for="appointment-reason">Reason for medical appointment</label>
+                        <label class="mt-2 mb-0" for="appointment-reason">{{__('Reason for medical appointment')}}</label>
                         <textarea class="form-control w-100" wire:model.lazy="medical_concerns" name="medical_concerns" required></textarea>
 
                         {{-- Buttons --}}

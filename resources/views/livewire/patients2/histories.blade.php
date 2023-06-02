@@ -14,21 +14,21 @@
           <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
               <thead>
                   <tr>
-                      <th>Date</th>
-                      <th>Type Assessment</th>
-                      <th>Medical Condition</th>
-                      <th>Diagnostic</th>
-                      <th>Treatment</th>
+                      <th>{{ __('Date') }}</th>
+                      <th>{{ __('Assessment Type') }}</th>
+                      <th>{{ __('Medical Condition') }}</th>
+                      <th>{{ __('Diagnostic') }}</th>
+                      <th>{{ __('Treatment') }}</th>
                       <th> </th>
                   </tr>
               </thead>
               <tfoot>
                   <tr>
-                      <th>Date</th>
-                      <th>Type Assessment</th>
-                      <th>Medical Condition</th>
-                      <th>Diagnostic</th>
-                      <th>Treatment</th>
+                      <th>{{ __('Date') }}</th>
+                      <th>{{ __('Assessment Type') }}</th>
+                      <th>{{ __('Medical Condition') }}</th>
+                      <th>{{ __('Diagnostic') }}</th>
+                      <th>{{ __('Treatment') }}</th>
                       <th> </th>
                   </tr>
               </tfoot>
@@ -59,7 +59,7 @@
                       </tr>
                   @empty
                       <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                          <td colspan="2"
+                          <td colspan="6"
                               class="px-5 font-medium text-gray-900">
                               {{ __('No history found') }}
                           </td>

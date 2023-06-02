@@ -20,6 +20,7 @@ use Livewire\WithFileUploads;
 
 class PatientsForms extends Component
 {
+    use WithFileUploads;
 
   public $patients, $last_name, $first_name, $id_number, $sex, $address, $email, $birthdate, $phone_number, $weight, $height, $eye_color;
   public $file, $photo;

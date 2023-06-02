@@ -8,7 +8,7 @@
                         <th>First name</th>
                         <th>Last name</th>
                         <th>Sex</th>
-                        <th>Phone number</th>
+                        <th>{{ __('Phone number') }}</th>
                         <th> </th>
                     </tr>
                 </thead>
@@ -18,7 +18,7 @@
                         <th>First name</th>
                         <th>Last name</th>
                         <th>Sex</th>
-                        <th>Phone number</th>
+                        <th>{{ __('Phone number') }}</th>
                         <th> </th>
                     </tr>
                 </tfoot>

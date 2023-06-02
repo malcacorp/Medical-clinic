@@ -30,7 +30,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="add-appointment-modal-label">New Appointment</h5>
+                    <h5 class="modal-title" id="add-appointment-modal-label">{{__('New Appointment')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                         onclick="closeModal('add-appointment-modal')">
                         <span aria-hidden="true">&times;</span>
@@ -39,7 +39,7 @@
                 <div class="modal-body">
                     <form id="add-appointment-form">
                         <div class="form-group">
-                            <label for="availability">Available Appointments</label>
+                            <label for="availability">{{ __('Available Appointments') }}</label>
                             <select id="availability" class="form-control">
                                 <option value="">-- Select --</option>
                                 @foreach ($availableDates as $availableDate)
@@ -49,7 +49,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="assessment-type">Type of Assessment</label>
+                            <label for="assessment-type">{{__('Assessment Type')}}</label>
                             <select id="assessment-type" class="form-control">
                                 <option value="">-- Select --</option>
                                 <option value="Normal Assessment">Normal Assessment</option>
@@ -59,15 +59,15 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="appointment-reason">Reason for medical appointment</label>
-                            <textarea type="text" class="form-control" id="appointment-reason" placeholder="Reason for medical appointment"></textarea>
+                            <label for="appointment-reason">{{__('Reason for medical appointment')}}</label>
+                            <textarea type="text" class="form-control" id="appointment-reason" placeholder="{{__('Reason for medical appointment')}}"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        onclick="closeModal('add-appointment-modal')">Close</button>
-                    <button type="button" class="btn btn-primary text-white" id="save-appointment-button">Submit</button>
+                        onclick="closeModal('add-appointment-modal')">{{__('Close')}}</button>
+                    <button type="button" class="btn btn-primary text-white" id="save-appointment-button">{{__('Submit')}}</button>
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@
 
                 <div class="modal-body">
                     <div class="row">
-                        <label>Date: {{ $currentAppointmentDate }}</label>
+                        <label>{{ __('Date') }}: {{ $currentAppointmentDate }}</label>
                     </div>
                     <div class="row">
                         <label>Time: {{ $currentAppointmentTime }}</label>
@@ -96,7 +96,7 @@
                         <label>Patient: {{ $currentAppointmentPatient }}</label>
                     </div>
                     <div class="row">
-                        <label>Phone number: {{ $currentAppointmentPhone }}</label>
+                        <label>{{ __('Phone number') }}: {{ $currentAppointmentPhone }}</label>
                     </div>
                     <div class="row">
                         <label>Reason: {{ $currentAppointmentReason }}</label>
@@ -110,7 +110,7 @@
                             onclick="closeModal('add-appointment-modal')">Patient</button>
                     @endif
                     <button type="button" class="btn btn-danger text-white"
-                        wire:click="cancelAppointment({{ $currentAppointmentPatientId }})">Cancel Appointment</button>
+                        wire:click="cancelAppointment({{ $currentAppointmentPatientId }})">{{__('Cancel Appointment')}}</button>
                     <button type="button" class="btn btn-secondary"
                         data-dismiss="modal"onclick=" closeModal('show-appointment-modal')">Close</button>
                     {{-- <button type="button" class="btn btn-primary text-white" id="save-appointment-button">Submit</button> --}}
@@ -247,7 +247,7 @@
             @this.on('eventAdded', function(eventId, eventTitle, eventStart) {
                 var event = {
                     id: eventId,
-                    title: eventTitle,
+                    title: "{{ __ ('" + eventTitle + "') }}",
                     start: eventStart,
                 };
                 calendar.addEvent(event);
@@ -284,18 +284,24 @@
 
             // Guarda el evento en el calendario cuando se hace clic en el botón correspondiente dentro del modal
             document.getElementById('save-appointment-button').addEventListener('click', function() {              
+                const availability = document.getElementById('availability').value;
                 const reason = document.getElementById('appointment-reason').value;
                 const assessmentType = document.getElementById('assessment-type').value;
 
-                if (reason == null || reason == "") {
-                    alert("Write a reason for medical appointment.");
+                if (availability == null || availability == "") {
+                    alert("{{__('Select a available date for medical appointment')}}");
                     return;
                 }
 
                 if (assessmentType == null || assessmentType == "") {
-                    alert("Write an assessment type for medical appointment.");
+                    alert("{{__('Write an assessment type for medical appointment')}}");
                     return;
                 }
+
+                if (reason == null || reason == "") {
+                    alert("{{__('Write a reason for medical appointment')}}");
+                    return;
+                }                
 
                 let data = document.getElementById("availability").value.split('|')
 

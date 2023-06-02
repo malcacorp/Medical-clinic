@@ -18,7 +18,7 @@
             </div>
 
             <button class="btn btn-primary" wire:click.prevent="store()">Save permission</button>
-            <a class="btn btn-secondary" wire:click.prevent="handleTabs('isOpenList', 'isOpenUpdate')">Back</a>
+            <a class="btn btn-secondary" wire:click.prevent="handleTabs('isOpenList', 'isOpenUpdate')">{{ __('Back') }}</a>
         </form>
     </div>
 </div>

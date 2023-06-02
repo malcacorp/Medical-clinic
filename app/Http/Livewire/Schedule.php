@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Livewire;
 use App\Models\Appointment;
+use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Event;
 use App\Models\Employee;
@@ -154,7 +155,7 @@ class Schedule extends Component
       // $currentEvent = Event::find(intval($id));
       $currentEvent = Event::leftJoin('appointments', 'appointments.event_id', '=', 'events.id')
                   ->leftJoin('patients', 'patients.id', '=', 'appointments.patient_id')
-                  ->select('events.id','events.title','appointments.date','appointments.time', 'appointments.medical_concerns', 'patients.id as patient_id', 'patients.first_name', 'patients.last_name', 'patients.phone_number', 'appointments.id AS appointment_id')
+                  ->select('events.id','events.title','appointments.date','appointments.time', 'ascintments.medical_concerns', 'patients.id as patient_id', 'patients.first_name', 'patients.last_name', 'patients.phone_number', 'appointments.id AS appointment_id')
                   ->where('events.id', $id)
                   // ->orWhere('title', 'Available')
                   ->first();
@@ -209,7 +210,10 @@ class Schedule extends Component
                             ->join('patients', 'appointments.patient_id', '=', 'patients.id')
                             ->select('events.id','start')
                             ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
-                            ->where('appointments.status', 'Pending')->get();
+                            ->where('appointments.status', 'Pending')
+                            ->orderby('appointments.date', 'desc')
+                            ->orderby('appointments.time', 'asc')
+                            ->get();
             $events = $availables->merge($appointments); 
           }
 
@@ -220,7 +224,10 @@ class Schedule extends Component
                             ->select('events.id','start')
                             ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
                             ->where('events.employee_id', $employee->id)
-                            ->where('appointments.status', 'Pending')->get();
+                            ->where('appointments.status', 'Pending')
+                            ->orderby('appointments.date', 'desc')
+                            ->orderby('appointments.time', 'asc')
+                            ->get();
                             $events = $availables->merge($appointments); 
           }                     
         }else{
@@ -231,8 +238,9 @@ class Schedule extends Component
                   ->select('events.id','events.start', DB::raw("CASE WHEN title = 'Appointment' THEN 'MY APPOINTMENT' END AS title"))
                   // ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
                   ->where('appointments.patient_id', $patient->id)
-                  // ->orWhere('title', 'Available')
-                  ->get();
+                  ->orderby('appointments.date', 'desc')
+                ->orderby('appointments.time', 'asc')
+                ->get();
             $doctorEvents = Event::select('id','title','start')->where('title', 'Available')->get();
             $events = $patientEvents->merge($doctorEvents);            
           }elseif($this->isAdmin){
@@ -243,14 +251,20 @@ class Schedule extends Component
                                 ->select('events.id','start')
                                 ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
                                 ->where('events.employee_id', $this->employeeId)
-                                ->where('appointments.status', 'Pending')->get();
+                                ->where('appointments.status', 'Pending')
+                                ->orderby('appointments.date', 'desc')
+                                ->orderby('appointments.time', 'asc')
+                                ->get();
               }else{
                 $availables = Event::select('id','title','start')->get();
                 $appointments = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
                                 ->join('patients', 'appointments.patient_id', '=', 'patients.id')
                                 ->select('events.id','start')
                                 ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
-                                ->where('appointments.status', 'Pending')->get();
+                                ->where('appointments.status', 'Pending')
+                                ->orderby('appointments.date', 'desc')
+                                ->orderby('appointments.time', 'asc')
+                                ->get();
               }
               $events = $availables->merge($appointments);
 
@@ -262,7 +276,10 @@ class Schedule extends Component
                                         ->select("events.*", DB::raw('DATE(start) AS date'))
                                         ->selectRaw("CONCAT(em.first_name, ' ', em.last_name) AS doctorName")
                                         ->selectRaw('SUBSTRING(start, 12, 16) as time')
-                                        ->where("title", "=", "Available")->get();
+                                        ->where("title", "=", "Available")
+                                        ->where("start", ">=",  Carbon::now())
+                                        ->orderby('events.start', 'desc')
+                                        ->get();
 
           $doctors = Event::join('employees', 'events.employee_id', '=', 'employees.id')
             ->select('employees.id','employees.first_name')

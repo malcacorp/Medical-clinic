@@ -7,18 +7,18 @@
         <x-validation-errors class="mb-3" />
 
         <div class="card-body">
-            <h1 class="text-center my-4">Patient Registration</h1>
+            <h1 class="text-center my-4">{{ __('Patient Registration') }}</h1>
             <div class="row">
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
                     <div class="row mb-2">
                         <div class="col-12 col-md-6 px-4">
-                            <x-label for="first_name" value="{{ __('First Name') }}" />
+                            <x-label for="first_name" value="{{ __('First name') }}" />
                             <x-input id="first_name" class="block mt-1 w-full" type="text" name="first_name"
                                 :value="old('first_name')" required autofocus autocomplete="first_name" />
                         </div>
                         <div class="col-12 col-md-6 px-4">
-                            <x-label for="last_name" value="{{ __('Last Name') }}" />
+                            <x-label for="last_name" value="{{ __('Last name') }}" />
                             <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name"
                                 :value="old('last_name')" required autocomplete="last_name" />
                         </div>
@@ -26,7 +26,7 @@
 
                     <div class="row mb-2">
                         <div class="col-12 col-md-6 px-4">
-                            <x-label for="id_number" value="{{ __('ID Number') }}" />
+                            <x-label for="id_number" value="{{ __('Id') }}" />
                             <x-input id="id_number" class="block mt-1 w-full" type="number" name="id_number"
                                 :value="old('id_number')" required autocomplete="id_number" />
                         </div>
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                   
-                    <h2 class="text-center mt-4">Create an user</h2>
+                    <h2 class="text-center mt-4">{{ __('Create an user account') }}</h2>
                     <div class="mb-3 px-3">
                         <x-label value="{{ __('Email') }}" />
 

@@ -2,12 +2,12 @@
 
 <div class="row mb-2">
     <div class="col-12 col-md-6 px-4">
-        <x-label for="first_name" value="{{ __('First Name') }}" />
+        <x-label for="first_name" value="{{ __('First name') }}" />
         <input id="first_name" class="form-control block mt-1 w-full" type="text" name="first_name" required autofocus
             autocomplete="first_name" {{ $livewire ? 'wire:model=first_name' : ":value=old('first_name')" }} />
     </div>
     <div class="col-12 col-md-6 px-4">
-        <x-label for="last_name" value="{{ __('Last Name') }}" />
+        <x-label for="last_name" value="{{ __('Last name') }}" />
         <input id="last_name" class="form-control block mt-1 w-full" type="text" name="last_name" required
             autocomplete="last_name" {{ $livewire ? 'wire:model=last_name' : ":value=old('last_name')" }} />
     </div>
@@ -15,7 +15,7 @@
 
 <div class="row mb-2">
     <div class="col-12 col-md-6 px-4">
-        <x-label for="id_number" value="{{ __('ID Number') }}" />
+        <x-label for="id_number" value="{{ __('Id') }}" />
         <x-input id="id_number" class="form-control block mt-1 w-full" type="number" name="id_number" :value="old('id_number')" required
             autocomplete="id_number" {{ $livewire ? 'wire:model=id_number' : "" }} />
     </div>
