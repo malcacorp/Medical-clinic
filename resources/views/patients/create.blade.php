@@ -16,12 +16,12 @@
 
                         <div class="flex mb-4 mb-4">
                             <div class="md:w-1/2 px-4">
-                                <x-label for="first_name" value="{{ __('First Name') }}" />
+                                <x-label for="first_name" value="{{ __('First name') }}" />
                                 <x-input id="first_name" class="block mt-1 w-full" type="text" name="first_name"
                                     :value="old('first_name')" required autofocus autocomplete="first_name" />
                             </div>
                             <div class="md:w-1/2 px-4">
-                                <x-label for="last_name" value="{{ __('Last Name') }}" />
+                                <x-label for="last_name" value="{{ __('Last name') }}" />
                                 <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name"
                                     :value="old('last_name')" required autocomplete="last_name" />
                             </div>

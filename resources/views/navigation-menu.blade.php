@@ -32,6 +32,21 @@
             </div>
         </li>
 
+        <x-dropdown id="languageDropdown">
+            <x-slot name="trigger">
+                <span class="text-dark mr-2">{{ strtoupper(app()->getLocale()) }}</span><i class="fas fa-globe text-black" style="font-size: 1.5em"><span class=""></span></i>
+            </x-slot>
+
+            <x-slot name="content">
+                <x-dropdown-link href="{{ route('locale', ['locale' => 'es']) }}">
+                    {{ __('Spanish') }}
+                </x-dropdown-link>
+                <x-dropdown-link href="{{ route('locale', ['locale' => 'en']) }}">
+                    {{ __('English') }}
+                </x-dropdown-link>
+            </x-slot>
+        </x-dropdown>
+
         <!-- Nav Item - Alerts -->
         <li class="nav-item dropdown no-arrow mx-1">
             {{-- <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
@@ -80,7 +95,7 @@
                         Spending Alert: We've noticed unusually high spending for your account.
                     </div>
                 </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All
+                <a class="dropdown-item text-center small text-gray-500" href="#">{{ __('Show') }} All
                     Alerts</a>
             </div>
         </li>

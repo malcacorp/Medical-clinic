@@ -8,7 +8,7 @@
       <form method="POST">
           @csrf
           <div class="mb-3">
-              <label for="name" class="form-label">Name</label>
+              <label for="name" class="form-label">{{ __('Name') }}</label>
               <input value="{{ old('name') }}" type="text" class="form-control" name="name" placeholder="Name" wire:model="name"
                   required>
 
@@ -17,7 +17,7 @@
               @endif
           </div>
 
-          <label for="permissions" class="form-label">Assign Permissions</label>
+          <label for="permissions" class="form-label">{{ __('Assign Permissions') }}</label>
 
                 <table class="table table-striped">
                     <thead>
@@ -45,7 +45,7 @@
                 </table>
 
           <button class="btn btn-primary" wire:click.prevent="store()">Save role</button>
-          <a class="btn btn-secondary" wire:click.prevent="handleTabs('isOpenList', 'isOpenUpdate')">Back</a>
+          <a class="btn btn-secondary" wire:click.prevent="handleTabs('isOpenList', 'isOpenUpdate')">{{ __('Back') }}</a>
       </form>
   </div>
 </div>

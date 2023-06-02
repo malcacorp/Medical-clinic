@@ -25,7 +25,7 @@
                                     <th class="text-muted" style="vertical-align: middle;">{{ __("Date and Time") }}</th>
                                     <th class="text-muted" style="vertical-align: middle;">{{ __("Name") }}</th>
                                     <th class="text-muted" style="vertical-align: middle;">{{ __("Doctor") }}</th>
-                                    <th class="text-muted" style="vertical-align: middle;">{{ __("Phone Number") }}</th>
+                                    <th class="text-muted" style="vertical-align: middle;">{{ __("Phone number") }}</th>
                                     <th class="text-muted" style="vertical-align: middle;">{{ __("Appointment Status") }}</th>
                                     <th class="text-muted" style="vertical-align: middle;">{{ __("Appointment Type") }}</th>
                                     <th class="text-muted" style="vertical-align: middle;">{{ __("Medical Concerns") }}</th>

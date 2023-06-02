@@ -47,7 +47,7 @@
                             <div class="flex justify-content-center mt-4">
                                 <button class="btn btn-dark text-white" wire:click.prevent="handleTabs('isOpenCreateTwo', 'isOpenCondition')"
                                     type="button">
-                                    {{ __('Previus') }}
+                                    {{ __('Back') }}
                                 </button>
                                 @can("edit-doctor-comments")
                                   <button class="btn btn-success text-white" wire:click.prevent="handleTabs('isOpenConditionTwo', 'isOpenCondition', 'updateAssessment')"

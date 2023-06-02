@@ -35,66 +35,65 @@ DB::listen(function($query){
 }); */
 
 Route::get('/', function () {
-  return view('auth.login');
+    return view('auth.login');
 });
 
 Route::get('intake', Intake::class)->name('intake');
 
+Route::get('/locale/{locale}', function ($locale) {
+    return redirect()->back()->withCookie('locale', $locale);
+})->name('locale');
+
 Route::middleware([
-  'auth:sanctum',
-  config('jetstream.auth_session'),
-  'verified'
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
 ])->group(function () {
-  // Route::get('/dashboard', function () {
-  //   return view('dashboard');
-  // })->name('dashboard');
-  Route::get('dashboard', Dashboard::class)->name('dashboard');
+    Route::get('dashboard', Dashboard::class)->name('dashboard');
 });
 
 Route::group(['middleware' => ['permission:list-employees']], function () {
-  Route::get('employees', Employees::class)->name('employees');
+    Route::get('employees', Employees::class)->name('employees');
 });
 
 Route::group(['middleware' => ['permission:list-patients']], function () {
-  Route::get('patients', Patients::class)->name('patients');
+    Route::get('patients', Patients::class)->name('patients');
 });
 
 Route::group(['middleware' => ['permission:list-patients']], function () {
-  Route::get('patients2', Index::class)->name('patients2');
-  Route::get('/patients2/create', PatientsForms::class)->name('patients-create');
-  Route::get('/patients2/{id}', PatientsForms::class)->name('patient-edit');
-  Route::get('/patients2/{id}/{toShow}', PatientsForms::class)->name('patient-histories');
-
+    Route::get('patients2', Index::class)->name('patients2');
+    Route::get('/patients2/create', PatientsForms::class)->name('patients-create');
+    Route::get('/patients2/{id}', PatientsForms::class)->name('patient-edit');
+    Route::get('/patients2/{id}/{toShow}', PatientsForms::class)->name('patient-histories');
 });
-
 
 Route::group(['middleware' => ['permission:list-permissions']], function () {
-  Route::get('permissions', Permissions::class)->name('permissions');
+    Route::get('permissions', Permissions::class)->name('permissions');
 });
 
 Route::group(['middleware' => ['permission:list-roles']], function () {
-  Route::get('roles', Roles::class)->name('roles');
+    Route::get('roles', Roles::class)->name('roles');
 });
 
 Route::group(['middleware' => ['permission:list-appointments']], function () {
-  Route::get('appointments', Appointments::class)->name('appointments');
-  // Route::get('appointments', AppointmentForms::class)->name('appointments');
-  Route::get('appointment/create', AppointmentForms::class)->name('appointment.create');
-  Route::get('appointment/{id}', AppointmentForms::class)->name('appointment');
+    Route::get('appointments', Appointments::class)->name('appointments');
+    // Route::get('appointments', AppointmentForms::class)->name('appointments');
+    Route::get('appointment/create', AppointmentForms::class)->name('appointment.create');
+    Route::get('appointment/{id}', AppointmentForms::class)->name('appointment');
 });
 
 Route::group(['middleware' => ['permission:list-users']], function () {
-  Route::get('users', Users::class)->name('users');
+    Route::get('users', Users::class)->name('users');
 });
 
 Route::group(['middleware' => ['permission:view-schedule']], function () {
-  Route::get('schedule', Schedule::class)->name('schedule');
+    Route::get('schedule', Schedule::class)->name('schedule');
 });
 
 Route::group(['middleware' => ['permission:view-staff-schedule']], function () {
-  Route::get('schedule/{id}', Schedule::class)->name('staff-schedule');
+    Route::get('schedule/{id}', Schedule::class)->name('staff-schedule');
 });
 
 Route::group(['middleware' => ['permission:view-myschedule']], function () {
-  Route::get('my-schedule', MySchedule::class)->name('my-schedule');
+    Route::get('my-schedule', MySchedule::class)->name('my-schedule');
 });

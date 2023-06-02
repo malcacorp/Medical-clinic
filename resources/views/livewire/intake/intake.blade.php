@@ -1,6 +1,6 @@
   <x-authentication-card>
       <div class="card-body">
-          <h1 class="text-center my-4">Patient Registration</h1>
+          <h1 class="text-center my-4">{{ __('Patient Registration') }}</h1>
           <div class="row">
               @if ($isOpenMedical)
                   @include('livewire.intake.medical-condition')
@@ -10,7 +10,7 @@
                       <input type="hidden" wire:model="patient_id">
                       <div class="row mb-2">
                           <div class="col-12 col-md-6 px-4">
-                              <x-label for="first_name" value="{{ __('First Name') }}" />
+                              <x-label for="first_name" value="{{ __('First name') }}" />
                               <x-input id="first_name"
                                   class="block mt-1 w-full {{ $errors->has('first_name') ? 'is-invalid' : '' }}"
                                   type="text" name="first_name" required autofocus autocomplete="first_name"
@@ -18,7 +18,7 @@
                               <x-input-error for="first_name"></x-input-error>
                           </div>
                           <div class="col-12 col-md-6 px-4">
-                              <x-label for="last_name" value="{{ __('Last Name') }}" />
+                              <x-label for="last_name" value="{{ __('Last name') }}" />
                               <x-input id="last_name"
                                   class="block mt-1 w-full {{ $errors->has('last_name') ? 'is-invalid' : '' }}"
                                   type="text" name="last_name" :value="old('last_name')" required autocomplete="last_name"
@@ -29,7 +29,7 @@
 
                       <div class="row mb-2">
                           <div class="col-12 col-md-6 px-4">
-                              <x-label for="id_number" value="{{ __('ID Number') }}" />
+                              <x-label for="id_number" value="{{ __('Id') }}" />
                               <x-input id="id_number"
                                   class="block mt-1 w-full {{ $errors->has('id_number') ? 'is-invalid' : '' }}"
                                   type="number" name="id_number" :value="old('id_number')" required autocomplete="id_number"
@@ -95,7 +95,7 @@
                       </div>
 
                       @if (!$isEdit)
-                          <h2 class="text-center mt-4">Create an user</h2>
+                          <h2 class="text-center mt-4">{{ __('Create an user account') }}</h2>
                           <div class="mb-3 px-3">
                               <x-label value="{{ __('Email') }}" />
 

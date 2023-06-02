@@ -17,7 +17,7 @@
       </div>
     
       <div class="col-12 col-md-6 px-4">
-          <label for="availability">Available Appointments</label>
+          <label for="availability">{{ __('Available Appointments') }}</label>
           <select id="availability" class="form-control" wire:model="selectedDate">
               <option value="">-- Select --</option>
               @foreach ($availableDates as $availableDate)

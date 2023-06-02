@@ -8,7 +8,7 @@
                         <th>First name</th>
                         <th>Last name</th>
                         <th>Sex</th>
-                        <th>Phone number</th>
+                        <th>{{ __('Phone number') }}</th>
                         <th> </th>
                     </tr>
                 </thead>
@@ -18,7 +18,7 @@
                         <th>First name</th>
                         <th>Last name</th>
                         <th>Sex</th>
-                        <th>Phone number</th>
+                        <th>{{ __('Phone number') }}</th>
                         <th> </th>
                     </tr>
                 </tfoot>
@@ -53,7 +53,7 @@
 
                               @can("show-patient-history")
                                 <button wire:click="showHistories({{ $patient->id }})"
-                                    class="btn btn-warning btn-sm">Show History</button>
+                                    class="btn btn-warning btn-sm">{{ __('Show') }} History</button>
                               @endcan
 
                               @can("create-assessment")

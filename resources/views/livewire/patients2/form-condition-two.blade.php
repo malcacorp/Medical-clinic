@@ -40,7 +40,7 @@
                                 <button class="btn btn-dark text-white"
                                     wire:click.prevent="handleTabs('isOpenCondition', 'isOpenConditionTwo')"
                                     type="button">
-                                    {{ __('Previus') }}
+                                    {{ __('Back') }}
                                 </button>
                                 <button class="btn btn-success text-white"
                                     wire:click.prevent="handleTabs('isOpenHistories', 'isOpenConditionTwo', 'updateAssessment')"

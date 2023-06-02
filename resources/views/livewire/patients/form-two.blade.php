@@ -57,7 +57,7 @@
                   <div class="flex justify-content-center mt-4">
                     <button class="btn btn-dark text-white" wire:click.prevent="handleTabs('isOpenCreate', 'isOpenCreateTwo')"
                         type="button">
-                        {{ __('Previous') }}
+                        {{ __('Back') }}
                     </button>
                     <button class="btn btn-success text-white" wire:click.prevent="savePatientFile()"
                         type="button">

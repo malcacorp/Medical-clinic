@@ -5,7 +5,7 @@
             </div>
             <div class="col-12 col-md-6">
                 <div class="card-body">
-                    <h1 class="text-center mt-5 pt-4">Welcome Back!</h1>
+                    <h1 class="text-center mt-5 pt-4">{{ __('Welcome Back!') }}</h1>
                     <x-validation-errors class="mb-3 rounded-0" />
 
                     @if (session('status'))

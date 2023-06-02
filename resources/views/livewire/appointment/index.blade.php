@@ -47,9 +47,9 @@
                                 </td>
                                 <td>
                                     {{-- <button wire:click="show({{ $appointment->appointment_id }})"
-                                        class="btn btn-success btn-sm">Show</button> --}}
+                                        class="btn btn-success btn-sm">{{ __('Show') }}</button> --}}
                                     {{-- <button wire:click="show({{ $appointment->id }})"
-                                        class="btn btn-success btn-sm">Show</button> --}}
+                                        class="btn btn-success btn-sm">{{ __('Show') }}</button> --}}
 
                                 </td>
                                 <td>
