@@ -15,20 +15,20 @@
                 </div>
             @endif
 
-            <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">{{__("Create")}} {{__("Appointment")}}</button>
-
-
+            <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">{{ __('Create') }}
+                {{ __('Appointment') }}</button>
 
             <div class="table-responsive">
                 <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th scope="col" width="15%">{{ __("Patient") }}</th>
-                            <th scope="col" width="15%">{{ __("Reason") }}</th>
-                            <th scope="col" width="15%">{{ __("Doctor") }}</th>
-                            <th scope="col" width="15%">{{ __("Date") }}</th>
-                            <th scope="col" width="15%">{{ __("Time") }}</th>
-                            <th scope="col" colspan="3" width="1%"></th>
+                            <th scope="col" width="16%">{{ __('Patient') }}</th>
+                            <th scope="col" width="16%">{{ __('Reason') }}</th>
+                            <th scope="col" width="16%">{{ __('Doctor') }}</th>
+                            <th scope="col" width="16%">{{ __('Date') }}</th>
+                            <th scope="col" width="16%">{{ __('Time') }}</th>
+                            <th scope="col" width="16%">{{ __('Status') }}</th>
+                            <th scope="col" width="1%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,49 +39,17 @@
                                 <td>{{ $appointment->doctor_name }}</td>
                                 <td>{{ $appointment->date }}</td>
                                 <td>{{ $appointment->time }}</td>
-                                {{-- <td>{{ $appointment->guard_name }}</td> --}}
-
+                                <td>{{ $appointment->status }}</td>
                                 <td>
-                                    <a class="btn btn-info btn-sm" wire:click="edit({{ $appointment->appointment_id }})">{{ __("Edit") }}</a>
-
-                                </td>
-                                <td>
-                                    {{-- <button wire:click="show({{ $appointment->appointment_id }})"
-                                        class="btn btn-success btn-sm">{{ __('Show') }}</button> --}}
-                                    {{-- <button wire:click="show({{ $appointment->id }})"
-                                        class="btn btn-success btn-sm">{{ __('Show') }}</button> --}}
-
-                                </td>
-                                <td>
-
-                                    {{-- <button wire:click="delete({{ $appointment->appointment_id }})"
-                                        class="btn btn-danger btn-sm">Delete</button> --}}
-
+                                    @if ($appointment->status == 'Pending') 
+                                        <a class="btn btn-info btn-sm" wire:click="edit({{ $appointment->appointment_id }})">{{ __('Edit') }}</a>
+                                        {{-- <a class="btn btn-danger btn-sm" wire:click="cancel({{ $appointment->appointment_id }})">{{ __('Cancel') }}</a> --}}
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                <div>
-                </div>
-
-
-
-
-
-                {{-- @if ($isOpenList)
-          @endif --}}
-
-                {{-- @if ($isOpenUpdate)
-              @include('livewire.roles.nav-pills')
-              @include('livewire.appointment.form')
-          @endif
-
-          @if ($isOpenShow)
-              @include('livewire.roles.nav-pills')
-              @include('livewire.appointment.show')
-          @endif --}}
-
             </div>
         </div>
     </div>
