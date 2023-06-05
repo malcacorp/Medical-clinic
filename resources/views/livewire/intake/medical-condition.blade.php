@@ -1,8 +1,8 @@
-<div>
+<div class="col-md-6 offset-md-3">
   <form method="POST" action="{{route('login')}}">
     @csrf
     <div class="row mb-2">
-      <h3 class="text-center my-4">Would you like to schedule an appointment?</h3>
+      <h3 class="text-center my-4">{{__("Would you like to schedule an appointment?")}}</h3>
       <div class="d-flex justify-content-center">
           <input class="form-check-input" type="radio" name="appointment" id="appointment1" value="yes" onchange="handleChangeRadio(this)" checked>
           <label class="form-check-label ms-2" for="appointment1">
@@ -16,16 +16,16 @@
       <div class="form-check">
       </div>
     
-      <div class="col-12 col-md-6 px-4">
+      <div id="calendar-div" class="col-12 px-4">
           <label for="availability">{{ __('Available Appointments') }}</label>
-          <select id="availability" class="form-control" wire:model="selectedDate">
+          <select id="availability" class="form-control w-100 mw-100" wire:model="selectedDate">
               <option value="">-- Select --</option>
               @foreach ($availableDates as $availableDate)
                   <option value={{ $availableDate->id."|".$availableDate->employee_id."|".$availableDate->date."|".$availableDate->time }}>{{ $availableDate->doctorName }} | {{ $availableDate->date }} | {{ $availableDate->time }}</option>
               @endforeach
           </select>
       </div>
-      <div id="medical-condition-div" class="col-12 col-md-6 px-4">
+      <div id="medical-condition-div" class="col-12 px-4">
           <x-label for="medical_condition" value="{{ __('Medical Condition') }}" />
           <textarea id="medical_condition" class="form-control block mt-1 w-full" type="text" name="medical_condition"
               autocomplete="medical_condition" wire:model="medical_condition">{{ old('medical_condition') }}</textarea>

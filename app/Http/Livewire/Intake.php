@@ -6,6 +6,7 @@ use App\Actions\Fortify\PasswordValidationRules;
 use App\Models\Appointment;
 use App\Models\Employee;
 use App\Models\Event;
+use Carbon\Carbon;
 use Illuminate\Mail\Markdown;
 use Livewire\Component;
 
@@ -48,6 +49,7 @@ class Intake extends Component
       ->selectRaw("CONCAT(em.first_name, ' ', em.last_name) AS doctorName")
       ->selectRaw('SUBSTRING(start, 12, 16) as time')
       ->where("title", "=", "Available")
+      ->where("start", ">=", Carbon::now())
       ->orderBy("date", "ASC")
       ->get();
 
