@@ -38,7 +38,7 @@ class AppointmentReminder extends Command
       ->where("date", $tomorrow);
 
     foreach ($appointments as $appointment) {
-      $message = Markdown::parse(nl2br("Hola, " . $appointment->patient->first_name . ".\n\n Recuerda que tu cita médica con el Dr. (Dra.) " . $appointment->employee->first_name . " " . $appointment->employee->last_name . " será el día " . $appointment->date . " a las " . $appointment->time . ". \n\n Si necesitas cancelar tu cita, puedes hacer click en el enlace abajo. \n\n [Ir a Clinic Software](https://malcamedia.com) "));
+      $message = Markdown::parse(nl2br("Hola, " . $appointment->patient->first_name . ".\n\n Recuerda que tu cita médica con el Dr. (Dra.) " . $appointment->employee->first_name . " " . $appointment->employee->last_name . " será el día " . $appointment->date . " a las " . $appointment->time . ". \n\n Si necesitas cancelar tu cita, puedes hacer click en el enlace abajo. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
 
       $details = [
         'title' => "Recordatorio de Cita Médica",
