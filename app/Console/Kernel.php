@@ -18,8 +18,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('appointment:reminder')->dailyAt("15:00");
         $schedule->command('today-appointment:reminder')->dailyAt("08:00");
-        $schedule->command('schedule:creator')->everyMinute();
-        // $schedule->command('schedule:creator')->weeklyOn(0, '08:00');
+        // $schedule->command('schedule:creator')->everyMinute();
+        $schedule->command('schedule:creator')->weeklyOn(0, '08:00');
     }
 
     /**
