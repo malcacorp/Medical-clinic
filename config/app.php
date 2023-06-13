@@ -57,9 +57,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://malcamedia.com'),
+    'url' => env('APP_URL', 'https://secure.esperanzavalencia.com'),
 
-    'asset_url' => env('ASSET_URL'. 'https://malcamedia.com/public'),
+    'asset_url' => env('ASSET_URL'. 'https://secure.esperanzavalencia.com/public'),
 
     /*
     |--------------------------------------------------------------------------
