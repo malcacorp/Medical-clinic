@@ -165,7 +165,7 @@ class Intake extends Component
           $this->user = $user;
           $this->patient = $patient;
           
-          $message = Markdown::parse(nl2br("Hola, " . $patient->first_name . ".\n\n Bienvenido(a) a Clínica La Esperanza. \n\n Puedes reservar una cita haciendo click en el enlace abajo. \n\n [Ir a Clinic Software](https://malcamedia.com) "));
+          $message = Markdown::parse(nl2br("Hola, " . $patient->first_name . ".\n\n Bienvenido(a) a Clínica La Esperanza. \n\n Puedes reservar una cita haciendo click en el enlace abajo. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
 
           $details = [
             'title' => "Bienvenido(a) a Clínica La Esperanza.",
@@ -212,7 +212,7 @@ class Intake extends Component
 
       $relatedEvent->appointment()->save($appointment);
 
-      $message = Markdown::parse(nl2br("Hola, ". $patient->first_name. ".\n\n Tu cita médica con el Dr. (Dra.) ".$employee->first_name. " " .$employee->last_name. " será el día " .$appointment->date. " a las ".$appointment->time.". \n\n Si necesitas cancelar tu cita, puedes hacer click en el enlace abajo. \n\n [Ir a Clinic Software](https://malcamedia.com) "));
+      $message = Markdown::parse(nl2br("Hola, ". $patient->first_name. ".\n\n Tu cita médica con el Dr. (Dra.) ".$employee->first_name. " " .$employee->last_name. " será el día " .$appointment->date. " a las ".$appointment->time.". \n\n Si necesitas cancelar tu cita, puedes hacer click en el enlace abajo. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
 
       $details = [
         'title' => "Confirmación de Cita Médica",
