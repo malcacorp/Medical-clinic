@@ -24,7 +24,7 @@ class AppointmentForms extends Component
     public $isEdit = false;
 
 
-    public function mount($id = null, $status, $toShow = null, $toAss = null)
+    public function mount($id = null, $status = null, $toShow = null, $toAss = null)
     {
         $this->patients = Patient::all();
         $this->doctors = Employee::where('position', 'DOCTOR')->get();
