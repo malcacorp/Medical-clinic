@@ -147,12 +147,12 @@
                               </a>
                               @if ($isEdit)
                                   <button class="btn btn-success text-white" wire:click.prevent="update()"
-                                      type="button">
+                                      type="button" wire:loading.attr="disabled">
                                       {{ __('Next') }}
                                   </button>
-                              @else
+                              @else                              
                                   <button class="btn btn-success text-white" wire:click.prevent="store()"
-                                      type="button">
+                                      type="button" wire:loading.attr="disabled">
                                       {{ __('Next') }}
                                   </button>
                               @endif

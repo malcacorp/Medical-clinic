@@ -31,16 +31,20 @@ const handleChangeRadio = (el) => {
   console.log(el.value)
   if(el.value == "no"){
     document.getElementById("calendar-div").style.display = "none"
-    document.getElementById("medical-condition-div").style.display = "none"
-    document.getElementById("finish-button").style.display = "block"
+    document.getElementById("no-buttons").style.display = "block"
+    document.getElementById("yes-buttons").style.display = "none"
+    // document.getElementById("medical-condition-div").style.display = "none"
+    // document.getElementById("finish-button").style.display = "block"
     document.getElementById("webpage-button").style.display = "block"
-    document.getElementById("schedule-appointment").style.display = "none"
+    // document.getElementById("schedule-appointment").style.display = "none"
   } else {
     document.getElementById("calendar-div").style.display = "block"
-    document.getElementById("medical-condition-div").style.display = "block"
-    document.getElementById("finish-button").style.display = "none"
+    document.getElementById("no-buttons").style.display = "none"
+    document.getElementById("yes-buttons").style.display = "block"
+    // document.getElementById("medical-condition-div").style.display = "block"
+    // document.getElementById("finish-button").style.display = "none"
     document.getElementById("webpage-button").style.display = "none"
-    document.getElementById("schedule-appointment").style.display = "block"
+    // document.getElementById("schedule-appointment").style.display = "block"
   }
 }
 
