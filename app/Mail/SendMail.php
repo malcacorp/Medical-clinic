@@ -36,7 +36,7 @@ class SendMail extends Mailable
     }
 
     public function build(){
-      return $this->from('esperanza@esperanzavalencia.com', 'Clinica Esperanza Valencia')
+      return $this->from('esperanza@esperanzavalencia.com')
                   ->subject($this->details['subject'])
                   ->view('emails.welcome', ['details' => $this->details]);
     }
