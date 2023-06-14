@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    'default' => env('MAIL_MAILER', 'sendmail'),
 
     /*
     |--------------------------------------------------------------------------
@@ -92,8 +92,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'esperanza@esperanzavalencia.com'),
-        'name' => env('MAIL_FROM_NAME', 'Esperanza Valencia'),
+        'address' => env('MAIL_FROM_ADDRESS', 'sanctuary@sai.ngo'),
+        'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
     /*
