@@ -92,8 +92,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'sanctuary@sai.ngo'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'esperanza@esperanzavalencia.com'),
+        'name' => env('MAIL_FROM_NAME', 'Clinica Esperanza Valencia'),
     ],
 
     /*
