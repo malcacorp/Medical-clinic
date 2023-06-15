@@ -28,7 +28,7 @@
 
                           <div class="row mb-4">
                               <div class="col col-md-6 px-4">
-                                  <x-label for="id_number" value="{{ __('Id') }}" />
+                                  <x-label for="id_number" value="{{ __('Id Number') }}" />
                                   <x-input id="id_number" class="block mt-1 w-full {{ $errors->has('id_number') ? 'is-invalid' : '' }}" type="number" name="id_number"
                                       :value="old('id_number')" required autocomplete="id_number" wire:model="id_number" />
                                   <x-input-error for="id_number"></x-input-error>
@@ -36,9 +36,9 @@
                               <div class="col col-md-6 px-4">
                                   <x-label for="sex" value="{{ __('Sex') }}" class="{{ $errors->has('sex') ? 'is-invalid' : '' }}" />
                                   <select class="form-select" name="sex" wire:model="sex">
-                                      <option value="" selected>Select...</option>
-                                      <option value="Male">Male</option>
-                                      <option value="Female">Female</option>
+                                      <option value="" selected>{{ __('Select') }}....</option>
+                                      <option value="Male">{{ __('Male') }}</option>
+                                      <option value="Female">{{ __('Female') }}</option>
                                   </select>
                                   <x-input-error for="sex"></x-input-error>
                                 </div>
@@ -64,7 +64,7 @@
                               <div class="col col-md-6 px-4">
                                   <x-label for="birthdate" value="{{ __('Birthdate') }}" />
                                   <x-input id="birthdate" class="block mt-1 w-full {{ $errors->has('birthdate') ? 'is-invalid' : '' }}" type="date" name="birthdate"
-                                      :value="old('birthdate')" required autocomplete="birthdate" onkeydown="return false"
+                                      :value="old('birthdate')" required autocomplete="birthdate"
                                       wire:model="birthdate" />
                                   <x-input-error for="birthdate"></x-input-error>
                               </div>  

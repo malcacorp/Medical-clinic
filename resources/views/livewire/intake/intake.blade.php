@@ -29,7 +29,7 @@
 
                       <div class="row mb-2">
                           <div class="col-12 col-md-6 px-4">
-                              <x-label for="id_number" value="{{ __('Id') }}" />
+                              <x-label for="id_number" value="{{ __('Id Number') }}" />
                               <x-input id="id_number"
                                   class="block mt-1 w-full {{ $errors->has('id_number') ? 'is-invalid' : '' }}"
                                   type="number" name="id_number" :value="old('id_number')" required autocomplete="id_number"
@@ -37,11 +37,13 @@
                               <x-input-error for="id_number"></x-input-error>
                           </div>
                           <div class="col-12 col-md-6 px-4">
-                              <x-label for="sex" value="{{ __('Sex') }}" />
+                            <x-label for="sex" value="{{ __('Sex') }} *" class="{{ $errors->has('sex') ? 'is-invalid' : '' }}" />
                               <select class="form-select" name="sex" wire:model="sex">
-                                  <option value="Male" selected>Male</option>
-                                  <option value="Female">Female</option>
+                                <option value="" selected>{{ __('Select') }}...</option>
+                                <option value="Male">{{ __('Male') }}</option>
+                                <option value="Female">{{ __('Female') }}</option>
                               </select>
+                              <x-input-error for="sex"></x-input-error>
                           </div>
                       </div>
 
@@ -52,13 +54,15 @@
                                   class="block mt-1 w-full {{ $errors->has('phone_number') ? 'is-invalid' : '' }}"
                                   type="text" name="phone_number" :value="old('phone_number')" required
                                   autocomplete="phone_number" wire:model="phone_number" />
+                                <x-input-error for="phone_number"></x-input-error>
                           </div>
                           <div class="col-12 col-md-6 px-4">
                               <x-label for="birthdate" value="{{ __('Birthdate') }}" />
                               <x-input id="birthdate"
                                   class="block mt-1 w-full {{ $errors->has('birthdate') ? 'is-invalid' : '' }}"
                                   type="date" name="birthdate" :value="old('birthdate')" required autocomplete="birthdate"
-                                  onkeydown="return false" wire:model="birthdate" />
+                                  wire:model="birthdate" />
+                                <x-input-error for="birthdate"></x-input-error>
                           </div>
                       </div>
 
@@ -69,6 +73,7 @@
                                   class="block mt-1 w-full {{ $errors->has('height') ? 'is-invalid' : '' }}"
                                   type="number" step="0.01" name="height" :value="old('height')" autocomplete="height"
                                   wire:model="height" />
+                                <x-input-error for="height"></x-input-error>
                           </div>
                           <div class="col-12 col-md-6 px-4">
                               <x-label for="weight" value="{{ __('Weight') }}" />
@@ -76,6 +81,7 @@
                                   class="block mt-1 w-full {{ $errors->has('weight') ? 'is-invalid' : '' }}"
                                   type="number" step="0.01" name="weight" :value="old('weight')" autocomplete="weight"
                                   wire:model="weight" />
+                                <x-input-error for="weight"></x-input-error>
                           </div>
                       </div>
 
@@ -91,13 +97,14 @@
                               <x-label for="address" value="{{ __('Address') }}" />
                               <textarea id="address" class="form-control block mt-1 w-full {{ $errors->has('address') ? 'is-invalid' : '' }}"
                                   type="text" name="address" autocomplete="address" wire:model="address">{{ old('address') }}</textarea>
+                                <x-input-error for="address"></x-input-error>
                           </div>
                       </div>
 
                       @if (!$isEdit)
                           <h2 class="text-center mt-4">{{ __('Create an user account') }}</h2>
                           <div class="mb-3 px-3">
-                              <x-label value="{{ __('Email') }}" />
+                              <x-label value="{{ __('Email or Id number') }}" />
 
                               <x-input class="{{ $errors->has('email') ? 'is-invalid' : '' }}" type="email"
                                   name="email" :value="old('email')" required wire:model="email" />

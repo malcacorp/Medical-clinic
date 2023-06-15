@@ -1,7 +1,7 @@
 <x-guest-layout>
     <x-authentication-card>
         <div class="row">
-            <div class="col-12 col-md-6 px-0 login-img" style="background-image: url({{asset('images/login-img.png')}}) ">
+            <div class="col-12 col-md-6 px-0 login-img" style="background-image: url({{asset('images/login-img.jpeg')}}) ">
             </div>
             <div class="col-12 col-md-6">
                 <div class="card-body">
@@ -50,16 +50,16 @@
 
                         <hr class="my-4" />
 
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <button type="button" class="btn btn-danger  text-white w-100 login-input">
                                 {{ __('Login with Google') }}
                             </button>
-                        </div>
+                        </div> --}}
 
                         <div class="mt-4">
                             <div class="">                      
                                 @if (Route::has('intake'))
-                                    <a href="{{ route('intake') }}" class="btn btn-info text-white w-100" style="line-height: 3; border-radius: 2rem">{{ __('Patient Registration') }}</a>
+                                    <a href="{{ route('intake') }}" class="btn btn-danger text-white w-100" style="line-height: 3; border-radius: 2rem">{{ __('Patient Registration') }}</a>
                                 @endif                                
                             </div>
                         </div>

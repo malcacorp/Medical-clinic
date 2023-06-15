@@ -8,6 +8,9 @@ use App\Models\Employee;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Patient;
+use Illuminate\Mail\Markdown;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -51,16 +54,20 @@ class PatientsForms extends Component
       'weight' => ['required', 'numeric'],
       'height' => ['required', 'numeric'],
       'id_number' => ['required', Rule::unique('patients')->ignore($this->patient_id)],
-      'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->user_id)],
+      'phone_number' => 'required_without_all:email', 
+      'email' => ['string', 'email', 'max:125', Rule::unique('users')->ignore($this->user_id)],
+      'birthdate' => ['required', 'date', 'date_format:Y-m-d', 'before:today', 'after:1920-01-01'],
       'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
       'address' => 'required',
     ]);
+
+    $email = $this->email ? $this->email : $this->id_number . '@gmail.com';
 
     $user = User::firstOrNew(
       ['id' => $this->user_id], // Condición de búsqueda
       [
         'name' => $this->first_name . ' ' . $this->last_name,
-        'email' => $this->email,
+        'email' => $email,
         'password' => Hash::make($this->id_number),
       ]
     );
@@ -80,7 +87,7 @@ class PatientsForms extends Component
       'first_name' => strtoupper($this->first_name),
       'id_number' => $this->id_number,
       'sex' => $this->sex,
-      'email' => $this->email,
+      'email' => $email,
       'phone_number' => $this->phone_number,
       'birthdate' => $this->birthdate,
       'weight' => $this->weight,
@@ -95,6 +102,16 @@ class PatientsForms extends Component
     $user->assignRole($rolePatient);
 
     $this->user = $user;
+
+    $message = Markdown::parse(nl2br("Hola, " . $patient->first_name . ".\n\n Bienvenido(a) a Clínica La Esperanza. \n\n Puedes reservar una cita haciendo click en el enlace abajo. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
+
+    $details = [
+        'title' => "Bienvenido(a) a Clínica La Esperanza.",
+        'subject' => "Bienvenido(a) a Clínica La Esperanza.",
+        'message' => $message,
+    ];
+
+    Mail::to([$email])->send(new SendMail($details));
 
     session()->flash('message', $this->patient_id ? 'Patient Updated Successfully.' : 'Patient Created Successfully.');
     $this->patient_id = $patient->id;
@@ -386,8 +403,8 @@ class PatientsForms extends Component
     return DB::transaction(function () use ($currentUser) {
       return tap(
         MedicalAssessment::updateOrCreate(['id' => $this->assessment_id], [
-          'doctor_id' => $currentUser->hasRole('doctor') ? $currentUser->id : null,
-          'nurse_id' => !$currentUser->hasRole('doctor') ? $currentUser->id : null,
+          'doctor_id' => $currentUser->hasRole('doctor') ? $currentUser->employee->id : null,
+          'nurse_id' => $currentUser->hasRole('nurse') ? $currentUser->employee->id : null,
           'assessment_type' => $this->assessment_type,
           'height' => $this->height,
           'weight' => $this->weight,
