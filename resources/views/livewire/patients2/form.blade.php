@@ -12,14 +12,14 @@
 
                             <div class="row mb-4 mb-4">
                                 <div class="col col-md-6 px-4">
-                                    <x-label for="first_name" value="{{ __('First name') }}" />
+                                    <x-label for="first_name" value="{{ __('First name') }} *" />
                                     <x-input id="first_name" class="block mt-1 w-full {{ $errors->has('first_name') ? 'is-invalid' : '' }}" type="text" name="first_name"
                                         :value="old('first_name')" required autofocus autocomplete="first_name"
                                         wire:model="first_name" />                                    
                                     <x-input-error for="first_name"></x-input-error>
                                 </div>
                                 <div class="col col-md-6 px-4">
-                                    <x-label for="last_name" value="{{ __('Last name') }}" />
+                                    <x-label for="last_name" value="{{ __('Last name') }} *" />
                                     <x-input id="last_name" class="block mt-1 w-full {{ $errors->has('last_name') ? 'is-invalid' : '' }}" type="text" name="last_name"
                                         :value="old('last_name')" required autocomplete="last_name" wire:model="last_name" />
                                     <x-input-error for="last_name"></x-input-error>
@@ -28,17 +28,17 @@
 
                             <div class="row mb-4">
                                 <div class="col col-md-6 px-4">
-                                    <x-label for="id_number" value="{{ __('Id') }}" />
+                                    <x-label for="id_number" value="{{ __('Id Number') }} *" />
                                     <x-input id="id_number" class="block mt-1 w-full {{ $errors->has('id_number') ? 'is-invalid' : '' }}" type="number" name="id_number"
                                         :value="old('id_number')" required autocomplete="id_number" wire:model="id_number" />
                                     <x-input-error for="id_number"></x-input-error>
                                   </div>
                                 <div class="col col-md-6 px-4">
-                                    <x-label for="sex" value="{{ __('Sex') }}" class="{{ $errors->has('sex') ? 'is-invalid' : '' }}" />
+                                    <x-label for="sex" value="{{ __('Sex') }} *" class="{{ $errors->has('sex') ? 'is-invalid' : '' }}" />
                                     <select class="form-select" name="sex" wire:model="sex">
-                                        <option value="" selected>Select...</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
+                                        <option value="" selected>{{ __('Select') }}...</option>
+                                        <option value="Male">{{ __('Male') }}</option>
+                                        <option value="Female">{{ __('Female') }}</option>
                                     </select>
                                     <x-input-error for="sex"></x-input-error>
                                   </div>
@@ -63,15 +63,15 @@
                             <div class="row mb-4">
 
                                 <div class="col col-md-6 px-4">
-                                    <x-label for="birthdate" value="{{ __('Birthdate') }}" />
+                                    <x-label for="birthdate" value="{{ __('Birthdate') }} *" />
                                     <x-input id="birthdate" class="block mt-1 w-full {{ $errors->has('birthdate') ? 'is-invalid' : '' }}" type="date" name="birthdate"
-                                        :value="old('birthdate')" required autocomplete="birthdate" onkeydown="return false"
+                                        :value="old('birthdate')" required autocomplete="birthdate"
                                         wire:model="birthdate" />
                                     <x-input-error for="birthdate"></x-input-error>
                                   </div>
                                 <div class="col col-md-6 px-4">
-                                    <x-label for="height" value="{{ __('Height') }}" />
-                                    <x-input id="height" class="block mt-1 w-full {{ $errors->has('height') ? 'is-invalid' : '' }}" type="text" name="height"
+                                    <x-label for="height" value="{{ __('Height') }} *" />
+                                    <x-input id="height" class="block mt-1 w-full {{ $errors->has('height') ? 'is-invalid' : '' }}" type="number" min="1" step="0.01" name="height"
                                         :value="old('height')" autocomplete="height" wire:model="height" />
                                     <x-input-error for="height"></x-input-error>
                                   </div>
@@ -79,8 +79,8 @@
 
                             <div class="row mb-4">
                                 <div class="col col-md-6 px-4">
-                                    <x-label for="weight" value="{{ __('Weight') }}" />
-                                    <x-input id="weight" class="block mt-1 w-full {{ $errors->has('weight') ? 'is-invalid' : '' }}" type="text" name="weight"
+                                    <x-label for="weight" value="{{ __('Weight') }} *" />
+                                    <x-input id="weight" class="block mt-1 w-full {{ $errors->has('weight') ? 'is-invalid' : '' }}" type="number" min="1" step="0.01" name="weight"
                                         :value="old('weight')" autocomplete="weight" wire:model="weight" />
                                     <x-input-error for="weight"></x-input-error>
                                   </div>
@@ -95,12 +95,12 @@
 
                             <div class="row mb-4">
                                 <div class="col px-4">
-                                    <x-label for="address" value="{{ __('Address') }}" />
+                                    <x-label for="address" value="{{ __('Address') }} *" />
                                     <textarea id="address" class="form-control block mt-1 w-full {{ $errors->has('address') ? 'is-invalid' : '' }}"
                                         type="text" name="address" autocomplete="address" wire:model="address">{{ old('address') }}</textarea>
                                     {{-- <x-input id="address" class="block mt-1 w-full" type="text" name="address"
                                 :value="old('address')" autocomplete="address" wire:model="address" /> --}}
-                                    <x-input-error for="first_name"></x-input-error>
+                                    <x-input-error for="address"></x-input-error>
                                   </div>
                             </div>
 

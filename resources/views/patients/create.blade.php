@@ -44,7 +44,7 @@
                         <div class="md:w-1/2 px-4">
                             <x-label for="birthdate" value="{{ __('Birthdate') }}" />
                             <x-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate"
-                                :value="old('birthdate')" required autocomplete="birthdate" onkeydown="return false" />
+                                :value="old('birthdate')" required autocomplete="birthdate" />
                         </div>
                         <div class="md:w-1/2 px-4">
                             <x-label for="height" value="{{ __('Height') }}" />

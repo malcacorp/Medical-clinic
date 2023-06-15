@@ -14,12 +14,12 @@
                             <div class="row mb-4 mb-4">
                                 <div class="col col-md-3 px-4">
                                     <x-label for="height" value="{{ __('Height') }}" />
-                                    <x-input id="height" class="block mt-1 w-full" type="text" name="height"
+                                    <x-input id="height" class="block mt-1 w-full" type="number" min="0" step="0.01" name="height"
                                         :value="old('height')" autocomplete="height" wire:model="height" />
                                 </div>
                                 <div class="col col-md-3 px-4">
                                     <x-label for="weight" value="{{ __('Weight') }}" />
-                                    <x-input id="weight" class="block mt-1 w-full" type="text" name="weight"
+                                    <x-input id="weight" class="block mt-1 w-full" type="number" min="0" step="0.01" name="weight"
                                         :value="old('weight')" autocomplete="weight" wire:model="weight" />
                                 </div>
                                 <div class="col col-md-3 px-4">

@@ -20,6 +20,8 @@
     <body class="bg-light font-sans antialiased">
         {{ $slot }}
       @livewireScripts
+      <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
       <script src="{{ asset('js/utils.js') }}"></script>
+      @stack('scripts')
     </body>
 </html>
