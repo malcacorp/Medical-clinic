@@ -15,15 +15,15 @@
 
 <div class="row mb-2">
     <div class="col-12 col-md-6 px-4">
-        <x-label for="id_number" value="{{ __('Id') }}" />
+        <x-label for="id_number" value="{{ __('Id Number') }}" />
         <x-input id="id_number" class="form-control block mt-1 w-full" type="number" name="id_number" :value="old('id_number')" required
             autocomplete="id_number" {{ $livewire ? 'wire:model=id_number' : "" }} />
     </div>
     <div class="col-12 col-md-6 px-4">
         <x-label for="sex" value="{{ __('Sex') }}" />
         <select class="form-select" name="sex" {{ $livewire ? 'wire:model=sex' : ":value=old('sex')" }}>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
+            <option value="Male">{{ __('Male') }}</option>
+            <option value="Female">{{ __('Female') }}</option>
         </select>
     </div>
 </div>
@@ -37,7 +37,7 @@
     <div class="col-12 col-md-6 px-4">
         <x-label for="birthdate" value="{{ __('Birthdate') }}" />
         <input id="birthdate" class="form-control block mt-1 w-full" type="date" name="birthdate" required
-            autocomplete="birthdate" onkeydown="return false"
+            autocomplete="birthdate"
             {{ $livewire ? 'wire:model=birthdate' : ":value=old('birthdate')" }} />
     </div>
 </div>

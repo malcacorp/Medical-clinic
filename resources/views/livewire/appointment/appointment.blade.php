@@ -21,7 +21,7 @@
                         {{-- Date and Time --}}
                         <label for="selectedDate">{{ __('Available Appointments') }}</label>
                         <select id="selectedDate" class="form-control" wire:model="selectedDate">
-                            <option value="">-- Select --</option>
+                            <option value="">--{{ __('Select') }}--</option>
                             @foreach ($availableDates as $availableDate)
                                 <option value={{$availableDate->id."|".$availableDate->employee_id."|".$availableDate->date."|".$availableDate->time}}>{{ $availableDate->doctorName }} | {{ $availableDate->date }} | {{ $availableDate->time }}</option>
                             @endforeach
@@ -30,7 +30,7 @@
                         {{-- Select Patient --}}
                         <label class="mt-2 mb-0" for="patient">{{ __('Patient Name') }}</label>
                         <select class="form-control w-100" wire:model="patient_id" id="patient" @if ($isEdit) disabled @endif>
-                            <option value="">-- Select --</option>
+                            <option value="">--{{ __('Select') }}--</option>
                             @foreach ($patients as $patient)
                                 <option value={{ $patient->id }}>{{ $patient->first_name. " " .$patient->last_name }}</option>
                             @endforeach
@@ -38,7 +38,7 @@
 
                         <label class="mt-2 mb-0" for="assessment-type">{{__('Assessment Type')}}</label>
                         <select id="assessment-type" class="form-control" wire:model="assessment_type">
-                            <option value="">-- Select --</option>
+                            <option value="">--{{ __('Select') }}--</option>
                             <option value="{{__('Normal Assessment')}}">{{__('Normal Assessment')}}</option>
                             <option value="{{__('Pressure control')}}">{{__('Pressure control')}}</option>
                             <option value="{{__('Medical program')}}">{{__('Medical program')}}</option>

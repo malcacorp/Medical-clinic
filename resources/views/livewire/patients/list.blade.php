@@ -35,7 +35,7 @@
                                 {{ $patient->last_name }}
                             </td>
                             <td whitespace-nowrap">
-                                {{ $patient->sex }}
+                                {{ __($patient->sex) }}
                             </td>
                             <td whitespace-nowrap">
                                 {{ $patient->phone_number }}

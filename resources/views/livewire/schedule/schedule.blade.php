@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label for="availability">{{ __('Available Appointments') }}</label>
                             <select id="availability" class="form-control">
-                                <option value="">-- Select --</option>
+                                <option value="">--{{ __('Select') }}--</option>
                                 @foreach ($availableDates as $availableDate)
                                     <option value={{ $availableDate->id."|".$availableDate->employee_id."|".$availableDate->date."|".$availableDate->time }}>{{ $availableDate->doctorName }} | {{ $availableDate->date }} | {{ $availableDate->time }}</option>
                                 @endforeach
@@ -51,7 +51,7 @@
                         <div class="form-group">
                             <label for="assessment-type">{{__('Assessment Type')}}</label>
                             <select id="assessment-type" class="form-control">
-                                <option value="">-- Select --</option>
+                                <option value="">--{{ __('Select') }}--</option>
                                 <option value="Normal Assessment">Normal Assessment</option>
                                 <option value="Presure control">Pressure control</option>
                                 <option value="Medical program">Medical program</option>

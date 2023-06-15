@@ -24,7 +24,7 @@
                 @else
                     <label for="availability">{{ __('Available Appointments') }}</label>
                     <select id="availability" class="form-control w-100 mw-100" wire:model="selectedDate">
-                        <option value="">-- Select --</option>
+                        <option value="">--{{ __('Select') }}--</option>
                         @foreach ($availableDates as $availableDate)
                             <option
                                 value={{ $availableDate->id . '|' . $availableDate->employee_id . '|' . $availableDate->date . '|' . $availableDate->time }}>

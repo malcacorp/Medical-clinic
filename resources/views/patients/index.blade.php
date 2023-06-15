@@ -46,7 +46,7 @@
                                         {{ $patient->last_name }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        {{ $patient->sex }}
+                                        {{ __($patient->sex) }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                         {{ $patient->phone_number }}
