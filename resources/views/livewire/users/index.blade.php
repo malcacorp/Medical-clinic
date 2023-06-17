@@ -16,8 +16,15 @@
           @endif
 
           @if ($isOpenList)
-              <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">{{ __("Create") }} {{ __("User") }}</button>
-              @include('livewire.users.list')
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-4">
+                    <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">{{ __("Create") }} {{ __("User") }}</button>
+                </div>
+                <div class="col-lg-3 offset-lg-3 col-md-4 offset-md-4">
+                    <input type="text" class="form-control mb-3" placeholder="{{ __('Search')}}..." aria-label="Buscar" wire:model="search">
+                </div>
+            </div>
+            @include('livewire.users.list')
           @endif
 
           @if ($isOpenUpdate)

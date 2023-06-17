@@ -13,6 +13,7 @@ class Users extends Component
     public $users, $user_id, $name;
     public $user, $userRoles, $roles, $asignedRoles;
     public $isOpenUpdate = 0, $isOpenShow = 0, $isOpenList = 1;
+    public $search = '';
   
     /**
      * The attributes that are mass assignable.
@@ -21,7 +22,12 @@ class Users extends Component
      */
     public function render()
     {
-        $this->users = User::all();
+        if ($this->search != '') {
+            $this->users = User::where('name', 'like', '%' . $this->search . '%')->get();
+        } else {
+            $this->users = User::all();
+        }
+
         return view('livewire.users.index');
     }
   
