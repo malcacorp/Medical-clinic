@@ -25,19 +25,19 @@
               <tbody>
                   @forelse ($employees as $employee)
                       <tr>
-                          <td whitespace-nowrap">
+                          <td whitespace-nowrap>
                               {{ $employee->id_number }}
                           </td>
-                          <td whitespace-nowrap">
+                          <td whitespace-nowrap>
                               {{ $employee->first_name }}
                           </td>
-                          <td whitespace-nowrap">
+                          <td whitespace-nowrap>
                               {{ $employee->last_name }}
                           </td>
-                          <td whitespace-nowrap">
+                          <td whitespace-nowrap>
                               {{ $employee->sex }}
                           </td>
-                          <td whitespace-nowrap">
+                          <td whitespace-nowrap>
                               {{ $employee->phone_number }}
                           </td>
                           <td class="px-5">
