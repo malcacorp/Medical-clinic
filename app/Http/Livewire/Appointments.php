@@ -17,19 +17,37 @@ class Appointments extends Component
     public $appointments, $appointment_id, $name;
     public $appointment, $appointmentPermissions;
     public $isOpenUpdate = 0, $isOpenShow = 0, $isOpenList = 1;
+    public $search = '';
 
 
     public function render()
     {
-        $this->appointments = Appointment::leftJoin('patients AS p', 'appointments.patient_id', '=', 'p.id')
-            ->leftJoin('employees AS e', 'appointments.employee_id', '=', 'e.id')
-            ->where('status', '=', 'Pending')
-            // ->where("date", ">=", Carbon::now())
-            ->select('appointments.*', 'p.*', 'e.*', 'appointments.id AS appointment_id')
-            ->selectRaw("CONCAT(e.first_name, ' ', e.last_name) AS doctor_name")
-            ->selectRaw("CONCAT(p.first_name, ' ', p.last_name) AS patient_name")
-            ->orderby('appointments.date', 'desc')
-            ->get();
+        if ($this->search != '') {
+            $this->appointments = Appointment::leftJoin('patients AS p', 'appointments.patient_id', '=', 'p.id')
+                ->leftJoin('employees AS e', 'appointments.employee_id', '=', 'e.id')
+                ->where('status', '=', 'Pending')
+                ->orWhere('p.first_name', 'like', '%' . $this->search . '%')
+                ->orWhere('p.last_name', 'like', '%' . $this->search . '%')
+                ->orWhere('p.id_number', 'like', '%' . $this->search . '%')
+                ->orWhere('appointments.date', 'like', '%' . $this->search . '%')
+                // ->where("date", ">=", Carbon::now())
+                ->select('appointments.*', 'p.*', 'e.*', 'appointments.id AS appointment_id')
+                ->selectRaw("CONCAT(e.first_name, ' ', e.last_name) AS doctor_name")
+                ->selectRaw("CONCAT(p.first_name, ' ', p.last_name) AS patient_name")
+                ->orderby('appointments.date', 'desc')
+                ->get();
+        } else {
+            $this->appointments = Appointment::leftJoin('patients AS p', 'appointments.patient_id', '=', 'p.id')
+                ->leftJoin('employees AS e', 'appointments.employee_id', '=', 'e.id')
+                ->where('status', '=', 'Pending')                
+                // ->where("date", ">=", Carbon::now())
+                ->select('appointments.*', 'p.*', 'e.*', 'appointments.id AS appointment_id')
+                ->selectRaw("CONCAT(e.first_name, ' ', e.last_name) AS doctor_name")
+                ->selectRaw("CONCAT(p.first_name, ' ', p.last_name) AS patient_name")
+                ->orderby('appointments.date', 'desc')
+                ->get();
+        }
+        
         // dd($this->appointments);
         return view('livewire.appointment.index');
     }
