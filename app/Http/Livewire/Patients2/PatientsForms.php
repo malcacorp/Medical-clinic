@@ -394,7 +394,7 @@ class PatientsForms extends Component
     $this->validate([
       'weight' => ['required', 'numeric'],
       'height' => ['required', 'numeric'],
-      'blood_pressure' => 'required',
+    //   'blood_pressure' => 'required',
       'medical_condition' => 'required',
     ]);
 
