@@ -52,6 +52,7 @@ class PermissionSeeder extends Seeder
       
       Permission::create(['name' => 'view-schedule']);
       Permission::create(['name' => 'view-myschedule']);
+      Permission::create(['name' => 'view-staff-schedule']);
 
       Permission::create(['name' => 'list-appointments']);
       Permission::create(['name' => 'create-appointment']);
