@@ -41,6 +41,7 @@
                                     <textarea id="medical_condition"
                                         class="form-control block mt-1 w-full {{ $errors->has('medical_condition') ? 'is-invalid' : '' }}" type="text"
                                         name="medical_condition" autocomplete="medical_condition" wire:model="medical_condition">{{ old('medical_condition') }}</textarea>
+                                    <x-input-error for="medical_condition" />
                                 </div>
                             </div>
 
