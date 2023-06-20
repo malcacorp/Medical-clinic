@@ -19,7 +19,7 @@ class Schedule extends Component
     public $isEmployee;
     public $isAdmin;
     public $selectedDate, $availableDates = [];
-    public $doctors = [];
+    public $doctors = [], $allDoctors = [];
     public $doctorSelected;
     public $currentAppointmentId;
     public $currentAppointmentDate = "", $currentAppointmentTime = "", $currentAppointmentPatient = "", $currentAppointmentReason = ""; 
@@ -32,7 +32,10 @@ class Schedule extends Component
         if($id != null){
           $this->employeeId = intval($id);
           $this->employeeSchedule = true;
+          $this->doctorSelected = $id;
           // dd($id);
+        }else{
+          $this->doctorSelected = 'all';
         }
 
     }
@@ -288,6 +291,10 @@ class Schedule extends Component
             // print($doctors);
           $this->doctors = $doctors;
           $this->isEmployee = false;
+
+          $this->allDoctors = Employee::whereHas('user.roles', function ($query) {
+                $query->where('name', 'doctor');
+            })->get();
         }
  
         $this->events = json_encode($events);
