@@ -14,6 +14,13 @@
                 appointment</button>
             <div class="card shadow bg-light">
                 <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">
+                    <nav class="nav nav-pills nav-fill mb-3">
+                        <a class="nav-item nav-link {{ ($doctorSelected=='all') ? 'active' : '' }} " href="{{ route('schedule') }}" >{{ strtoupper(__('All Doctors')) }}</a>
+                        @foreach ($allDoctors as $doctor)
+                            <a class="nav-item nav-link {{ ($doctorSelected==$doctor->id) ? 'active' : '' }} " href="{{ route('staff-schedule', $doctor->id) }}" >{{ $doctor->first_name." ".$doctor->last_name }}</a>
+                        @endforeach                        
+                    </nav>
+                      
                     <div id='calendar-container' wire:ignore>
                         <div id='calendar'></div>
                         {{-- {{$title}} --}}
