@@ -113,6 +113,16 @@ class PatientsForms extends Component
 
     Mail::to([$email])->send(new SendMail($details));
 
+    $message = Markdown::parse(nl2br("Hola, " . $patient->first_name . ".\n\n Bienvenido(a) a Clínica La Esperanza. \n\n Puedes reservar una cita haciendo click en el enlace abajo. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
+
+    $details = [
+        'title' => "Bienvenido(a) a Clínica La Esperanza.",
+        'subject' => "Bienvenido(a) a Clínica La Esperanza.",
+        'message' => $message,
+    ];
+
+    Mail::to([$email])->send(new SendMail($details));
+
     session()->flash('message', $this->patient_id ? 'Patient Updated Successfully.' : 'Patient Created Successfully.');
     $this->patient_id = $patient->id;
     $this->user_id = $user->id;
@@ -426,6 +436,8 @@ class PatientsForms extends Component
             $this->assessment_id = $medicalAssessment->id;
           }
           $this->listHistory($this->patient_id);
+
+          //correo
 
           session()->flash('message', $this->patient_id ? 'Assessment Updated Successfully.' : 'Assessment Created Successfully.');
           return true;

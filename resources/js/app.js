@@ -1,5 +1,5 @@
 import './bootstrap';
-import Inputmask from 'inputmask';
+//import Inputmask from 'inputmask';
 
 import Alpine from 'alpinejs';
 

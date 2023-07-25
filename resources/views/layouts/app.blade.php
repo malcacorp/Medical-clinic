@@ -211,6 +211,16 @@
               </li>
             @endcan
 
+             <!-- Nav Item - Report
+            @can("list-report")
+              <li class="nav-item">
+                <x-nav-link href="{{ route('reportpatients') }}" :active="request()->routeIs('reportpatients')">
+                  <i class="fas fa-hospital-user"></i>
+                  {{ __('Report') }}
+                </x-nav-link>
+              </li>
+            @endcan -->
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

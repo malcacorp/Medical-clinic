@@ -59,5 +59,9 @@ class PermissionSeeder extends Seeder
       Permission::create(['name' => 'show-appointment']);
       Permission::create(['name' => 'edit-appointment']);
       Permission::create(['name' => 'delete-appointment']);
+
+      //Permission::create(['name' => 'list-report']);
+      //Permission::create(['name' => 'report-attended']);
+      //Permission::create(['name' => 'report-patiens']);
     }
 }
