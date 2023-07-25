@@ -71,11 +71,11 @@ Route::middleware([
                      
     });
 
-   /*Route::group(['middleware' => ['permission:list-report']], function () {
+   Route::group(['middleware' => ['permission:list-report']], function () {
          Route::get('/reportpatients', ReportPatiens::class)->name('reportpatients');
          Route::get('/report', ReportAttended::class)->name('report');
              
-    });*/
+    });
     
     Route::group(['middleware' => ['permission:list-permissions']], function () {
         Route::get('permissions', Permissions::class)->name('permissions');
