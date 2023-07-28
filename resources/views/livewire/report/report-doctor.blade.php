@@ -7,16 +7,16 @@
 
     <div class=card>
         <div class=card-body>
-            <h5 class="card-title"> DOCTOR REPORT  ()</h5> 
+            
             <p class="card-text">
                 <div class="table table-responsive">
                     <table class="table table-sm table-bordered">
                         <tr>
                             <thead>
-                                <th> Doctor Name </th>
-                                <th> Patient attended</th>
-                                <th> Medical condition </th>
-                                <th> Date of Attention </th>
+                                <th> {{ __('Doctor Name') }} </th>
+                                <th> {{ __('Patient Treat') }}</th>
+                                <th> {{ __('Medical Condition') }}</th>
+                                <th> {{ __('Date of Attention') }} </th>
                             </thead>
                          </tr>   
                         <tbody>    
@@ -39,14 +39,6 @@
            
             </p >
         </div>
-    </div>              
-    <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>ID=2 FREDDY ACEVEDO, ID=3 LUISA HERNáNDEZ</span>
-                    </div>
-                </div>
-    </footer>  
-    
+    </div>                 
 </div>
 

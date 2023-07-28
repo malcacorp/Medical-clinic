@@ -5,20 +5,20 @@
      <x-slot name="header">
        
     <div class=card>
-        <h5 class="card-header">     Report   </h5> 
+        <h5 class="card-header">     {{ __('Report') }}   </h5> 
         <div class=card-body>
-            <h5 class="card-title"> Patients Attended</h5> 
+            <h5 class="card-title"> {{ __('Patients Attended') }}</h5> 
             <p class="card-text">
                 <div class="table table-responsive">
                     <table class="table table-sm table-bordered">
                         <tr>
                             <thead>
-                                <th> Firt Name </th>
-                                <th> Last Name </th>
-                                <th> email </th>
-                                <th> phone_number </th>
-                                <th> Medical condition </th>
-                                <th> Date </th>
+                                <th> {{ __('First name') }} </th>
+                                <th> {{ __('Last name') }} </th>
+                                <th> {{ __('email') }} </th>
+                                <th> {{ __('Phone number') }} </th>
+                                <th> {{ __('Medical Condition') }} </th>
+                                <th> {{ __('Date') }} </th>
                             </thead>
                         </tr>   
                         <tbody>    

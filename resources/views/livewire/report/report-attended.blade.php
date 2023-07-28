@@ -1,21 +1,20 @@
 <div>
   <x-slot name="header">
      <h2 class="ms-4 h3">
-        {{ __('List of medical assessment') }}
+        {{ __('Medical assessment') }}
      </h2>
 
 
     <div class=card>
           <div class=card-body>
-            <h5 class="card-title"> MEDICAL ASSESSMENT </h5> 
             <p class="card-text">
                 <div class="table table-responsive">
                     <table class="table table-sm table-bordered">
                         <tr>
                             <thead>
-                                <th> Patient id </th>
-                                <th> Medical Assessment </th>
-                                <th> Date of service </th>
+                                <th> {{ __('Patient id') }} </th>
+                                <th> {{ __('Medical Condition') }} </th>
+                                <th> {{ __('Date of service') }} </th>
                             </thead>
                         </tr>   
                         <tbody>    

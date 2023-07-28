@@ -217,13 +217,13 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Report</span>
+                    <span>{{ __('Report') }}</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ route('reportpatients') }}">Patients</a>
-                        <a class="collapse-item" href="{{ route('reportdoctor') }}">Doctor</a>
-                        <a class="collapse-item" href="{{ route('report') }}">Assessment</a>
+                        <a class="collapse-item" href="{{ route('reportpatients') }}">{{ __('Patients') }}</a>
+                        <a class="collapse-item" href="{{ route('reportdoctor') }}">{{ __('Doctor') }}</a>
+                        <a class="collapse-item" href="{{ route('report') }}">{{ __('Assessment') }}</a>
                     </div>
                 </div>
             </li>
