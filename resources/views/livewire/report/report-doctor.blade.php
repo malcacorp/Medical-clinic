@@ -13,7 +13,7 @@
                     <table class="table table-sm table-bordered">
                         <tr>
                             <thead>
-                                <th> Id Employee</th>
+                                <th> Doctor Name </th>
                                 <th> Patient attended</th>
                                 <th> Medical condition </th>
                                 <th> Date of Attention </th>
@@ -21,16 +21,16 @@
                          </tr>   
                         <tbody>    
                                   
-                                         @foreach ($atenciones2 as $item2 )                                                                                             
-                                            <tr>
-                                                <thead>
-                                                    <td> {{ $item2 -> doctor_id}}</td>
-                                                    <td> {{ $item2 -> patient_id}}</td>
-                                                    <th> {{ $item2 -> medical_condition}} </th>
-                                                    <th> {{ $item2-> created_at}} </th>
-                                                </thead>
-                                            </tr>
-                                        @endforeach
+                        @foreach ($medicalAssessments as $item2 )                                                                                             
+                        <tr>
+                            <thead>
+                                <td> {{ $item2->employee!=null ? $item2->employee->first_name : ''}}</td>
+                                <td> {{ $item2 -> patient_id}}</td>
+                                <th> {{ $item2 -> medical_condition}} </th>
+                                <th> {{ $item2-> created_at}} </th>
+                            </thead>
+                        </tr>
+                        @endforeach
                                                              
                               
                         </tbody>  

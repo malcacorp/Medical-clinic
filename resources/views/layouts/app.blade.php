@@ -211,7 +211,7 @@
               </li>
             @endcan
            
-
+            @can("list-report")
             <!-- Nav Item - Report -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
@@ -227,7 +227,7 @@
                     </div>
                 </div>
             </li>
-
+            @endcan
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

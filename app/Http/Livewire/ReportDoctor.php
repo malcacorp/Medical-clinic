@@ -8,17 +8,10 @@ use Livewire\Component;
 class ReportDoctor extends Component
 {
     public function render()
-    {
-        
-        $atenciones = MedicalAssessment::join("employees","employees.id","=","doctor_id")
-        ->select("first_name", "last_name")
-        ->get();
+    {       
+        $medicalAssessments = MedicalAssessment::all();
 
-        $atenciones2 = Employee::join("medical_assessments","medical_assessments.doctor_id","=","employees.id")
-        ->select("doctor_id","patient_id","medical_condition", "medical_assessments.created_at" )
-        ->get();
-                
-        return view('livewire.report.report-doctor', compact ('atenciones', "atenciones2"));
+        return view('livewire.report.report-doctor', compact ( "medicalAssessments"));
     }
 }
 

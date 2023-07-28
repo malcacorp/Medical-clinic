@@ -403,7 +403,7 @@ class PatientsForms extends Component
     return DB::transaction(function () use ($currentUser) {
       return tap(
         MedicalAssessment::updateOrCreate(['id' => $this->assessment_id], [
-          'doctor_id' => $currentUser->hasRole('doctor') ? $currentUser->employee->id : null,
+          'employee_id' => $currentUser->hasRole('doctor') ? $currentUser->employee->id : null,
           'nurse_id' => $currentUser->hasRole('nurse') ? $currentUser->employee->id : null,
           'assessment_type' => $this->assessment_type,
           'height' => $this->height,
@@ -423,6 +423,12 @@ class PatientsForms extends Component
           if (!$this->assessment_id) {
             $patient = Patient::find($this->patient_id);
             $patient->medicalAssessment()->save($medicalAssessment);
+
+            if(Auth::user()->hasRole('doctor')){
+              $employee = Employee::find(Auth::user()->employee->id);
+              $employee->medical_assessment()->save($medicalAssessment);
+            }
+
             $this->assessment_id = $medicalAssessment->id;
           }
           $this->listHistory($this->patient_id);
@@ -469,7 +475,7 @@ class PatientsForms extends Component
     $timestamp = $historyToShow->created_at->timestamp;
     $historyToShow->date = date('d-m-Y', $timestamp);
 
-    $doctor = Employee::find($historyToShow->doctor_id);
+    $doctor = Employee::find($historyToShow->employee_id);
     if ($doctor)
       $historyToShow->doctorName = $doctor->first_name . " " . $doctor->last_name;
 
