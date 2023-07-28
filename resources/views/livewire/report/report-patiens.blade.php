@@ -2,11 +2,8 @@
     {{-- Care about people's approval and you will be their prisoner. --}}
 
     <div>
-  <x-slot name="header">
-     <h2 class="ms-4 h3">
-        {{ __('Patients') }}
-     </h2>
-
+     <x-slot name="header">
+       
     <div class=card>
         <h5 class="card-header">     Report   </h5> 
         <div class=card-body>

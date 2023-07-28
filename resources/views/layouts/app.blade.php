@@ -210,16 +210,23 @@
                   </x-nav-link>
               </li>
             @endcan
+           
 
-             <!-- Nav Item - Report -->
-            @can("list-report")
-              <li class="nav-item">
-                <x-nav-link href="{{ route('reportpatients') }}" :active="request()->routeIs('reportpatients')">
-                  <i class="fas fa-hospital-user"></i>
-                  {{ __('Report') }}
-                </x-nav-link>
-              </li>
-            @endcan
+            <!-- Nav Item - Report -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Report</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route('reportpatients') }}">Patients</a>
+                        <a class="collapse-item" href="{{ route('reportdoctor') }}">Doctor</a>
+                        <a class="collapse-item" href="{{ route('report') }}">Assessment</a>
+                    </div>
+                </div>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

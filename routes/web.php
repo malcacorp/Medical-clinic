@@ -12,6 +12,7 @@ use App\Http\Livewire\MySchedule;
 use App\Http\Livewire\Patients2\Index;
 use App\Http\Livewire\ReportAttended;
 use App\Http\Livewire\ReportPatiens;
+use App\Http\Livewire\ReportDoctor;
 use App\Http\Livewire\Permissions;
 use App\Http\Livewire\Roles;
 use App\Http\Livewire\Schedule;
@@ -66,14 +67,14 @@ Route::middleware([
         Route::get('patients2', Index::class)->name('patients2');
         Route::get('/patients2/create', PatientsForms::class)->name('patients-create');
         Route::get('/patients2/{id}', PatientsForms::class)->name('patient-edit');
-        Route::get('/patients2/{id}/{toShow}', PatientsForms::class)->name('patient-histories');
-        //Route::get('/reportpatients', ReportPatiens::class)->name('reportpatients');
-                     
+        Route::get('/patients2/{id}/{toShow}', PatientsForms::class)->name('patient-histories');                   
     });
 
    Route::group(['middleware' => ['permission:list-report']], function () {
          Route::get('/reportpatients', ReportPatiens::class)->name('reportpatients');
          Route::get('/report', ReportAttended::class)->name('report');
+         Route::get('/reportdoctor', ReportDoctor::class)->name('reportdoctor');
+
              
     });
     

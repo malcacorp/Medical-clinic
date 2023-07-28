@@ -6,6 +6,7 @@ use App\Models\MedicalAssessment;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
+
 class ReportAttended extends Component
 {
     
@@ -17,5 +18,4 @@ class ReportAttended extends Component
         return view('livewire.report.report-attended', compact ('resultados'));
      }
 
-     
 }

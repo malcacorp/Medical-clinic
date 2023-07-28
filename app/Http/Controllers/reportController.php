@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers;
-use Livewire\Component;
+use App\View\Components;
 use App\Models\MedicalAssessment;
 use Illuminate\Http\Request;
 
@@ -17,4 +17,9 @@ class reportController extends Controller
 
         return view('reporteCarePeople', ['resultados' => $resultados]);
     }
+    
 }
+
+
+
+
