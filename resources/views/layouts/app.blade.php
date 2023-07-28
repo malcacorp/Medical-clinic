@@ -244,9 +244,7 @@
             <!-- Main Content -->
             <div id="content">
 
-
                 @livewire('navigation-menu')
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
