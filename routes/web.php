@@ -108,4 +108,15 @@ Route::middleware([
     Route::group(['middleware' => ['permission:view-myschedule']], function () {
         Route::get('my-schedule', MySchedule::class)->name('my-schedule');
     });
+
+    Route::get('/welcome', function () {
+        return view('emails/welcome');
+    });
+    Route::get('/appointments', function () {
+        return view('emails/appointments');
+    });
+
+    Route::get('/password', function () {
+        return view('emails/password');
+    });
 });
