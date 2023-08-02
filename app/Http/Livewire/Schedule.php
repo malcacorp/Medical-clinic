@@ -66,7 +66,7 @@ class Schedule extends Component
         $role = $user->role;
         //  print($role);
         if ($exists){
-          // $input['doctor_id'] = $user->id;
+          // $input['employee_id'] = $user->id;
           $input['title'] = $event['title'];
           $input['start'] = $event['start'];
           $event = Event::create($input);

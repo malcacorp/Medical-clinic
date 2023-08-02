@@ -1,7 +1,6 @@
 <?php
 
 namespace App\View\Components;
-
 use Illuminate\View\Component;
 
 class PatientForm extends Component
@@ -26,3 +25,5 @@ class PatientForm extends Component
         return view('components.patient-form');
     }
 }
+
+

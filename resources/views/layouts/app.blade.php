@@ -210,7 +210,24 @@
                   </x-nav-link>
               </li>
             @endcan
-
+           
+            @can("list-report")
+            <!-- Nav Item - Report -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>{{ __('Report') }}</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route('reportpatients') }}">{{ __('Patients') }}</a>
+                        <a class="collapse-item" href="{{ route('reportdoctor') }}">{{ __('Doctor') }}</a>
+                        <a class="collapse-item" href="{{ route('report') }}">{{ __('Assessment') }}</a>
+                    </div>
+                </div>
+            </li>
+            @endcan
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -227,9 +244,7 @@
             <!-- Main Content -->
             <div id="content">
 
-
                 @livewire('navigation-menu')
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
