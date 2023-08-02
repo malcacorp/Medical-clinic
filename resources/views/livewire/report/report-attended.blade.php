@@ -16,7 +16,7 @@
                                 <th> {{ __('Medical Condition') }} </th>
                                 <th> {{ __('Date of service') }} </th>
                             </thead>
-                        </tr>   
+                        </tr>  
                         <tbody>    
                                 
                                 @foreach ($resultados as $item )
