@@ -90,7 +90,7 @@ class AppointmentForms extends Component
             $this->appointment->update([
                 'date' => $selectedDate[2],
                 'time' => $selectedDate[3],
-                'doctor_id' => $selectedDate[1],
+                'employee_id' => $selectedDate[1],
                 'medical_concerns' => $this->medical_concerns,
                 'assessment_type' => $this->assessment_type,
             ]);

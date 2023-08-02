@@ -10,9 +10,13 @@ use App\Http\Livewire\Users;
 use App\Http\Livewire\Employees;
 use App\Http\Livewire\MySchedule;
 use App\Http\Livewire\Patients2\Index;
+use App\Http\Livewire\ReportAttended;
+use App\Http\Livewire\ReportPatiens;
+use App\Http\Livewire\ReportDoctor;
 use App\Http\Livewire\Permissions;
 use App\Http\Livewire\Roles;
 use App\Http\Livewire\Schedule;
+//use App\Http\Controllers\reportController;
 
 use App\Http\Livewire\Patients2\PatientsForms;
 
@@ -56,13 +60,22 @@ Route::middleware([
     
     Route::group(['middleware' => ['permission:list-patients']], function () {
         Route::get('patients', Patients::class)->name('patients');
+        
     });
-    
+
     Route::group(['middleware' => ['permission:list-patients']], function () {
         Route::get('patients2', Index::class)->name('patients2');
         Route::get('/patients2/create', PatientsForms::class)->name('patients-create');
         Route::get('/patients2/{id}', PatientsForms::class)->name('patient-edit');
-        Route::get('/patients2/{id}/{toShow}', PatientsForms::class)->name('patient-histories');
+        Route::get('/patients2/{id}/{toShow}', PatientsForms::class)->name('patient-histories');                   
+    });
+
+   Route::group(['middleware' => ['permission:list-report']], function () {
+         Route::get('/reportpatients', ReportPatiens::class)->name('reportpatients');
+         Route::get('/report', ReportAttended::class)->name('report');
+         Route::get('/reportdoctor', ReportDoctor::class)->name('reportdoctor');
+
+             
     });
     
     Route::group(['middleware' => ['permission:list-permissions']], function () {

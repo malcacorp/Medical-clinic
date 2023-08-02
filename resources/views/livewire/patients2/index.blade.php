@@ -35,7 +35,7 @@
                                     <th>{{ __("Last name") }}</th>
                                     <th>{{ __("Sex") }}</th>
                                     <th>{{ __("Phone number") }}</th>
-                                    <th> </th>
+                                    <th>{{ __("Options") }}</th>
                                 </tr>
                             </thead>
                             <tfoot>

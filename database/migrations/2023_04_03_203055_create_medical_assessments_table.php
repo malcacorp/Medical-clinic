@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('medical_assessments', function (Blueprint $table) {
           $table->id();
           $table->bigInteger('patient_id')->nullable()->unsigned();
-          $table->bigInteger('doctor_id')->nullable()->unsigned(); //Doctor id on employees table
+          $table->bigInteger('employee_id')->nullable()->unsigned(); //Doctor id on employees table
           $table->bigInteger('nurse_id')->nullable()->unsigned(); //Nurse id on employees table
           $table->string('assessment_type')->nullable();
 
@@ -36,7 +36,7 @@ return new class extends Migration
           $table->boolean('active')->nullable();
           $table->timestamps();
           $table->foreign('patient_id')->references('id')->on('patients');
-          $table->foreign('doctor_id')->references('id')->on('employees');
+          $table->foreign('employee_id')->references('id')->on('employees');
           $table->foreign('nurse_id')->references('id')->on('employees');
         });
     }

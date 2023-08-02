@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
+use Livewire\Component;
 
 class VerifyCsrfToken extends Middleware
 {
@@ -15,3 +16,5 @@ class VerifyCsrfToken extends Middleware
         //
     ];
 }
+
+

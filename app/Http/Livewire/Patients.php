@@ -346,7 +346,7 @@ class Patients extends Component
       return DB::transaction(function () use ($currentUser) {
         return tap(
           MedicalAssessment::updateOrCreate(['id' => $this->assessment_id],[
-            'doctor_id' => $currentUser->hasRole('doctor') ? $currentUser->id : null,
+            'employee_id' => $currentUser->hasRole('doctor') ? $currentUser->id : null,
             'nurse_id' => !$currentUser->hasRole('doctor') ? $currentUser->id : null,
             'assessment_type' => $this->assessment_type,
             'height' => $this->height,
@@ -429,7 +429,7 @@ class Patients extends Component
       $timestamp = $historyToShow->created_at->timestamp;
       $historyToShow->date = date('d-m-Y', $timestamp);
 
-      $doctor = Employee::find($historyToShow->doctor_id);
+      $doctor = Employee::find($historyToShow->employee_id);
       if($doctor)
         $historyToShow->doctorName = $doctor->first_name. " " .$doctor->last_name;
 
