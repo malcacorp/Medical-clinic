@@ -42,7 +42,11 @@
                                 <td class="pad">
                                   <div style="font-family: sans-serif">
                                     <div class style="font-size: 12px; font-family: 'Lato', Tahoma, Verdana, Segoe, sans-serif; mso-line-height-alt: 14.399999999999999px; color: #FFFFFF; line-height: 1.2;">
-                                      <p style="margin: 0; font-size: 12px; text-align: center; mso-line-height-alt: 14.399999999999999px;"><span style="font-size:17px;">Servicios <span style="background-color:transparent;font-size:17px;"> </span>&nbsp;</p>
+                                      <p style="margin: 0; font-size: 12px; text-align: center; mso-line-height-alt: 14.399999999999999px;
+                                      
+                                      
+                                      
+                                      "><span style="font-size:17px;">Telefonos: Medicina General(0426-2250128)- Ginecologia General (0414-4123423) <span style="background-color:transparent;font-size:17px;"> </span>&nbsp;</p>
                                     </div>
                                   </div>
                                 </td>
@@ -199,7 +203,7 @@
                                 <td class="pad">
                                   <div style="font-family: sans-serif">
                                     <div class style="font-size: 12px; font-family: 'Lato', Tahoma, Verdana, Segoe, sans-serif; mso-line-height-alt: 18px; color: #555555; line-height: 1.5;">
-                                      <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 21px;">{{ __('La Esperanza Clinic.&nbsp;</p>
+                                      <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 21px;">{{ __('La Esperanza Clinic.') }}&nbsp;</p>
                                       <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 21px;">Sector 10, Isabelica, Valencia - Venezuela</p>
                                     </div>
                                   </div>
