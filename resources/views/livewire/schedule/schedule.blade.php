@@ -7,11 +7,11 @@
                 </h2>
             </x-slot>
             @if (!$isAdmin && !$isEmployee)
-            <button id="add-appointment-button" class="btn btn-primary text-white rounded m-3">Create
-                appointment</button>
+            <button id="add-appointment-button" class="btn btn-primary text-white rounded m-3" onclick="$('#add-appointment-modal').modal('show')">{{__("Create") }}
+                {{__("Appointment") }}</button>
             @endif
-            <button id="show-appointment-button" class="btn btn-primary text-white rounded m-3 d-none">{{ __('Show') }}
-                appointment</button>
+            <button id="show-appointment-button" class="btn btn-primary text-white rounded m-3 d-none" onclick="$('#show-appointment-modal').modal('show')">{{ __('Show') }}
+                {{__("Appointment") }}</button>
             <div class="card shadow bg-light">
                 <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">
                     <nav class="nav nav-pills nav-fill mb-3">
@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="modal fade" id="add-appointment-modal" tabindex="-1" role="dialog"
-        aria-labelledby="add-appointment-modal-label" aria-hidden="true">
+        aria-labelledby="add-appointment-modal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -81,11 +81,11 @@
     </div>
 
     <div class="modal fade" id="show-appointment-modal" tabindex="-1" role="dialog"
-        aria-labelledby="show-appointment-modal-label" aria-hidden="true">
+        aria-labelledby="show-appointment-modal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="show-appointment-modal-label">Appointment</h5>
+                    <h5 class="modal-title" id="show-appointment-modal-label">{{__("Appointment") }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                         onclick="closeModal('show-appointment-modal')">
                         <span aria-hidden="true">&times;</span>
@@ -141,7 +141,7 @@
             var data = JSON.parse(originalData).map((item)=>{
                 let newTitle = item.title;
                 if ("{{app()->getLocale()}}" == "es") {
-                    newTitle = item.title.includes('Appointment') ? item.title.replace('Appointment', 'Cita') : item.title.replace('Available', 'Disponible');
+                    newTitle = item.title.includes('Appointment') ? item.title.replace('My Appointment', 'Mi Cita') : item.title.replace('Available', 'Disponible');
                 }
                 return { ...item, title: newTitle };
             });
@@ -209,7 +209,7 @@
                     //       // Livewire.emit('eliminarEvento', );
                     //   }
                     // }
-                    if (info.event.title.includes("Appointment") || info.event.title.includes("APPOINTMENT")) {
+                    if (info.event.title.includes("Appointment") || info.event.title.includes("APPOINTMENT") || info.event.title.includes("Cita") || info.event.title.includes("CITA")) {
                         @this.showAppointment(info.event.id);
                         setTimeout(function() {
                             $('#show-appointment-button').click();
@@ -286,16 +286,6 @@
 
             @this.on('notAvailability', function() {
                 alert("No hay disponibilidad a esta hora con este doctor");
-            });
-
-            // Open modal for creating appointment
-            document.getElementById('add-appointment-button').addEventListener('click', function() {
-                $('#add-appointment-modal').modal('show');
-            });
-
-            // Open modal for showing appointment
-            document.getElementById('show-appointment-button').addEventListener('click', function() {
-                $('#show-appointment-modal').modal('show');
             });
 
             // Guarda el evento en el calendario cuando se hace clic en el botón correspondiente dentro del modal
