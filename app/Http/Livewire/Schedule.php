@@ -158,7 +158,7 @@ class Schedule extends Component
       // $currentEvent = Event::find(intval($id));
       $currentEvent = Event::leftJoin('appointments', 'appointments.event_id', '=', 'events.id')
                   ->leftJoin('patients', 'patients.id', '=', 'appointments.patient_id')
-                  ->select('events.id','events.title','appointments.date','appointments.time', 'ascintments.medical_concerns', 'patients.id as patient_id', 'patients.first_name', 'patients.last_name', 'patients.phone_number', 'appointments.id AS appointment_id')
+                  ->select('events.id','events.title','appointments.date','appointments.time', 'appointments.medical_concerns', 'patients.id as patient_id', 'patients.first_name', 'patients.last_name', 'patients.phone_number', 'appointments.id AS appointment_id')
                   ->where('events.id', $id)
                   // ->orWhere('title', 'Available')
                   ->first();
