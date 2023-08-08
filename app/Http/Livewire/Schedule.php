@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Markdown;
 use App\Mail\SendMail;
+use Twilio\TwiML\Voice\Sms;
+use Twilio\Rest\Client;
+use Validator;
+
+
  
 class Schedule extends Component
 {
@@ -132,6 +137,7 @@ class Schedule extends Component
             ]);
 
             $message = Markdown::parse(nl2br("Hola, ". $patient->first_name. ".\n\n Tu cita médica con el Dr. (Dra.) ".$employee->first_name. " " .$employee->last_name. " será el día " .$appointment->date. " a las ".$appointment->time.". \n\n Si necesitas cancelar tu cita, puedes hacer click en el enlace abajo. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
+            $messageSms = ("Hola, " . $patient->first_name . ".Tu cita médica con el Dr. (Dra.) " . $employee->first_name . " " . $employee->last_name . " será el día " . $appointment->date . " a las " . $appointment->time . ". Si necesitas cancelar tu cita, puedes hacer click en el enlace abajo.(https://secure.esperanzavalencia.com) ");
 
             $details = [
               'title' => "Confirmación de Cita Médica",
@@ -140,6 +146,19 @@ class Schedule extends Component
             ];
 
             Mail::to([$patient->email])->send(new SendMail($details));
+            
+            //Appointment Sms
+            $sid = ('AC7cbad7cccea30b0a94576ded8f395b1d');
+            $token = ('7eecaa2c3c28a915476886d510d78352');
+            $client = new Client($sid, $token);
+            $number = $appointment->patient->phone_number;
+            $client->messages->create(
+              $number,
+              [
+                'from' => ('+18336651638'),
+                'body' => $messageSms,
+              ]
+            );
 
             $this->reset();
             
@@ -315,6 +334,7 @@ class Schedule extends Component
       $appointment->save();
 
       $message = Markdown::parse(nl2br("Hola, ". $appointment->patient->first_name. ".\n\n Tu cita médica con el Dr. (Dra.) ".$appointment->employee->first_name. " " .$appointment->employee->last_name. ",  el día " .$appointment->date. " a las ".$appointment->time.", ha sido Cancelada. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
+      $messageSms = ("Hola, " . $appointment->patient->first_name . ". Tu cita médica con el Dr. (Dra.) " . $appointment->employee->first_name . " " . $appointment->employee->last_name . ",  el día " . $appointment->date . " a las " . $appointment->time . ", ha sido Cancelada. [Visita nuestra pagina](https://secure.esperanzavalencia.com) ");
 
       $details = [
         'title' => "Cancelación de Cita Médica",
@@ -323,6 +343,19 @@ class Schedule extends Component
       ];
 
       Mail::to([$appointment->patient->email])->send(new SendMail($details));
+          //Cancellation Sms
+          $sid = ('AC7cbad7cccea30b0a94576ded8f395b1d');
+          $token = ('7eecaa2c3c28a915476886d510d78352');
+          $client = new Client($sid, $token);
+          $number = $appointment->patient->phone_number;
+          $client->messages->create(
+            $number,
+            [
+              'from' => ('+18336651638'),
+              'body' => $messageSms,
+            ]
+          );      
+
 
       $appointment->event()->update([
         'title' => 'Available'
