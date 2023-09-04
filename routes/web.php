@@ -13,6 +13,7 @@ use App\Http\Livewire\Patients2\Index;
 use App\Http\Livewire\ReportAttended;
 use App\Http\Livewire\ReportPatiens;
 use App\Http\Livewire\ReportDoctor;
+use App\Http\Livewire\ReportCount;
 use App\Http\Livewire\Permissions;
 use App\Http\Livewire\Roles;
 use App\Http\Livewire\Schedule;
@@ -71,11 +72,10 @@ Route::middleware([
     });
 
    Route::group(['middleware' => ['permission:list-report']], function () {
+         Route::get('/reportcount', ReportCount::class)->name('reportcount');
          Route::get('/reportpatients', ReportPatiens::class)->name('reportpatients');
          Route::get('/report', ReportAttended::class)->name('report');
-         Route::get('/reportdoctor', ReportDoctor::class)->name('reportdoctor');
-
-             
+         Route::get('/reportdoctor', ReportDoctor::class)->name('reportdoctor');                                       
     });
     
     Route::group(['middleware' => ['permission:list-permissions']], function () {
