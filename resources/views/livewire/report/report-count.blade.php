@@ -1,7 +1,7 @@
 <div>
   <x-slot name="header">
      <h2 class="ms-4 h3">
-        {{ __('Number of Medical assessment per week') }}
+        {{ __('Number of Patients attended at per week') }}
      </h2>
 
 
@@ -14,7 +14,7 @@
                             <thead>
                                 <th> {{ __('Year') }} </th>
                                 <th> {{ __('Week') }} </th>
-                                <th> {{ __('Number of patients2') }} </th>
+                                <th> {{ __('Number of Patients') }} </th>
                             </thead>
                         </tr>  
                         <tbody>    

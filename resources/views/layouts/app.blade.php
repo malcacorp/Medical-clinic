@@ -224,7 +224,7 @@
                         <a class="collapse-item" href="{{ route('reportpatients') }}">{{ __('Patients') }}</a>
                         <a class="collapse-item" href="{{ route('reportdoctor') }}">{{ __('Doctor') }}</a>
                         <a class="collapse-item" href="{{ route('report') }}">{{ __('Assessment') }}</a>
-                        <a class="collapse-item" href="{{ route('reportcount') }}">{{ __('Number') }}</a>
+                        <a class="collapse-item" href="{{ route('reportcount') }}">{{ __('Number of Patients') }}</a>
                     </div>
                 </div>
             </li>
