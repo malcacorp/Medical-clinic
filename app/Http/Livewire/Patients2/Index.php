@@ -26,7 +26,7 @@ class Index extends Component
     public $file, $photo, $search;
     public $patient_id, $user_id, $assessment_id;
     public $user, $patient, $patient_file_path, $histories, $historyToShow, $positionPage, $totalPatientHistories;
-    public $assessment_type, $temperature, $blood_pressure, $medical_condition, $medical_history, $alergic, $alergies, $medical_concerns, $diagnostic, $treatment, $active_assessment = true;
+    public $assessment_type, $temperature, $blood_pressure, $medical_condition, $medical_history, $alergic, $alergies, $medical_concerns, $diagnostic, $treatment, $active_assessment= true, $previous_illnesses ;
 
     public $isOpenList = true;
 

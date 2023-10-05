@@ -9,7 +9,8 @@
                             @csrf
                             <input type="hidden" wire:model="patient_id">
                             <input type="hidden" wire:model="user_id">
-
+                           
+                            
                             <div class="row mb-4">
                                 <div class="col px-4">
                                     <x-label for="diagnostic" value="{{ __('Diagnostic') }}" />

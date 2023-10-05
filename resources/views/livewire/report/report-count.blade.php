@@ -11,20 +11,24 @@
                 <div class="table table-responsive">
                     <table class="table table-sm table-bordered">
                         <tr>
+                           
                             <thead>
                                 <th> {{ __('Year') }} </th>
                                 <th> {{ __('Week') }} </th>
-                                <th> {{ __('Number of Patients') }} </th>
+                                <th> {{ __('Doctor ID') }} </th>
+                                <th> {{ __('Total Patients') }} </th>
+
                             </thead>
                         </tr>  
                         <tbody>    
                                 
-                                @foreach ($assessments as $item )
+                                @foreach ($assessments as $item2 )
                                     <tr>
                                         <thead>
-                                            <td> {{ $item -> year}}</td>
-                                            <th> {{ $item -> week}} </th>
-                                            <th> {{ $item -> patient_count}} </th>
+                                            <td> {{ $item2 -> year}}</td>
+                                            <th> {{ $item2 -> week}} </th>
+                                            <th> {{ $item2-> employee_id }} </th>
+                                            <th> {{ $item2 -> patient_count}} </th>
                                         </thead>
                                         
                                     </tr>
