@@ -196,6 +196,7 @@ class PatientsForms extends Component
     $this->medical_concerns = '';
     $this->diagnostic = '';
     $this->treatment = '';
+    $this->previous_illnesses = '';
     $this->active_assessment = true;
   }
 
@@ -420,8 +421,9 @@ class PatientsForms extends Component
           'medical_concerns' => $this->medical_concerns,
           'diagnostic' => $this->diagnostic,
           'treatment' => $this->treatment,
-          'active' => $this->active_assessment != null ? intval($this->active_assessment) : 1,
           'previous_illnesses' => $this->previous_illnesses,
+          'active' => $this->active_assessment != null ? intval($this->active_assessment) : 1,
+          
         ]),
         function (MedicalAssessment $medicalAssessment) {
           if (!$this->assessment_id) {

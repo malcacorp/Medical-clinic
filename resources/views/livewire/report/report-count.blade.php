@@ -22,17 +22,18 @@
                         </tr>  
                         <tbody>    
                                 
-                                @foreach ($assessments as $item2 )
-                                    <tr>
-                                        <thead>
-                                            <td> {{ $item2 -> year}}</td>
-                                            <th> {{ $item2 -> week}} </th>
-                                            <th> {{ $item2-> employee_id }} </th>
-                                            <th> {{ $item2 -> patient_count}} </th>
-                                        </thead>
-                                        
-                                    </tr>
-                                @endforeach  
+                              
+                                @foreach ($assessments as $item2)
+                                        <tr>
+                                            <thead>
+                                                <td> {{ $item2 -> year}}</td>
+                                                <td> {{ $item2 -> week }}</td>
+                                                <th> {{ $item2-> first_name }} </th>
+                                                <th> {{ $item2 -> patient_count}} </th>
+                                            </thead>
+                                        </tr>
+                                @endforeach
+                                
                         </tbody>  
                     </table>
                 </div>
