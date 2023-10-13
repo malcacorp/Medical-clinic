@@ -27,6 +27,7 @@ return new class extends Migration
           $table->text('medical_condition')->nullable();
           
           $table->text('medical_history')->nullable();
+          $table->text('previous_illnesses')->nullable();
           $table->boolean('alergic')->nullable();
           $table->text('alergies')->nullable();
           $table->text('medical_concerns')->nullable();

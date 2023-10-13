@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire; 
 use App\Models\MedicalAssessment;
 use App\Models\Employee;
 use Livewire\Component;

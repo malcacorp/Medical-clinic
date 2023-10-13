@@ -29,7 +29,7 @@ class PatientsForms extends Component
   public $file, $photo;
   public $patient_id, $user_id, $assessment_id;
   public $user, $patient, $patient_file_path, $histories, $historyToShow, $positionPage, $totalPatientHistories;
-  public $assessment_type, $temperature, $blood_pressure, $medical_condition, $medical_history, $alergic, $alergies, $medical_concerns, $diagnostic, $treatment, $active_assessment = true;
+  public $assessment_type, $temperature, $blood_pressure, $medical_condition, $medical_history, $alergic, $alergies, $medical_concerns, $diagnostic, $treatment, $active_assessment= true, $previous_illnesses ;
 
   public $isOpenCreate = true;
   public $isOpenCreateTwo = false;
@@ -96,6 +96,7 @@ class PatientsForms extends Component
       'address' => strtoupper($this->address),
       'user_id' => null,
     ]);
+
     $user->patient()->save($patient);
 
     $rolePatient = Role::where('name', 'patient')->first();
@@ -189,11 +190,13 @@ class PatientsForms extends Component
     $this->medical_condition = '';
 
     $this->medical_history = '';
+    $this->previous_illnesses = '';
     $this->alergic = '';
     $this->alergies = '';
     $this->medical_concerns = '';
     $this->diagnostic = '';
     $this->treatment = '';
+    $this->previous_illnesses = '';
     $this->active_assessment = true;
   }
 
@@ -286,6 +289,7 @@ class PatientsForms extends Component
       $this->blood_pressure = $assessment->blood_pressure;
       $this->medical_condition = $assessment->medical_condition;
       $this->medical_history = $assessment->medical_history;
+      $this->previous_illnesses = $assessment->previous_illnesses;
       $this->alergic = $assessment->alergic;
       $this->alergies = $assessment->alergies;
       $this->medical_concerns = $assessment->medical_concerns;
@@ -411,13 +415,15 @@ class PatientsForms extends Component
           'temperature' => $this->temperature,
           'blood_pressure' => $this->blood_pressure,
           'medical_condition' => $this->medical_condition,
-          'medical_history' => $this->medical_history,
+          'medical_history' => $this->medical_history, 
           'alergic' => $this->alergic,
           'alergies' => $this->alergies,
           'medical_concerns' => $this->medical_concerns,
           'diagnostic' => $this->diagnostic,
           'treatment' => $this->treatment,
+          'previous_illnesses' => $this->previous_illnesses,
           'active' => $this->active_assessment != null ? intval($this->active_assessment) : 1,
+          
         ]),
         function (MedicalAssessment $medicalAssessment) {
           if (!$this->assessment_id) {
