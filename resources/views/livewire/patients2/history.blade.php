@@ -75,6 +75,10 @@
                     wire:click.prevent="handleTabs('isOpenHistories', 'isShowHistory')" type="button">
                     {{ __('Back') }}
                 </button>
+                <button class="btn btn-dark text-white"
+                    wire:click.prevent="handleTabs('isOpenHistories', 'isShowHistory')" type="button">
+                    {{ __('Edit') }}
+                </button>              
              </div>
           </div>
       </div>

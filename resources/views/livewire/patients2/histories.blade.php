@@ -16,6 +16,7 @@
                   <tr>
                       <th>{{ __('Date') }}</th>
                       <th>{{ __('Assessment Type') }}</th>
+                      <th>{{ __('Previous illnesses') }}</th>
                       <th>{{ __('Medical Condition') }}</th>
                       <th>{{ __('Diagnostic') }}</th>
                       <th>{{ __('Treatment') }}</th>
@@ -26,6 +27,7 @@
                   <tr>
                       <th>{{ __('Date') }}</th>
                       <th>{{ __('Assessment Type') }}</th>
+                      <th>{{ __('Previous illnesses') }}</th>
                       <th>{{ __('Medical Condition') }}</th>
                       <th>{{ __('Diagnostic') }}</th>
                       <th>{{ __('Treatment') }}</th>
@@ -40,6 +42,9 @@
                           </td>
                           <td>
                               {{ $history->type_assessment }}
+                          </td>
+                          <td>
+                              {{ $history->previous_illnesses }}
                           </td>
                           <td>
                               {{ $history->medical_condition }}

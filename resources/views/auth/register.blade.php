@@ -84,6 +84,11 @@
                             <textarea id="medical_condition" class="form-control block mt-1 w-full" type="text" name="medical_condition"
                                 :value="old('medical_condition')" autocomplete="medical_condition" wire:model="medical_condition" >{{old('medical_condition')}}</textarea>
                         </div>
+                        <div class="col-12 col-md-6 px-4">
+                            <x-label for="previous_illnesses" value="{{ __('previous_illnesses') }}" />
+                            <textarea id="previous_illnesses" class="form-control block mt-1 w-full" type="text" name="previous_illnesses"
+                                :value="old('previous_illnesses')" autocomplete="previous_illnesses" wire:model="previous_illnesses" >{{old('previous_illnesses')}}</textarea>
+                        </div>
                     </div>
                   
                     <h2 class="text-center mt-4">{{ __('Create an user account') }}</h2>

@@ -15,20 +15,23 @@ class MedicalAssessment extends Model
    * @var array<int, string>
    */
   protected $fillable = [
+    'id',
     'employee_id',
     'nurse_id',
     'height',
     'weight',
     'temperature',
+    'previous_illnesses',
     'blood_pressure',
     'medical_condition',
-    'medical_history',
+    'medical_history', 
     'alergic',
     'alergies',
     'medical_concerns',
     'diagnostic',
     'treatment',
-    'active'
+    'active',
+    
   ];
 
   public function patient()
@@ -40,4 +43,6 @@ class MedicalAssessment extends Model
   {
     return $this->belongsTo('App\Models\Employee');
   }
+
+
 }

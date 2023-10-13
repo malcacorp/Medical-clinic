@@ -75,4 +75,11 @@
             name="medical_condition" autocomplete="medical_condition"
             {{ $livewire ? 'wire:model=medical_condition' : ":value=old('medical_condition')" }}></textarea>
     </div>
+    
+    <div class="col-12 col-md-6 px-4">
+        <x-label for="previous_illnesses" value="{{ __('Previous Illnesses') }}" />
+        <textarea id="previous_illnesses" class="form-control form-control block mt-1 w-full" type="text"
+            name="previous_illnesses" autocomplete="previous_illnesses"
+            {{ $livewire ? 'wire:model=previous_illnesses' : ":value=old('previous_illnesses')" }}></textarea>
+    </div>
 </div>
