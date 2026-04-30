@@ -17,15 +17,28 @@
               @endif
           </div>
 
-          {{-- <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input value="{{ old('email') }}" type="text" class="form-control" name="email" placeholder="Name" wire:model="email"
+          <div class="mb-3">
+              <label for="email" class="form-label">{{ __('Email') }}</label>
+              <input value="{{ old('email') }}" type="email" class="form-control" name="email" placeholder="Email" wire:model="email"
                   required>
 
               @if ($errors->has('email'))
                   <span class="text-danger text-left">{{ $errors->first('email') }}</span>
               @endif
-          </div> --}}
+          </div>
+
+          <div class="mb-3">
+              <label for="password" class="form-label">{{ __('Password') }}</label>
+              <input type="password" class="form-control" name="password" placeholder="Password" wire:model="password"
+                  {{ $user_id ? '' : 'required' }}>
+
+              @if ($errors->has('password'))
+                  <span class="text-danger text-left">{{ $errors->first('password') }}</span>
+              @endif
+              @if ($user_id)
+                  <small class="text-muted">Leave blank to keep current password.</small>
+              @endif
+          </div>
 
           <label for="roles" class="form-label">{{ __('Assign Roles') }}</label>
 

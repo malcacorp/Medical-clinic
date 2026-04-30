@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Patient extends Model
 {
+    
+  protected $connection = "mysql";
   use HasFactory;
 
   /**
@@ -30,10 +32,6 @@ class Patient extends Model
     'patient_file_path',
   ];
 
-  public function user()
-  {
-    return $this->belongsTo('App\Models\User');
-  }
 
   public function medicalAssessment()
   {

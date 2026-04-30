@@ -55,32 +55,13 @@ class PatientsForms extends Component
       'height' => ['required', 'numeric'],
       'id_number' => ['required', Rule::unique('patients')->ignore($this->patient_id)],
       'phone_number' => 'required_without_all:email', 
-      'email' => ['string', 'email', 'max:125', Rule::unique('users')->ignore($this->user_id)],
+      'email' => ['nullable', 'string', 'email', 'max:125'],
       'birthdate' => ['required', 'date', 'date_format:Y-m-d', 'before:today', 'after:1920-01-01'],
       'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
       'address' => 'required',
     ]);
 
     $email = $this->email ? $this->email : $this->id_number . '@gmail.com';
-
-    $user = User::firstOrNew(
-      ['id' => $this->user_id], // Condición de búsqueda
-      [
-        'name' => $this->first_name . ' ' . $this->last_name,
-        'email' => $email,
-        'password' => Hash::make($this->id_number),
-      ]
-    );
-
-    if (!$user->exists) {
-      $user->save();
-      $this->createTeam($user);
-    }
-
-
-    if (isset($this->photo)) {
-      $user->updateProfilePhoto($this->photo);
-    }
 
     $patient = Patient::updateOrCreate(['id' => $this->patient_id], [
       'last_name' => strtoupper($this->last_name),
@@ -97,14 +78,12 @@ class PatientsForms extends Component
       'user_id' => null,
     ]);
 
-    $user->patient()->save($patient);
+    if (isset($this->photo)) {
+        $this->file = $this->photo;
+        $this->updatePatientFile($this->file);
+    }
 
-    $rolePatient = Role::where('name', 'patient')->first();
-    $user->assignRole($rolePatient);
-
-    $this->user = $user;
-
-    $message = Markdown::parse(nl2br("Hola, " . $patient->first_name . ".\n\n Bienvenido(a) a Clínica La Esperanza. \n\n Puedes reservar una cita haciendo click en el enlace abajo. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
+    $message = Markdown::parse(nl2br("Hola, " . $patient->first_name . ".\n\n Bienvenido(a) a Clínica La Esperanza. \n\n Puedes reservar una cita llamando a nuestros teléfonos. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
 
     $details = [
         'title' => "Bienvenido(a) a Clínica La Esperanza.",
@@ -116,7 +95,6 @@ class PatientsForms extends Component
 
     session()->flash('message', $this->patient_id ? 'Patient Updated Successfully.' : 'Patient Created Successfully.');
     $this->patient_id = $patient->id;
-    $this->user_id = $user->id;
     $this->patient = Patient::find($this->patient_id);
     return true;
   }
@@ -230,7 +208,6 @@ class PatientsForms extends Component
       $this->eye_color = $patient->eye_color;
       $this->address = $patient->address;
       $this->patient_file_path = $patient->patient_file_path;
-      $this->user = User::find($this->user_id);
       $this->patient = Patient::find($id);
       if ($toShow != null && $toShow == "histories") {
         // dd($toShow);
@@ -269,7 +246,6 @@ class PatientsForms extends Component
     $this->address = $patient->address;
     $this->patient_file_path = $patient->patient_file_path;
 
-    $this->user = User::find($this->user_id);
     $this->patient = Patient::find($id);
 
     $this->histories = MedicalAssessment::where('patient_id', $this->patient_id)->get();

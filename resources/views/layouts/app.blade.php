@@ -75,6 +75,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/brand.css') }}" rel="stylesheet">
 
     @livewireStyles
 
@@ -96,18 +97,18 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav navbar-dark bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav navbar-dark bg-gradient-brand sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             {{-- <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon">
-                  <img src="{{asset('images/logo.png')}}"/>
+                  <img src="{{asset('images/logo-clinica.png')}}"/>
                 </div>
                 
             </a> --}}
             <a class="logo" href="{{ route('dashboard') }}">
                 <div class="sidebar-brand-icon">
-                    <img width="100%" src="{{ asset('images/logo-esperanza.png') }}" />
+                    <img width="100%" src="{{ asset('images/logo-clinica.png') }}" />
                 </div>
             </a>
 

@@ -1,10 +1,14 @@
 <x-guest-layout>
     <x-authentication-card>
-        <div class="row">
-            <div class="col-12 col-md-6 px-0 login-img" style="background-image: url({{asset('images/login-img.jpeg')}}) ">
+        <div class="row login-card-premium shadow-lg">
+            <div class="col-12 col-md-6 px-0 login-img login-img-container" style="background-image: url({{asset('images/login-img.jpeg')}}) ">
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 bg-white">
                 <div class="card-body">
+                   
+                    <div class="d-flex justify-content-center">
+                        <img src="{{ asset('images/logo-clinica.png') }}" alt="Esperanza Clinic" style="width:  200px; height:  auto;">
+                    </div>
                     <h1 class="text-center mt-5 pt-4">{{ __('Welcome Back!') }}</h1>
                     <x-validation-errors class="mb-3 rounded-0" />
 
@@ -43,7 +47,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-primary text-white  w-100 login-input">
+                            <button type="submit" class="btn btn-brand text-white w-100 login-input fw-bold shadow-sm">
                                 {{ __('Login') }}
                             </button>
                         </div>
@@ -59,7 +63,7 @@
                         <div class="mt-4">
                             <div class="">                      
                                 @if (Route::has('intake'))
-                                    <a href="{{ route('intake') }}" class="btn btn-danger text-white w-100" style="line-height: 3; border-radius: 2rem">{{ __('Patient Registration') }}</a>
+                                    <a href="{{ route('intake') }}" class="btn btn-outline-danger w-100 shadow-sm" style="line-height: 3; border-radius: 2rem; border-color: #bd1e24; color: #bd1e24;">{{ __('Patient Registration') }}</a>
                                 @endif                                
                             </div>
                         </div>

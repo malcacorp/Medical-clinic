@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
   
 class Users extends Component
 {
-    public $users, $user_id, $name;
+    public $users, $user_id, $name, $email, $password;
     public $user, $userRoles, $roles, $asignedRoles;
     public $isOpenUpdate = 0, $isOpenShow = 0, $isOpenList = 1;
     public $search = '';
@@ -39,6 +39,8 @@ class Users extends Component
     public function create()
     {
         $this->resetInputFields();
+        $this->roles = Role::get();
+        $this->userRoles = [];
         $this->handleTabs('isOpenUpdate','isOpenList');
         // $this->openUpdate();
     }
@@ -79,26 +81,43 @@ class Users extends Component
     private function resetInputFields(){
         $this->user_id = '';
         $this->name = '';
+        $this->email = '';
+        $this->password = '';
     }
      
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     public function store()
     {
-        $this->validate([
-            'name' => ['required', Rule::unique('users')->ignore($this->user_id)],
-            // 'name' => 'required|unique:users,name,'.$this->user_id,
-        ]);
+        if ($this->user_id) {
+            $this->validate([
+                'name' => ['required', Rule::unique('users')->ignore($this->user_id)],
+                'email' => ['required', 'email', Rule::unique('users')->ignore($this->user_id)],
+                'password' => ['nullable', 'min:8'],
+            ]);
 
-        $user = User::updateOrCreate(['id' => $this->user_id], [
-            'name' => $this->name,
-        ]);
+            $userData = [
+                'name' => $this->name,
+                'email' => $this->email,
+            ];
 
+            if (!empty($this->password)) {
+                $userData['password'] = \Illuminate\Support\Facades\Hash::make($this->password);
+            }
 
-        // $user->update($request->only('name'));
+            $user = User::find($this->user_id);
+            $user->update($userData);
+        } else {
+            $this->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8'],
+            ]);
+
+            $user = User::create([
+                'name' => $this->name,
+                'email' => $this->email,
+                'password' => \Illuminate\Support\Facades\Hash::make($this->password),
+            ]);
+        }
     
         $user->syncRoles($this->userRoles);
   
@@ -118,6 +137,8 @@ class Users extends Component
         $user = User::findOrFail($id);
         $this->user_id = $id;
         $this->name = $user->name;
+        $this->email = $user->email;
+        $this->password = '';
 
         $this->user = User::find($id);
         $this->roles = Role::get();

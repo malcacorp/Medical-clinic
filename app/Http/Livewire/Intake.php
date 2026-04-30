@@ -28,8 +28,8 @@ class Intake extends Component
 {
     use PasswordValidationRules;
 
-    public $email, $password, $password_confirmation, $terms;
-    public $user, $last_name, $first_name, $id_number, $sex, $address, $birthdate, $phone_number, $weight, $height, $eye_color, $patient_id;
+    public $email, $terms;
+    public $last_name, $first_name, $id_number, $sex, $address, $birthdate, $phone_number, $weight, $height, $eye_color, $patient_id;
     public $calendar, $medical_condition, $patient;
     // public $intake, $title, $description, $post_id;
     // public $isOpenPatient = true;
@@ -108,8 +108,6 @@ class Intake extends Component
         $this->sex = '';
         $this->patient_id = '';
         $this->email = '';
-        $this->password = '';
-        $this->password_confirmation = '';
         $this->terms = '';
         $this->phone_number = '';
         $this->birthdate = '';
@@ -134,79 +132,52 @@ class Intake extends Component
             'height' => ['required', 'numeric'],
             'id_number' => ['required', Rule::unique('patients')->ignore($this->patient_id)],
             'phone_number' => 'required_without_all:email',
-            'email' => ['string', 'max:125', Rule::unique('users')],
+            'email' => ['nullable', 'string', 'max:125'],
             'birthdate' => ['required', 'date', 'date_format:Y-m-d', 'before:today', 'after:1920-01-01'],
             'address' => 'required',
-            'password' => $this->passwordRules(),
-            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ]);
 
-        $validator = Validator::make(
-            ['email' => $this->email],
-            ['email' => 'required|email']
-        );
+        $email = $this->email ? $this->email : $this->id_number . '@gmail.com';
 
-        if ($validator->fails())
-            $this->email = $this->id_number . '@gmail.com';
+        return DB::transaction(function () use ($email) {
+            $patient = Patient::updateOrCreate(['id' => $this->patient_id], [
+                'first_name' => strtoupper($this->first_name),
+                'last_name' => strtoupper($this->last_name),
+                'id_number' => $this->id_number,
+                'sex' => $this->sex,
+                'email' => $email,
+                'phone_number' => $this->phone_number,
+                'birthdate' => $this->birthdate,
+                'weight' => $this->weight,
+                'height' => $this->height,
+                'eye_color' => strtoupper($this->eye_color),
+                'address' => $this->address,
+                'user_id' => null,
+            ]);
 
-        return DB::transaction(function () {
-            return tap(
-                User::create([
-                    'name' => $this->first_name . ' ' . $this->last_name,
-                    'email' => $this->email,
-                    'password' => Hash::make($this->password),
-                ]),
-                function (User $user) {
-                    $this->createTeam($user);
-                    $patient = Patient::updateOrCreate(['id' => $this->patient_id], [
-                        'first_name' => strtoupper($this->first_name),
-                        'last_name' => strtoupper($this->last_name),
-                        'id_number' => $this->id_number,
-                        'sex' => $this->sex,
-                        'email' => $this->email,
-                        'phone_number' => $this->phone_number,
-                        'birthdate' => $this->birthdate,
-                        'weight' => $this->weight,
-                        'height' => $this->height,
-                        'eye_color' => strtoupper($this->eye_color),
-                        'address' => $this->address,
-                        'user_id' => null,
-                    ]);
-                    $user->patient()->save($patient);
+            $this->patient_id = $patient->id;
+            $this->patient = $patient;
 
-                    $rolePatient = Role::where('name', 'patient')->first();
-                    $user->assignRole($rolePatient);
+            $message = Markdown::parse(nl2br("Hola, " . $patient->first_name . ".\n\n Bienvenido(a) a Clínica La Esperanza. \n\n Puedes reservar una cita llamando a nuestros teléfonos. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
 
-                    $this->patient_id = $patient->id;
-                    $this->user = $user;
-                    $this->patient = $patient;
+            $details = [
+                'title' => "Bienvenido(a) a Clínica La Esperanza.",
+                'subject' => "Bienvenido(a) a Clínica La Esperanza.",
+                'message' => $message,
+            ];
 
-                    $validator = Validator::make(
-                        ['email' => $this->email],
-                        ['email' => 'required|email']
-                    );
+            if ($this->email) {
+                Mail::to([$this->email])->send(new SendMail($details));
+            }
 
-                    if (!$validator->fails()) {
-                        $message = Markdown::parse(nl2br("Hola, " . $patient->first_name . ".\n\n Bienvenido(a) a Clínica La Esperanza. \n\n Puedes reservar una cita haciendo click en el enlace abajo. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
-
-                        $details = [
-                            'title' => "Bienvenido(a) a Clínica La Esperanza.",
-                            'subject' => "Bienvenido(a) a Clínica La Esperanza.",
-                            'message' => $message,
-                        ];
-
-                        Mail::to([$this->email])->send(new SendMail($details));
-                    }
-
-                    session()->flash(
-                        'message',
-                        $this->patient_id ? 'Patient Updated Successfully.' : 'Patient Created Successfully.'
-                    );
-
-                    $this->isEdit = true;
-                    $this->openMedicalCondition();
-                }
+            session()->flash(
+                'message',
+                $this->patient_id ? 'Patient Updated Successfully.' : 'Patient Created Successfully.'
             );
+
+            $this->isEdit = true;
+            $this->openMedicalCondition();
+            return true;
         });
     }
 
@@ -246,16 +217,7 @@ class Intake extends Component
 
         Mail::to([$patient->email])->send(new SendMail($details));
 
-        $credentials = [
-            'email' => $this->email,
-            'password' => $this->password,
-        ];
-
-        if (Auth::attempt($credentials)) {
-            return redirect()->route("dashboard");
-        } else {
-            return redirect()->route("login");
-        }
+        return redirect()->route("dashboard");
 
     }
 
@@ -307,15 +269,5 @@ class Intake extends Component
         return redirect()->to('/dashboard');
     }
 
-    /**
-     * Create a personal team for the user.
-     */
-    protected function createTeam(User $user): void
-    {
-        $user->ownedTeams()->save(Team::forceCreate([
-            'user_id' => $user->id,
-            'name' => explode(' ', $user->name, 2)[0] . "'s Team",
-            'personal_team' => true,
-        ]));
-    }
+
 }

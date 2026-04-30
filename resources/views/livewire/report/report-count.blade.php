@@ -7,7 +7,41 @@
 
     <div class=card>
           <div class=card-body>
+          <div class="row">
+                <div class="col-sm-2 m-auto">
+                    <div class="card p-3 bg-primary" style="margin: 10px 0;">
+                        <h5 class="text-center text-white">{{ __("Total Patients Dr. Freddy:") }}</h5>
+                        <h5 class="text-center text-white">{{ $employee_Freddy  }}</h5>
+                       
+                    </div>
+                </div>
+                <div class="col-sm-2 m-auto">
+                    <div class="card p-3 bg-primary" style="margin: 10px 0;">
+                        <h5 class="text-center text-white">{{ __("Total Patients Dr. Surmer:") }}</h5>
+                        <h5 class="text-center text-white">{{$employee_Surmen }}</h5>
+                    </div>
+                </div>
+                <div class="col-sm-2 m-auto">
+                    <div class="card p-3 bg-primary" style="margin: 10px 0;">
+                        <h5 class="text-center text-white">{{ __("Total Patients Dr. Luisa:" ) }}</h5>
+                        <h5 class="text-center text-white">{{$employee_Luisa }}</h5>
+                    </div>
+                </div>
+                <div class="col-sm-2 m-auto">
+                    <div class="card p-3 bg-primary" style="margin: 10px 0;">
+                        <h5 class="text-center text-white">{{ __("Total  Patients Dr. Neymary: ") }}</h5>
+                        <h5 class="text-center text-white">{{ $employee_Ney }}</h5>
+                        
+                    </div>
+                </div>
+            </div>
+            </div>
+
+
             <p class="card-text">
+            <div class="row">
+     
+
                 <div class="table table-responsive">
                     <table class="table table-sm table-bordered">
                         <tr>

@@ -156,28 +156,10 @@ class Patients extends Component
             'weight' => ['required', 'numeric'],
             'height' => ['required', 'numeric'],
             'id_number' => ['required', Rule::unique('patients')->ignore($this->patient_id)],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->user_id)],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
             'address' => 'required',
         ]);
-
-        $user = User::firstOrNew(['id' => $this->user_id], // Condición de búsqueda
-            [  
-              'name' => $this->first_name . ' ' . $this->last_name,
-              'email' => $this->email,
-              'password' => Hash::make($this->id_number),
-            ]
-        );
-
-        if (!$user->exists) {
-            $user->save();
-            $this->createTeam($user);
-        }
-
-
-        if (isset($this->photo)) {
-            $user->updateProfilePhoto($this->photo);
-        }
 
         $patient = Patient::updateOrCreate(['id' => $this->patient_id], [
             'last_name' => strtoupper($this->last_name),
@@ -193,16 +175,15 @@ class Patients extends Component
             'address' => strtoupper($this->address),
             'user_id' => null,
             ]);
-        $user->patient()->save($patient);
-        
-        $rolePatient = Role::where('name', 'patient')->first();
-        $user->assignRole($rolePatient);
-
-        $this->user = $user;
+            
+        // Photo upload for patient file could be handled here if needed instead of user profile photo
+        if (isset($this->photo)) {
+            $this->file = $this->photo;
+            $this->updatePatientFile($this->file);
+        }
         
         session()->flash('message', $this->patient_id ? 'Patient Updated Successfully.' : 'Patient Created Successfully.');
         $this->patient_id = $patient->id;
-        $this->user_id = $user->id;
         $this->patient = Patient::find($this->patient_id);
         return true;
     }
@@ -229,7 +210,6 @@ class Patients extends Component
         $this->address = $patient->address;
         $this->patient_file_path = $patient->patient_file_path;
 
-        $this->user = User::find($this->user_id);
         $this->patient = Patient::find($id);
 
         $this->histories = MedicalAssessment::where('patient_id', $this->patient_id)->get();

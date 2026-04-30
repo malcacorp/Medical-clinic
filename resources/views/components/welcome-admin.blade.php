@@ -35,9 +35,30 @@
                               @foreach ($this->appointments as $appointment)
                                 <tr>
                                     <td>{{$appointment->date. " | " .$appointment->time}}</td>
-                                    <td>{{$appointment->patient->first_name . ' ' . $appointment->patient->last_name}}</td>
-                                    <td>{{$appointment->employee->first_name . ' ' . $appointment->employee->last_name}}</td>
-                                    <td>{{$appointment->patient->phone_number}}</td>
+                                    
+                                    
+                                   @if($appointment && $appointment->patient && $appointment->employee)
+    <td>{{ $appointment->patient->first_name . ' ' . $appointment->patient->last_name }}</td>
+    <td>{{ $appointment->employee->first_name . ' ' . $appointment->employee->last_name }}</td>
+    <td>{{ $appointment->patient->phone_number }}</td>
+@elseif($appointment && $appointment->patient)
+    <!-- Has appointment and patient, but no employee -->
+    <td>{{ $appointment->patient->first_name . ' ' . $appointment->patient->last_name }}</td>
+    <td>No employee assigned</td>
+    <td>{{ $appointment->patient->phone_number }}</td>
+@elseif($appointment)
+    <!-- Has appointment but no patient or employee -->
+    <td>No patient</td>
+    <td>No employee</td>
+    <td>N/A</td>
+@else
+    <!-- No appointment at all -->
+    <td></td>
+    <td></td>
+    <td></td>
+@endif
+                                    
+                                    
                                     <td>{{$appointment->status}}</td>
                                     <td>{{$appointment->assessment_type}}</td>
                                     <td>{{$appointment->medical_concerns}}</td>

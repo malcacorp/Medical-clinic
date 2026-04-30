@@ -26,7 +26,11 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
+     * 
+     * 
      */
+     
+     protected $connection = "mysql";
     protected $fillable = [
         'name', 'email', 'password',
     ];
@@ -61,9 +65,6 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function patient() {
-      return $this->hasOne('App\Models\Patient');
-    }
 
     public function employee() {
       return $this->hasOne('App\Models\Employee');

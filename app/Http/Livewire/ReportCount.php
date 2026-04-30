@@ -12,6 +12,20 @@ class ReportCount extends Component
 {
         public function render()
         {
+          $employee_Freddy = DB::table('medical_assessments')
+          ->where('employee_id', 2)
+          ->count();
+          $employee_Ney=DB::table('medical_assessments')
+          ->where('employee_id', 5)
+          ->count();
+          $employee_Surmen = DB::table('medical_assessments')
+          ->where('employee_id', 8)
+          ->count();
+          $employee_Luisa =DB::table('medical_assessments')
+          ->where('employee_id', 3)
+          ->count();
+          
+
           $assessments = DB::table('medical_assessments')
           ->join('employees', 'medical_assessments.employee_id', '=', 'employees.id')
           ->select(DB::raw('YEAR(medical_assessments.created_at) as year'), 
@@ -24,7 +38,7 @@ class ReportCount extends Component
           ->orderBy('week', 'desc')
           ->orderBy('medical_assessments.employee_id')
           ->get();
-          return view('livewire.report.report-count', compact ('assessments'), );
+          return view('livewire.report.report-count', compact ('assessments','employee_Luisa','employee_Surmen','employee_Ney','employee_Freddy' ) );
         }
 
 }

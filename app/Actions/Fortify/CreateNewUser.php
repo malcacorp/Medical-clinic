@@ -37,20 +37,6 @@ class CreateNewUser implements CreatesNewUsers
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
             ]), function (User $user) use ($input) {
-                $this->createTeam($user);
-                $patient = new Patient;
-                $patient->first_name = $input['first_name'];
-                $patient->last_name = $input['last_name'];
-                $patient->id_number = $input['id_number'];
-                $patient->sex = $input['sex'];
-                $patient->email = $input['email'];
-                $patient->phone_number = $input['phone_number'];
-                $patient->birthdate = $input['birthdate'];
-                $patient->weight = $input['weight'];
-                $patient->height = $input['height'];
-                $patient->eye_color = $input['eye_color'];
-                $patient->address = $input['address'];
-                $user->patient()->save($patient);              
             });
         });
     }

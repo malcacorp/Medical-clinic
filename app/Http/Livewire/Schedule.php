@@ -252,20 +252,7 @@ class Schedule extends Component
                             ->get();
                             $events = $availables->merge($appointments); 
           }                     
-        }else{
-          $patient = Patient::where("user_id", $user->id)->first();
-          if($patient){
-            $patientEvents = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
-                  ->join('patients', 'appointments.patient_id', '=', 'patients.id')
-                  ->select('events.id','events.start', DB::raw("CASE WHEN title = 'Appointment' THEN 'My Appointment' END AS title"))
-                  // ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
-                  ->where('appointments.patient_id', $patient->id)
-                  ->orderby('appointments.date', 'desc')
-                ->orderby('appointments.time', 'asc')
-                ->get();
-            $doctorEvents = Event::select('id','title','start')->where('title', 'Available')->get();
-            $events = $patientEvents->merge($doctorEvents);            
-          }elseif($this->isAdmin){
+        }elseif($this->isAdmin){
               if($this->employeeSchedule){
                 $availables = Event::select('id','title','start')->where('employee_id', $this->employeeId)->get();
                 $appointments = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
@@ -314,7 +301,7 @@ class Schedule extends Component
           $this->allDoctors = Employee::whereHas('user.roles', function ($query) {
                 $query->where('name', 'doctor');
             })->get();
-        }
+
  
         $this->events = json_encode($events);
  
