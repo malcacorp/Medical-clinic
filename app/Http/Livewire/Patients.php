@@ -2,6 +2,7 @@
 namespace App\Http\Livewire;
 use App\Models\MedicalAssessment;
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\Patient;
 use App\Models\Employee;
 
@@ -20,14 +21,27 @@ use Livewire\WithFileUploads;
 class Patients extends Component
 {
     use WithFileUploads;
+    use WithPagination;
 
-    public $patients, $last_name, $first_name, $id_number, $sex, $address, $email, $birthdate, $phone_number, $weight, $height, $eye_color;
+    public $search = '';
+    protected $paginationTheme = 'bootstrap';
+
+    public $patients, $last_name, $first_name, $id_number, $sex, $address, $email, $birthdate, $phone_number, $weight, $height, $eye_color, $marital_status, $occupation, $birth_place, $blood_group, $mother_name, $father_name;
     public $file, $photo;
     public $patient_id, $user_id, $assessment_id;
     public $user, $patient, $patient_file_path, $histories, $historyToShow, $positionPage, $totalPatientHistories;
     public $assessment_type, $temperature, $blood_pressure, $medical_condition, $medical_history, $alergic, $alergies, $medical_concerns, $diagnostic, $treatment, $active_assessment=true;
+    public $fur, $menarquia, $cycles, $sexual_activity, $coitarche, $partners, $contraceptive, $papanicolaou, $mammography;
+    public $gestas, $partos, $cesareas, $abortos, $ectopicos;
+    public $last_delivery, $obstetric_complications, $family_history, $habits, $physical_exam_gyneco, $current_illness, $requested_exams, $management_plan;
     public $isOpenList = true;
     public $isOpenCreate = false;
+    public $isOpenGynecology = false;
+    public $isOpenPediatrics = false;
+
+    public $maternal_age, $gestas_ped, $paras, $abortos_ped, $controlled_pregnancy, $consultations_count, $pregnancy_complications, $serology, $mother_blood_type, $father_blood_type, $urinalysis, $delivery_method, $gestational_weeks, $cesarean_indication, $apgar_1, $apgar_5, $amniotic_liquid, $other_complications;
+    public $pan, $tan, $cc_neonatal, $ct_neonatal, $ca_neonatal, $breathed_cried, $hospitalized_at_birth, $gestational_age_weeks, $method_capurro_ballard, $neonatal_observations;
+    public $lme_months, $formula_months, $formula_indication, $ablactation_months, $family_diet_incorporation, $milestones, $habits_ped, $physical_exam_ped, $percentiles, $vaccines, $family_history_ped, $plan_ped, $objective_ped, $subjective_ped;
 
     public $isOpenCreateTwo = false;
     public $isOpenCondition = false;
@@ -42,8 +56,20 @@ class Patients extends Component
     */
     public function render()
     {
-        $this->patients = Patient::all();
-        return view('livewire.patients.index');
+        $patients = Patient::where('first_name', 'like', '%'.$this->search.'%')
+            ->orWhere('last_name', 'like', '%'.$this->search.'%')
+            ->orWhere('id_number', 'like', '%'.$this->search.'%')
+            ->latest()
+            ->paginate(10);
+
+        return view('livewire.patients.index', [
+            'patients_list' => $patients
+        ]);
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
     }
     /**
      * The attributes that are mass assignable.
@@ -119,6 +145,12 @@ class Patients extends Component
         $this->height = '';
         $this->eye_color = '';
         $this->address = '';
+        $this->marital_status = '';
+        $this->occupation = '';
+        $this->birth_place = '';
+        $this->blood_group = '';
+        $this->mother_name = '';
+        $this->father_name = '';
         $this->patient_file_path = null;
 
         $this->blood_pressure = '';
@@ -132,6 +164,70 @@ class Patients extends Component
         $this->diagnostic = '';
         $this->treatment = '';
         $this->active_assessment=true;
+        $this->fur = '';
+        $this->menarquia = '';
+        $this->cycles = '';
+        $this->sexual_activity = '';
+        $this->coitarche = '';
+        $this->partners = '';
+        $this->contraceptive = '';
+        $this->papanicolaou = '';
+        $this->mammography = '';
+        $this->gestas = '';
+        $this->partos = '';
+        $this->cesareas = '';
+        $this->abortos = '';
+        $this->ectopicos = '';
+        $this->last_delivery = '';
+        $this->obstetric_complications = '';
+        $this->family_history = '';
+        $this->habits = '';
+        $this->physical_exam_gyneco = '';
+        $this->current_illness = '';
+        $this->requested_exams = '';
+        $this->management_plan = '';
+        $this->maternal_age = '';
+        $this->gestas_ped = '';
+        $this->paras = '';
+        $this->abortos_ped = '';
+        $this->controlled_pregnancy = '';
+        $this->consultations_count = '';
+        $this->pregnancy_complications = '';
+        $this->serology = '';
+        $this->mother_blood_type = '';
+        $this->father_blood_type = '';
+        $this->urinalysis = '';
+        $this->delivery_method = '';
+        $this->gestational_weeks = '';
+        $this->cesarean_indication = '';
+        $this->apgar_1 = '';
+        $this->apgar_5 = '';
+        $this->amniotic_liquid = '';
+        $this->other_complications = '';
+        $this->pan = '';
+        $this->tan = '';
+        $this->cc_neonatal = '';
+        $this->ct_neonatal = '';
+        $this->ca_neonatal = '';
+        $this->breathed_cried = '';
+        $this->hospitalized_at_birth = '';
+        $this->gestational_age_weeks = '';
+        $this->method_capurro_ballard = '';
+        $this->neonatal_observations = '';
+        $this->lme_months = '';
+        $this->formula_months = '';
+        $this->formula_indication = '';
+        $this->ablactation_months = '';
+        $this->family_diet_incorporation = '';
+        $this->milestones = '';
+        $this->habits_ped = '';
+        $this->physical_exam_ped = '';
+        $this->percentiles = '';
+        $this->vaccines = '';
+        $this->family_history_ped = '';
+        $this->plan_ped = '';
+        $this->objective_ped = '';
+        $this->subjective_ped = '';
     }
 
     public function resetComponent() {
@@ -140,6 +236,8 @@ class Patients extends Component
       $this->isOpenCreateTwo = false;
       $this->isOpenCondition = false;
       $this->isOpenConditionTwo = false;
+      $this->isOpenGynecology = false;
+      $this->isOpenPediatrics = false;
       $this->isOpenHistories = false;
     }
     /**
@@ -191,6 +289,12 @@ class Patients extends Component
             'height' => $this->height,
             'eye_color' => strtoupper($this->eye_color),
             'address' => strtoupper($this->address),
+            'marital_status' => $this->marital_status,
+            'occupation' => $this->occupation,
+            'birth_place' => $this->birth_place,
+            'blood_group' => $this->blood_group,
+            'mother_name' => $this->mother_name,
+            'father_name' => $this->father_name,
             'user_id' => null,
             ]);
         $user->patient()->save($patient);
@@ -227,6 +331,12 @@ class Patients extends Component
         $this->height = $patient->height;
         $this->eye_color = $patient->eye_color;
         $this->address = $patient->address;
+        $this->marital_status = $patient->marital_status;
+        $this->occupation = $patient->occupation;
+        $this->birth_place = $patient->birth_place;
+        $this->blood_group = $patient->blood_group;
+        $this->mother_name = $patient->mother_name;
+        $this->father_name = $patient->father_name;
         $this->patient_file_path = $patient->patient_file_path;
 
         $this->user = User::find($this->user_id);
@@ -361,6 +471,70 @@ class Patients extends Component
             'diagnostic' => $this->diagnostic,
             'treatment' => $this->treatment,
             'active' => $this->active_assessment!=null ? intval($this->active_assessment) : 1,
+            'fur' => $this->fur ?: null,
+            'menarquia' => $this->menarquia,
+            'cycles' => $this->cycles,
+            'sexual_activity' => $this->sexual_activity,
+            'coitarche' => $this->coitarche,
+            'partners' => $this->partners ?: null,
+            'contraceptive' => $this->contraceptive,
+            'papanicolaou' => $this->papanicolaou ?: null,
+            'mammography' => $this->mammography ?: null,
+            'gestas' => $this->gestas ?: null,
+            'partos' => $this->partos ?: null,
+            'cesareas' => $this->cesareas ?: null,
+            'abortos' => $this->abortos ?: null,
+            'ectopicos' => $this->ectopicos ?: null,
+            'last_delivery' => $this->last_delivery ?: null,
+            'obstetric_complications' => $this->obstetric_complications,
+            'family_history' => $this->family_history,
+            'habits' => $this->habits,
+            'physical_exam_gyneco' => $this->physical_exam_gyneco,
+            'current_illness' => $this->current_illness,
+            'requested_exams' => $this->requested_exams,
+            'management_plan' => $this->management_plan,
+            'maternal_age' => $this->maternal_age ?: null,
+            'gestas_ped' => $this->gestas_ped ?: null,
+            'paras' => $this->paras ?: null,
+            'abortos_ped' => $this->abortos_ped ?: null,
+            'controlled_pregnancy' => $this->controlled_pregnancy,
+            'consultations_count' => $this->consultations_count ?: null,
+            'pregnancy_complications' => $this->pregnancy_complications,
+            'serology' => $this->serology,
+            'mother_blood_type' => $this->mother_blood_type,
+            'father_blood_type' => $this->father_blood_type,
+            'urinalysis' => $this->urinalysis,
+            'delivery_method' => $this->delivery_method,
+            'gestational_weeks' => $this->gestational_weeks ?: null,
+            'cesarean_indication' => $this->cesarean_indication,
+            'apgar_1' => $this->apgar_1 ?: null,
+            'apgar_5' => $this->apgar_5 ?: null,
+            'amniotic_liquid' => $this->amniotic_liquid,
+            'other_complications' => $this->other_complications,
+            'pan' => $this->pan ?: null,
+            'tan' => $this->tan ?: null,
+            'cc_neonatal' => $this->cc_neonatal ?: null,
+            'ct_neonatal' => $this->ct_neonatal ?: null,
+            'ca_neonatal' => $this->ca_neonatal ?: null,
+            'breathed_cried' => $this->breathed_cried,
+            'hospitalized_at_birth' => $this->hospitalized_at_birth,
+            'gestational_age_weeks' => $this->gestational_age_weeks ?: null,
+            'method_capurro_ballard' => $this->method_capurro_ballard,
+            'neonatal_observations' => $this->neonatal_observations,
+            'lme_months' => $this->lme_months ?: null,
+            'formula_months' => $this->formula_months ?: null,
+            'formula_indication' => $this->formula_indication,
+            'ablactation_months' => $this->ablactation_months ?: null,
+            'family_diet_incorporation' => $this->family_diet_incorporation,
+            'milestones' => $this->milestones,
+            'habits_ped' => $this->habits_ped,
+            'physical_exam_ped' => $this->physical_exam_ped,
+            'percentiles' => $this->percentiles,
+            'vaccines' => $this->vaccines,
+            'family_history_ped' => $this->family_history_ped,
+            'plan_ped' => $this->plan_ped,
+            'objective_ped' => $this->objective_ped,
+            'subjective_ped' => $this->subjective_ped,
           ]),
           function (MedicalAssessment $medicalAssessment) {
             if(!$this->assessment_id) {
@@ -394,6 +568,70 @@ class Patients extends Component
           $this->diagnostic = $assessment->diagnostic;
           $this->treatment = $assessment->treatment;
           $this->active_assessment = $assessment->active_assessment;
+          $this->fur = $assessment->fur;
+          $this->menarquia = $assessment->menarquia;
+          $this->cycles = $assessment->cycles;
+          $this->sexual_activity = $assessment->sexual_activity;
+          $this->coitarche = $assessment->coitarche;
+          $this->partners = $assessment->partners;
+          $this->contraceptive = $assessment->contraceptive;
+          $this->papanicolaou = $assessment->papanicolaou;
+          $this->mammography = $assessment->mammography;
+          $this->gestas = $assessment->gestas;
+          $this->partos = $assessment->partos;
+          $this->cesareas = $assessment->cesareas;
+          $this->abortos = $assessment->abortos;
+          $this->ectopicos = $assessment->ectopicos;
+          $this->last_delivery = $assessment->last_delivery;
+          $this->obstetric_complications = $assessment->obstetric_complications;
+          $this->family_history = $assessment->family_history;
+          $this->habits = $assessment->habits;
+          $this->physical_exam_gyneco = $assessment->physical_exam_gyneco;
+          $this->current_illness = $assessment->current_illness;
+          $this->requested_exams = $assessment->requested_exams;
+          $this->management_plan = $assessment->management_plan;
+          $this->maternal_age = $assessment->maternal_age;
+          $this->gestas_ped = $assessment->gestas_ped;
+          $this->paras = $assessment->paras;
+          $this->abortos_ped = $assessment->abortos_ped;
+          $this->controlled_pregnancy = $assessment->controlled_pregnancy;
+          $this->consultations_count = $assessment->consultations_count;
+          $this->pregnancy_complications = $assessment->pregnancy_complications;
+          $this->serology = $assessment->serology;
+          $this->mother_blood_type = $assessment->mother_blood_type;
+          $this->father_blood_type = $assessment->father_blood_type;
+          $this->urinalysis = $assessment->urinalysis;
+          $this->delivery_method = $assessment->delivery_method;
+          $this->gestational_weeks = $assessment->gestational_weeks;
+          $this->cesarean_indication = $assessment->cesarean_indication;
+          $this->apgar_1 = $assessment->apgar_1;
+          $this->apgar_5 = $assessment->apgar_5;
+          $this->amniotic_liquid = $assessment->amniotic_liquid;
+          $this->other_complications = $assessment->other_complications;
+          $this->pan = $assessment->pan;
+          $this->tan = $assessment->tan;
+          $this->cc_neonatal = $assessment->cc_neonatal;
+          $this->ct_neonatal = $assessment->ct_neonatal;
+          $this->ca_neonatal = $assessment->ca_neonatal;
+          $this->breathed_cried = $assessment->breathed_cried;
+          $this->hospitalized_at_birth = $assessment->hospitalized_at_birth;
+          $this->gestational_age_weeks = $assessment->gestational_age_weeks;
+          $this->method_capurro_ballard = $assessment->method_capurro_ballard;
+          $this->neonatal_observations = $assessment->neonatal_observations;
+          $this->lme_months = $assessment->lme_months;
+          $this->formula_months = $assessment->formula_months;
+          $this->formula_indication = $assessment->formula_indication;
+          $this->ablactation_months = $assessment->ablactation_months;
+          $this->family_diet_incorporation = $assessment->family_diet_incorporation;
+          $this->milestones = $assessment->milestones;
+          $this->habits_ped = $assessment->habits_ped;
+          $this->physical_exam_ped = $assessment->physical_exam_ped;
+          $this->percentiles = $assessment->percentiles;
+          $this->vaccines = $assessment->vaccines;
+          $this->family_history_ped = $assessment->family_history_ped;
+          $this->plan_ped = $assessment->plan_ped;
+          $this->objective_ped = $assessment->objective_ped;
+          $this->subjective_ped = $assessment->subjective_ped;
         }
     }
 

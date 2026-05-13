@@ -16,8 +16,14 @@ class LocaleCookieMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->cookie('locale') !== app()->getLocale()) {
-            $locale = $request->cookie('locale', app()->getLocale());
+        $allowedLocales = ['es', 'en'];
+        $locale = $request->cookie('locale', app()->getLocale());
+        
+        if (!in_array($locale, $allowedLocales)) {
+            $locale = config('app.locale');
+        }
+
+        if ($locale !== app()->getLocale()) {
             app()->setLocale($locale);
         }
         return $next($request);

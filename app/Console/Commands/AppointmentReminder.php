@@ -37,8 +37,9 @@ class AppointmentReminder extends Command
     $today = \Carbon\Carbon::now();
     $today->addDay();
     $tomorrow = $today->format('Y-m-d');
-    $appointments = Appointment::where("status", "pending")
-      ->where("date", $tomorrow);
+    $appointments = Appointment::where("status", "Pending")
+      ->where("date", $tomorrow)
+      ->get();
 
     foreach ($appointments as $appointment) {
       $message = Markdown::parse(nl2br("Hola, " . $appointment->patient->first_name . ".\n\n Recuerda que tu cita médica con el Dr. (Dra.) " . $appointment->employee->first_name . " " . $appointment->employee->last_name . " será el día " . $appointment->date . " a las " . $appointment->time . ". \n\n Si necesitas cancelar tu cita, puedes hacer click en el enlace abajo. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
@@ -52,14 +53,14 @@ class AppointmentReminder extends Command
 
       Mail::to([$appointment->patient->email])->send(new SendMail($details));
        //Sms de Cancelacion
-      $sid = ('AC7cbad7cccea30b0a94576ded8f395b1d');
-      $token = ('7eecaa2c3c28a915476886d510d78352');
+      $sid = env('TWILIO_SID');
+      $token = env('TWILIO_TOKEN');
       $client = new Client($sid, $token);
       $number = $appointment->patient->phone_number;
       $client->messages->create(
           $number,
           [
-            'from' => ('+18336651638'),
+            'from' => env('TWILIO_FROM'),
             'body' => $messageSms,
           ]
         );

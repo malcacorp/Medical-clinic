@@ -1,4 +1,11 @@
 <div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="row">
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="{{ __('Search') }}..." wire:model="search">
+            </div>
+        </div>
+    </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -12,32 +19,22 @@
                         <th> </th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Id Number</th>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>Sex</th>
-                        <th>{{ __('Phone number') }}</th>
-                        <th> </th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @forelse ($patients as $patient)
                         <tr>
-                            <td whitespace-nowrap>
+                            <td class="text-nowrap">
                                 {{ $patient->id_number }}
                             </td>
-                            <td whitespace-nowrap>
+                            <td class="text-nowrap">
                                 {{ $patient->first_name }}
                             </td>
-                            <td whitespace-nowrap>
+                            <td class="text-nowrap">
                                 {{ $patient->last_name }}
                             </td>
-                            <td whitespace-nowrap>
+                            <td class="text-nowrap">
                                 {{ __($patient->sex) }}
                             </td>
-                            <td whitespace-nowrap>
+                            <td class="text-nowrap">
                                 {{ $patient->phone_number }}
                             </td>
                             <td class="px-5">
@@ -63,8 +60,8 @@
                             </td>
                         </tr>
                     @empty
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <td colspan="2" class="px-5 font-medium text-gray-900 whitespace-nowrap">
+                        <tr>
+                            <td colspan="6" class="text-center py-4">
                                 {{ __('No patients found') }}
                             </td>
                         </tr>
@@ -72,5 +69,9 @@
                 </tbody>
             </table>
         </div>
+        <div class="mt-4">
+            {{ $patients->links() }}
+        </div>
     </div>
 </div>
+

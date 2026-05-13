@@ -43,7 +43,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('intake', Intake::class)->name('intake');
+
 
 Route::get('/locale/{locale}', function ($locale) {
     return redirect()->back()->withCookie('locale', $locale);

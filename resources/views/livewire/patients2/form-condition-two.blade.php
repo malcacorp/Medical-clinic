@@ -12,6 +12,18 @@
                            
                             <div class="row mb-4">
                                 <div class="col px-4">
+                                    <x-label for="assessment_type" value="{{ __('Tipo de Valoración') }}" />
+                                    <select id="assessment_type" class="form-select" wire:model="assessment_type">
+                                        <option value="">-- {{ __('Seleccionar') }} --</option>
+                                        <option value="Normal Assessment">{{ __('Valoración General') }}</option>
+                                        <option value="Pediatrics">{{ __('Pediatría') }}</option>
+                                        <option value="Gynecology">{{ __('Ginecología') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-4">
+                                <div class="col px-4">
                                     <x-label for="previous_illnesses" value="{{ __('Previous illnesses') }}" />
                                     <textarea id="previous_illnesses" class="form-control block mt-1 w-full {{ $errors->has('previous_illnesses') ? 'is-invalid' : '' }}"
                                         type="text" name="previous_illnesses" autocomplete="previous_illnesses" wire:model="previous_illnesses">{{ old('previous_illnesses') }}</textarea>
@@ -50,11 +62,25 @@
                                     type="button">
                                     {{ __('Back') }}
                                 </button>
-                                <button class="btn btn-success text-white"
-                                    wire:click.prevent="handleTabs('isOpenHistories', 'isOpenConditionTwo', 'updateAssessment')"
-                                    type="button">
-                                    {{ __('Submit') }}
-                                </button>
+                                @if ($assessment_type === 'Pediatrics')
+                                  <button class="btn btn-success text-white"
+                                      wire:click.prevent="handleTabs('isOpenPediatrics', 'isOpenConditionTwo', 'updateAssessment')"
+                                      type="button">
+                                      {{ __('Next') }} →
+                                  </button>
+                                @elseif ($assessment_type === 'Gynecology')
+                                  <button class="btn btn-success text-white"
+                                      wire:click.prevent="handleTabs('isOpenGynecology', 'isOpenConditionTwo', 'updateAssessment')"
+                                      type="button">
+                                      {{ __('Next') }} →
+                                  </button>
+                                @else
+                                  <button class="btn btn-success text-white"
+                                      wire:click.prevent="handleTabs('isOpenHistories', 'isOpenConditionTwo', 'updateAssessment')"
+                                      type="button">
+                                      {{ __('Submit') }}
+                                  </button>
+                                @endif
                             </div>
                         </form>
                     </div>

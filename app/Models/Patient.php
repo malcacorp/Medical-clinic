@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Patient extends Model
 {
+    
+  protected $connection = "mysql";
   use HasFactory;
 
   /**
@@ -26,6 +28,12 @@ class Patient extends Model
     'weight',
     'eye_color',
     'address',
+    'birth_place',
+    'blood_group',
+    'mother_name',
+    'father_name',
+    'marital_status',
+    'occupation',
     'medical_condition',
     'patient_file_path',
   ];

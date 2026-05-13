@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Appointment extends Model
 {
   use HasFactory;
+  protected $connection = "mysql";
 
   /**
    * The attributes that are mass assignable.

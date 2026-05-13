@@ -106,9 +106,9 @@ class Schedule extends Component
     public function addAppointment($appointment)
     {
         $user = auth()->user();
-        $employee = Employee::find(intval($appointment['doctorId']))->first();
-        $patient = Patient::where("user_id",$user->id)->first();
-        $exists = $patient !== null;
+        $employee = Employee::find(intval($appointment['doctorId']));
+        $patient = null;
+        $exists = false;
         
         if ($exists){
           $availability = Event::where("title", "=", "Available")
@@ -253,19 +253,7 @@ class Schedule extends Component
                             $events = $availables->merge($appointments); 
           }                     
         }else{
-          $patient = Patient::where("user_id", $user->id)->first();
-          if($patient){
-            $patientEvents = Event::join('appointments', 'appointments.event_id', '=', 'events.id')
-                  ->join('patients', 'appointments.patient_id', '=', 'patients.id')
-                  ->select('events.id','events.start', DB::raw("CASE WHEN title = 'Appointment' THEN 'My Appointment' END AS title"))
-                  // ->selectRaw("CONCAT(events.title, ' ', patients.first_name, ' ', patients.last_name) AS title")
-                  ->where('appointments.patient_id', $patient->id)
-                  ->orderby('appointments.date', 'desc')
-                ->orderby('appointments.time', 'asc')
-                ->get();
-            $doctorEvents = Event::select('id','title','start')->where('title', 'Available')->get();
-            $events = $patientEvents->merge($doctorEvents);            
-          }elseif($this->isAdmin){
+          if($this->isAdmin){
               if($this->employeeSchedule){
                 $availables = Event::select('id','title','start')->where('employee_id', $this->employeeId)->get();
                 $appointments = Event::join('appointments', 'appointments.event_id', '=', 'events.id')

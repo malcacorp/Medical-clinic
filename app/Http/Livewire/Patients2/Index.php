@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Patients2;
 
 use App\Models\Patient;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 use App\Models\MedicalAssessment;
 use App\Models\Employee;
@@ -22,7 +23,11 @@ use Livewire\WithFileUploads;
 
 class Index extends Component
 {
-    public $patients, $last_name, $first_name, $id_number, $sex, $address, $email, $birthdate, $phone_number, $weight, $height, $eye_color;
+    use WithPagination;
+    use WithFileUploads;
+
+    public $last_name, $first_name, $id_number, $sex, $address, $email, $birthdate, $phone_number, $weight, $height, $eye_color;
+    protected $paginationTheme = 'bootstrap';
     public $file, $photo, $search;
     public $patient_id, $user_id, $assessment_id;
     public $user, $patient, $patient_file_path, $histories, $historyToShow, $positionPage, $totalPatientHistories;
@@ -37,16 +42,20 @@ class Index extends Component
 
     public function render()
     {
-        if ($this->search != '') {
-            $this->patients = Patient::where('first_name', 'like', '%' . $this->search . '%')
-                ->orWhere('last_name', 'like', '%' . $this->search . '%')
-                ->orWhere('id_number', 'like', '%' . $this->search . '%')
-                ->get();
-        } else {
-            $this->patients = Patient::all();
-        }
+        $patients = Patient::where('first_name', 'like', '%' . $this->search . '%')
+            ->orWhere('last_name', 'like', '%' . $this->search . '%')
+            ->orWhere('id_number', 'like', '%' . $this->search . '%')
+            ->latest()
+            ->paginate(10);
 
-        return view('livewire.patients2.index');
+        return view('livewire.patients2.index', [
+            'patients_list' => $patients
+        ]);
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
     }
 
     /* EDIT/REDICT */

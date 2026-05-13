@@ -49,7 +49,7 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                @forelse ($patients as $patient)
+                                @forelse ($patients_list as $patient)
                                     <tr>
                                         <td whitespace-nowrap>
                                             {{ $patient->id_number }}
@@ -89,14 +89,17 @@
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <td colspan="2" class="px-5 font-medium text-gray-900 whitespace-nowrap">
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">
                                             {{ __('No patients found') }}
                                         </td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
+                    </div>
+                    <div class="mt-4">
+                        {{ $patients_list->links() }}
                     </div>
                 </div>
             </div>

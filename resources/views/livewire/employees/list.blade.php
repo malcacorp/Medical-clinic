@@ -25,19 +25,19 @@
               <tbody>
                   @forelse ($employees as $employee)
                       <tr>
-                          <td whitespace-nowrap>
+                          <td class="text-nowrap">
                               {{ $employee->id_number }}
                           </td>
-                          <td whitespace-nowrap>
+                          <td class="text-nowrap">
                               {{ $employee->first_name }}
                           </td>
-                          <td whitespace-nowrap>
+                          <td class="text-nowrap">
                               {{ $employee->last_name }}
                           </td>
-                          <td whitespace-nowrap>
+                          <td class="text-nowrap">
                               {{ $employee->sex }}
                           </td>
-                          <td whitespace-nowrap>
+                          <td class="text-nowrap">
                               {{ $employee->phone_number }}
                           </td>
                           <td class="px-5">
@@ -52,7 +52,7 @@
                             @endcan
 
                             @can("view-staff-schedule")
-                                @if ($employee->user->roles->contains('name', 'doctor'))
+                                @if ($employee->user && $employee->user->roles->contains('name', 'doctor'))
                                   <a type="button" class="btn btn-info btn-sm" href="{{ route('staff-schedule', $employee->id) }}">{{ __('View Schedule') }}</a>
                                 @endif
                             @endcan

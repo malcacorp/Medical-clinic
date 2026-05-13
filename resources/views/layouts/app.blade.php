@@ -1,51 +1,3 @@
-{{-- <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-
-    <!-- Styles -->
-    {{-- <link rel="stylesheet" href="{{ mix('css/app.css') }}"> --}}
-
-@livewireStyles
-
-<!-- Scripts -->
-{{-- <script src="{{ mix('js/app.js') }}" defer></script> 
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-</head>
-
-<body class="font-sans antialiased bg-light">
-    <x-banner />
-    @livewire('navigation-menu')
-
-    <!-- Page Heading -->
-    <header class="d-flex py-3 bg-white shadow-sm border-bottom">
-        <div class="container">
-            {{ $header }}
-        </div>
-    </header>
-
-    <!-- Page Content -->
-    <main class="container my-5">
-        {{ $slot }}
-    </main>
-
-    @stack('modals')
-
-    @livewireScripts
-
-    {{-- @stack('scripts') 
-</body>
-
-</html> --}}
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -62,10 +14,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    {{-- <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet"> --}}
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     {{-- <link rel="stylesheet" href="{{ mix('css/app.css') }}"> --}}
@@ -78,10 +29,7 @@
 
     @livewireStyles
 
-    <!-- For calendar -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
@@ -96,7 +44,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav navbar-dark bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav navbar-dark bg-dark sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #0f1115 !important;">
 
             <!-- Sidebar - Brand -->
             {{-- <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -105,9 +53,9 @@
                 </div>
                 
             </a> --}}
-            <a class="logo" href="{{ route('dashboard') }}">
-                <div class="sidebar-brand-icon">
-                    <img width="100%" src="{{ asset('images/logo-esperanza.png') }}" />
+            <a class="logo d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}" style="text-decoration: none;">
+                <div class="sidebar-brand-icon mt-3 mb-2" style="background-color: white; border-radius: 8px; padding: 10px;">
+                    <img style="max-height: 80px; width: auto; object-fit: contain;" src="{{ asset('images/LOGO123.png') }}" alt="Clinic Software Logo"/>
                 </div>
             </a>
 
@@ -165,7 +113,7 @@
             @can("list-employees")
               <li class="nav-item">
                   <x-nav-link href="{{ route('employees') }}" :active="request()->routeIs('employees')">
-                      <i class="fas fa-hospital-user"></i>
+                      <i class="fas fa-user-md"></i>
                       {{ __('Staff') }}
                   </x-nav-link>
               </li>
@@ -175,7 +123,7 @@
             @can("list-users")
             <li class="nav-item">
                 <x-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
-                    <i class="fas fa-ruler"></i>
+                    <i class="fas fa-users"></i>
                     {{ __('Users') }}
                 </x-nav-link>
             </li>
@@ -195,7 +143,7 @@
             @can("list-appointments")
               <li class="nav-item">
                   <x-nav-link href="{{ route('appointments') }}" :active="request()->routeIs('appointments')">
-                      <i class="fas fa-ruler"></i>
+                      <i class="fas fa-calendar-check"></i>
                       {{ __('Appointments') }}
                   </x-nav-link>
               </li>
@@ -205,7 +153,7 @@
             @can("list-roles")
               <li class="nav-item">
                   <x-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')">
-                      <i class="fas fa-ruler"></i>
+                      <i class="fas fa-user-shield"></i>
                       {{ __('Roles') }}
                   </x-nav-link>
               </li>
@@ -245,7 +193,7 @@
             <!-- Main Content -->
             <div id="content">
 
-                @livewire('navigation-menu')
+
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
@@ -300,7 +248,10 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                    </form>
                 </div>
             </div>
         </div>

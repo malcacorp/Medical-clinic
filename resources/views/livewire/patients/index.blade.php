@@ -10,14 +10,14 @@
               @if (session()->has('message'))
                   <div class="alert alert-info" role="alert">
                       <div class="flex">
-                          {{ session('message') }}</p>
+                          <p>{{ session('message') }}</p>
                       </div>
                   </div>
               @endif
 
               @if ($isOpenList)
-                  <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">{{ __("Create") }} {{ _("Patient") }}</button>
-                  @include('livewire.patients.list')
+                  <button wire:click="create()" class="btn btn-primary text-white py-1 m-4 px-3 rounded">{{ __("Create") }} {{ __("Patient") }}</button>
+                  @include('livewire.patients.list', ['patients' => $patients_list])
               @endif
 
               @if ($isOpenCreate)
@@ -38,6 +38,16 @@
               @if ($isOpenConditionTwo)
                   @include('livewire.patients.nav-pills')
                   @include('livewire.patients.form-condition-two')
+              @endif
+
+              @if ($isOpenGynecology)
+                  @include('livewire.patients.nav-pills')
+                  @include('livewire.patients.form-gynecology')
+              @endif
+
+              @if ($isOpenPediatrics)
+                  @include('livewire.patients.nav-pills')
+                  @include('livewire.patients.form-pediatrics')
               @endif
 
               @if ($isOpenHistories)

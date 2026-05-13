@@ -69,10 +69,8 @@ class Appointments extends Component
         // $appointment = $appointment;
         $appointment = Appointment::findOrFail($id);
         $this->appointment = Appointment::find($id);
-        $this->appointmentPermissions = $appointment->permissions;
 
         $this->appointment_id = $id;
-        $this->name = $appointment->name;
 
         $this->handleTabs('isOpenShow', 'isOpenList');
 
@@ -112,27 +110,8 @@ class Appointments extends Component
      */
     public function store()
     {
-        $this->validate([
-            'name' => ['required', Rule::unique('appointments')->ignore($this->appointment_id)],
-            // 'name' => 'required|unique:appointments,name,'.$this->appointment_id,
-        ]);
-
-        $appointment = Appointment::updateOrCreate(['id' => $this->appointment_id], [
-            'name' => $this->name,
-        ]);
-
-
-        // $appointment->update($request->only('name'));
-
-        $appointment->syncPermissions($this->appointmentPermissions);
-
-        session()->flash(
-            'message',
-            $this->appointment_id ? 'Appointment Updated Successfully.' : 'Appointment Created Successfully.'
-        );
-
-        $this->handleTabs('isOpenList', 'isOpenUpdate');
-        $this->resetInputFields();
+        // Method removed because it was residual code from Roles module
+        // Appointments are created via AppointmentForms
     }
     /**
      * The attributes that are mass assignable.

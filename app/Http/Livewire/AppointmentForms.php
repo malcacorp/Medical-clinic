@@ -117,7 +117,7 @@ class AppointmentForms extends Component
                 'status' => 'Pending',
             ]);
 
-            $employee = Employee::find(intval($selectedDate[1]))->first();
+            $employee = Employee::find(intval($selectedDate[1]));
             $patient = Patient::find($this->patient_id);
 
             $patient->appointments()->save($appointment);

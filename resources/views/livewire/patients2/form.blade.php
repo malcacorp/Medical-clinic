@@ -1,9 +1,14 @@
-<div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-4 py-4">
-                {{-- <x-validation-errors class="mb-4" /> --}}
-                <div class="row">
+<div class="card" style="border-radius: 16px; overflow: hidden; border: none; box-shadow: 0 2px 12px rgba(0,0,0,0.07);">
+    <div class="card-header d-flex align-items-center gap-2 py-3 px-4" style="border-bottom: 1px solid #f3f4f6; background: #fff;">
+        <div style="width:4px; height:24px; background: linear-gradient(180deg,#b91c1c,#7f1d1d); border-radius:3px;"></div>
+        <span style="font-size:0.85rem; font-weight:700; color:#374151; text-transform:uppercase; letter-spacing:0.06em;">
+            <i class="fas fa-user me-2 text-danger"></i>{{ __('Información del Paciente') }}
+        </span>
+    </div>
+    <div class="card-body p-4">
+        {{-- <x-validation-errors class="mb-4" /> --}}
+        <div class="row">
+
                     <div class="col col-md-10">
                         <form style="display: block">
                             @csrf
@@ -104,20 +109,16 @@
                                   </div>
                             </div>
 
-                            <div class="flex justify-content-center mt-4">
-                                <button class="btn btn-dark text-white"
+                            <div class="d-flex justify-content-end gap-2 mt-4 pt-3" style="border-top: 1px solid #f3f4f6;">
+                                <button class="btn btn-outline-secondary"
                                     wire:click.prevent="redirectToRoute('patients2')" type="button">
-                                    {{ __('Cancel') }}
+                                    <i class="fas fa-times me-1"></i> {{ __('Cancelar') }}
                                 </button>
-                                <button class="btn btn-success text-white"
+                                <button class="btn btn-danger text-white"
                                     wire:click.prevent="handleTabs('isOpenCreateTwo', 'isOpenCreate','store');"
                                     type="button">
-                                    {{ __('Next') }}
+                                    {{ __('Siguiente') }} <i class="fas fa-arrow-right ms-1"></i>
                                 </button>
-                                {{-- <button class="btn btn-success text-white" wire:click.prevent="store()"
-                                    type="button">
-                                    {{ __('Save Patient') }}
-                                </button> --}}
                             </div>
                         </form>
                     </div>
@@ -175,7 +176,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

@@ -39,9 +39,11 @@
                         <label class="mt-2 mb-0" for="assessment-type">{{__('Assessment Type')}}</label>
                         <select id="assessment-type" class="form-control" wire:model="assessment_type">
                             <option value="">--{{ __('Select') }}--</option>
-                            <option value="{{__('Normal Assessment')}}">{{__('Normal Assessment')}}</option>
-                            <option value="{{__('Pressure control')}}">{{__('Pressure control')}}</option>
-                            <option value="{{__('Medical program')}}">{{__('Medical program')}}</option>
+                            <option value="Normal Assessment">{{__('Normal Assessment')}}</option>
+                            <option value="Pressure control">{{__('Pressure control')}}</option>
+                            <option value="Medical program">{{__('Medical program')}}</option>
+                            <option value="Pediatrics">{{__('Pediatrics')}}</option>
+                            <option value="Gynecology">{{__('Gynecology')}}</option>
                         </select>
 
                         {{-- Reason --}}

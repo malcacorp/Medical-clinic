@@ -31,26 +31,26 @@ class UserSeeder extends Seeder
       $user = User::factory()->create([
         'name' => 'Steven Malca',
         'email' => 'steven@malcacorp.com',
-        'password' => Hash::make('12345678'),
+        'password' => Hash::make('change_this_password_immediately!'),
       ]);
       $user->assignRole($roleAdmin);
       
       $user = User::factory()->create([
         'name' => 'Yudith Serrano',
         'email' => 'ycsa91@gmail.com',
-        'password' => Hash::make('12345678'),
+        'password' => Hash::make('change_this_password_immediately!'),
       ]);
       $user->assignRole($roleAdmin);
       
       $user = User::factory()->create([
         'name' => 'Guest',
         'email' => 'guest@gmail.com',
-        'password' => Hash::make('12345678'),
+        'password' => Hash::make('change_this_password_immediately!'),
       ]);
       $user->assignRole($roleGuest);
 
       User::factory(10)->create([
-        'password' => Hash::make('12345678'),
+        'password' => Hash::make('change_this_password_immediately!'),
       ]);
         
     }

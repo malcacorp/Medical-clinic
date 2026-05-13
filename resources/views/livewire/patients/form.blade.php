@@ -94,14 +94,61 @@
                             </div>
 
                             <div class="row mb-4">
+                                <div class="col col-md-6 px-4">
+                                    <x-label for="marital_status" value="{{ __('Marital Status') }}" />
+                                    <select class="form-select" name="marital_status" wire:model="marital_status">
+                                        <option value="" selected>{{ __('Select') }}....</option>
+                                        <option value="Single">{{ __('Single') }}</option>
+                                        <option value="Married">{{ __('Married') }}</option>
+                                        <option value="Divorced">{{ __('Divorced') }}</option>
+                                        <option value="Widowed">{{ __('Widowed') }}</option>
+                                        <option value="Other">{{ __('Other') }}</option>
+                                    </select>
+                                    <x-input-error for="marital_status"></x-input-error>
+                                </div>
+                                <div class="col col-md-6 px-4">
+                                    <x-label for="occupation" value="{{ __('Occupation') }}" />
+                                    <x-input id="occupation" class="block mt-1 w-full" type="text" name="occupation"
+                                        :value="old('occupation')" autocomplete="occupation" wire:model="occupation" />
+                                    <x-input-error for="occupation"></x-input-error>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
                                 <div class="col px-4">
                                     <x-label for="address" value="{{ __('Address') }}" />
                                     <textarea id="address" class="form-control block mt-1 w-full {{ $errors->has('address') ? 'is-invalid' : '' }}"
                                         type="text" name="address" autocomplete="address" wire:model="address">{{ old('address') }}</textarea>
                                     {{-- <x-input id="address" class="block mt-1 w-full" type="text" name="address"
                                 :value="old('address')" autocomplete="address" wire:model="address" /> --}}
-                                    <x-input-error for="first_name"></x-input-error>
+                                    <x-input-error for="address"></x-input-error>
                                   </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col col-md-6 px-4">
+                                    <x-label for="birth_place" value="{{ __('Birth Place') }}" />
+                                    <x-input id="birth_place" class="block mt-1 w-full" type="text" name="birth_place"
+                                        wire:model="birth_place" />
+                                </div>
+                                <div class="col col-md-6 px-4">
+                                    <x-label for="blood_group" value="{{ __('Blood Group') }}" />
+                                    <x-input id="blood_group" class="block mt-1 w-full" type="text" name="blood_group"
+                                        wire:model="blood_group" />
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col col-md-6 px-4">
+                                    <x-label for="mother_name" value="{{ __('Mother Name') }}" />
+                                    <x-input id="mother_name" class="block mt-1 w-full" type="text" name="mother_name"
+                                        wire:model="mother_name" />
+                                </div>
+                                <div class="col col-md-6 px-4">
+                                    <x-label for="father_name" value="{{ __('Father Name') }}" />
+                                    <x-input id="father_name" class="block mt-1 w-full" type="text" name="father_name"
+                                        wire:model="father_name" />
+                                </div>
                             </div>
 
                             <div class="flex justify-content-center mt-4">
