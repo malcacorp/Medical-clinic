@@ -17,14 +17,11 @@ class UpdateDoctorsSeeder extends Seeder
      */
     public function run()
     {
-        // 1. Encontrar a Freddy y eliminarlo
-        // Ya sabemos que en ReportCount el employee_id era 2, pero busquemos por nombre también por si acaso.
+        // 1. Encontrar a Freddy y desactivarlo (cambiar su posición) en lugar de eliminarlo para no romper el historial de citas.
         $freddy = Employee::where('first_name', 'like', '%Freddy%')->orWhere('id', 2)->first();
         if ($freddy) {
-            // Eliminar eventos de Freddy para evitar FK errors
-            DB::table('events')->where('employee_id', $freddy->id)->delete();
-            // Desvincularlo o eliminarlo
-            $freddy->delete();
+            // Cambiamos su posición para que no aparezca en la lista de doctores activos
+            $freddy->update(['position' => 'INACTIVE']);
         }
 
         // 2. Agregar a Hecnys Vanesa Muñoz Roca en ginecologia
