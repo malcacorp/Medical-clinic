@@ -20,7 +20,7 @@ class AppointmentForms extends Component
     public $doctorSelected;
     public $patients, $last_name, $first_name, $medical_concerns, $patient_id;
     public $appointments, $appointment_id, $name, $event;
-    public $appointment, $assessment_type, $selectedDate, $availableDates = [];
+    public $appointment, $assessment_type, $appointmentDate, $appointmentTime, $selectedDate;
     public $isEdit = false;
 
 
@@ -32,7 +32,9 @@ class AppointmentForms extends Component
         if ($id != null) {
             $this->appointment = Appointment::findOrFail(intval($id));
 
-            $this->selectedDate = $this->appointment->event_id . "|" . $this->appointment->employee_id . "|" . $this->appointment->date . "|" . $this->appointment->time;
+            $this->doctorSelected = $this->appointment->employee_id;
+            $this->appointmentDate = $this->appointment->date;
+            $this->appointmentTime = $this->appointment->time;
 
             $this->patient_id = $this->appointment->patient_id;
             $this->medical_concerns = $this->appointment->medical_concerns;
@@ -45,90 +47,56 @@ class AppointmentForms extends Component
 
     public function render()
     {
-        if (!$this->appointment) {
-            $this->availableDates = Event::leftJoin("employees AS em", "em.id", "=", "events.employee_id")
-                ->select("events.*", DB::raw('DATE(start) AS date'))
-                ->selectRaw("CONCAT(em.first_name, ' ', em.last_name) AS doctorName")
-                ->selectRaw('SUBSTRING(start, 12, 19) as time')
-                ->where("title", "=", "Available")->get();
-        } else {
-            $availableDates = Event::leftJoin("employees AS em", "em.id", "=", "events.employee_id")
-                ->select("events.*", DB::raw('DATE(start) AS date'))
-                ->selectRaw("CONCAT(em.first_name, ' ', em.last_name) AS doctorName")
-                ->selectRaw('SUBSTRING(start, 12, 19) as time')
-                ->where("title", "=", "Available")
-                ->where("start", ">=", Carbon::now())
-                ->get();
-
-            $selectedDate = Event::leftJoin("employees AS em", "em.id", "=", "events.employee_id")
-                ->select("events.*", DB::raw('DATE(start) AS date'))
-                ->selectRaw("CONCAT(em.first_name, ' ', em.last_name) AS doctorName")
-                ->selectRaw('SUBSTRING(start, 12, 19) as time')
-                ->where("events.id", $this->appointment->event_id)
-                ->get();
-
-            $this->availableDates = $availableDates->merge($selectedDate);
-        }
-
         return view('livewire.appointment.appointment');
     }
 
     public function store()
     {
         $this->validate([
-            'selectedDate' => 'required',
+            'doctorSelected' => 'required',
+            'appointmentDate' => 'required',
+            'appointmentTime' => 'required',
             'medical_concerns' => 'required',
             'assessment_type' => 'required',
         ]);
 
-        $selectedDate = explode("|", $this->selectedDate);
-
-        $relatedEvent = Event::where("id", $selectedDate[0])->first();
-
         if ($this->appointment) {
-            // dd($this->appointment->event_id, intval($selectedDate[0]));
             $this->appointment->update([
-                'date' => $selectedDate[2],
-                'time' => $selectedDate[3],
-                'employee_id' => $selectedDate[1],
+                'date' => $this->appointmentDate,
+                'time' => $this->appointmentTime,
+                'employee_id' => $this->doctorSelected,
                 'medical_concerns' => $this->medical_concerns,
                 'assessment_type' => $this->assessment_type,
             ]);
 
-            if ($this->appointment->event_id != intval($selectedDate[0])) {
+            if ($this->event) {
                 $this->event->update([
-                    'title' => 'Available'
-                ]);
-
-                $newEvent = Event::find(intval($selectedDate[0]));
-                $newEvent->appointment()->save($this->appointment);
-                $newEvent->update([
-                    'title' => 'Appointment'
+                    'start' => $this->appointmentDate . 'T' . $this->appointmentTime,
+                    'employee_id' => $this->doctorSelected,
                 ]);
             }
-
-
         } else {
             $appointment = Appointment::create([
-                'date' => $selectedDate[2],
-                'time' => $selectedDate[3],
+                'date' => $this->appointmentDate,
+                'time' => $this->appointmentTime,
                 'medical_concerns' => $this->medical_concerns,
                 'assessment_type' => $this->assessment_type,
                 'status' => 'Pending',
             ]);
 
-            $employee = Employee::find(intval($selectedDate[1]));
+            $employee = Employee::find(intval($this->doctorSelected));
             $patient = Patient::find($this->patient_id);
 
             $patient->appointments()->save($appointment);
             $employee->appointments()->save($appointment);
 
-            $relatedEvent->update([
-                'start' => $selectedDate[2] . 'T' . $selectedDate[3],
-                'title' => 'Appointment'
+            $event = Event::create([
+                'start' => $this->appointmentDate . 'T' . $this->appointmentTime,
+                'title' => 'Appointment',
+                'employee_id' => $this->doctorSelected,
             ]);
 
-            $relatedEvent->appointment()->save($appointment);
+            $event->appointment()->save($appointment);
 
             $message = Markdown::parse(nl2br("Hola, " . $patient->first_name . ".\n\n Tu cita médica con el Dr. (Dra.) " . $employee->first_name . " " . $employee->last_name . " será el día " . $appointment->date . " a las " . $appointment->time . ". \n\n Si necesitas cancelar tu cita, puedes hacer click en el enlace abajo. \n\n [Ir a Clinic Software](https://secure.esperanzavalencia.com) "));
 

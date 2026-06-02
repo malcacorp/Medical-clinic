@@ -8,13 +8,7 @@
     <div class=card>
           <div class=card-body>
           <div class="row">
-                <div class="col-sm-2 m-auto">
-                    <div class="card p-3 bg-primary" style="margin: 10px 0;">
-                        <h5 class="text-center text-white">{{ __("Total Patients Dr. Freddy:") }}</h5>
-                        <h5 class="text-center text-white">{{ $employee_Freddy  }}</h5>
-                       
-                    </div>
-                </div>
+
                 <div class="col-sm-2 m-auto">
                     <div class="card p-3 bg-primary" style="margin: 10px 0;">
                         <h5 class="text-center text-white">{{ __("Total Patients Dr. Surmer:") }}</h5>

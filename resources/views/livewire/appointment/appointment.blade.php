@@ -18,14 +18,27 @@
                 <div class="col aling-items-center">
                     <form wire:submit.prevent="store" style="display: block">
                         @csrf
-                        {{-- Date and Time --}}
-                        <label for="selectedDate">{{ __('Available Appointments') }}</label>
-                        <select id="selectedDate" class="form-control" wire:model="selectedDate">
+                        {{-- Doctor --}}
+                        <label for="doctorSelected">{{ __('Doctor') }}</label>
+                        <select id="doctorSelected" class="form-control" wire:model="doctorSelected" required>
                             <option value="">--{{ __('Select') }}--</option>
-                            @foreach ($availableDates as $availableDate)
-                                <option value={{$availableDate->id."|".$availableDate->employee_id."|".$availableDate->date."|".$availableDate->time}}>{{ $availableDate->doctorName }} | {{ $availableDate->date }} | {{ $availableDate->time }}</option>
+                            @foreach ($doctors as $doctor)
+                                <option value="{{ $doctor->id }}">{{ $doctor->first_name }} {{ $doctor->last_name }}</option>
                             @endforeach
                         </select>
+
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                {{-- Date --}}
+                                <label class="mb-0" for="appointmentDate">{{ __('Date') }}</label>
+                                <input type="date" id="appointmentDate" class="form-control" wire:model="appointmentDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                {{-- Time --}}
+                                <label class="mb-0" for="appointmentTime">{{ __('Time') }}</label>
+                                <input type="time" id="appointmentTime" class="form-control" wire:model="appointmentTime" required>
+                            </div>
+                        </div>
                         
                         {{-- Select Patient --}}
                         <label class="mt-2 mb-0" for="patient">{{ __('Patient Name') }}</label>
