@@ -25,48 +25,56 @@ class UpdateDoctorsSeeder extends Seeder
         }
 
         // 2. Agregar a Hecnys Vanesa Muñoz Roca en ginecologia
-        $user1 = User::create([
-            'name' => 'Hecnys Vanesa Muñoz Roca',
-            'email' => 'hecnys.munoz@esperanzaclinic.com',
-            'password' => Hash::make('password123'),
-        ]);
+        $user1 = User::firstOrCreate(
+            ['email' => 'hecnys.munoz@esperanzaclinic.com'],
+            [
+                'name' => 'Hecnys Vanesa Muñoz Roca',
+                'password' => Hash::make('password123'),
+            ]
+        );
 
-        Employee::create([
-            'user_id' => $user1->id,
-            'id_number' => '1000000001',
-            'first_name' => 'Hecnys Vanesa',
-            'last_name' => 'Muñoz Roca',
-            'sex' => 'Female',
-            'profession' => 'Medico',
-            'position' => 'DOCTOR',
-            'speciality' => 'Ginecología',
-            'email' => 'hecnys.munoz@esperanzaclinic.com',
-            'phone_number' => '0000000000',
-            'birthdate' => '1990-01-01',
-            'address' => 'N/A',
-        ]);
+        Employee::firstOrCreate(
+            ['email' => 'hecnys.munoz@esperanzaclinic.com'],
+            [
+                'user_id' => $user1->id,
+                'id_number' => '1000000001',
+                'first_name' => 'Hecnys Vanesa',
+                'last_name' => 'Muñoz Roca',
+                'sex' => 'Female',
+                'profession' => 'Medico',
+                'position' => 'DOCTOR',
+                'speciality' => 'Ginecología',
+                'phone_number' => '0000000000',
+                'birthdate' => '1990-01-01',
+                'address' => 'N/A',
+            ]
+        );
 
         // 3. Agregar a Carlo Belli en pediatria
-        $user2 = User::create([
-            'name' => 'Carlo Belli',
-            'email' => 'carlo.belli@esperanzaclinic.com',
-            'password' => Hash::make('password123'),
-        ]);
+        $user2 = User::firstOrCreate(
+            ['email' => 'carlo.belli@esperanzaclinic.com'],
+            [
+                'name' => 'Carlo Belli',
+                'password' => Hash::make('password123'),
+            ]
+        );
 
-        Employee::create([
-            'user_id' => $user2->id,
-            'id_number' => '1000000002',
-            'first_name' => 'Carlo',
-            'last_name' => 'Belli',
-            'sex' => 'Male',
-            'profession' => 'Medico',
-            'position' => 'DOCTOR',
-            'speciality' => 'Pediatría',
-            'email' => 'carlo.belli@esperanzaclinic.com',
-            'phone_number' => '0000000000',
-            'birthdate' => '1990-01-01',
-            'address' => 'N/A',
-        ]);
+        Employee::firstOrCreate(
+            ['email' => 'carlo.belli@esperanzaclinic.com'],
+            [
+                'user_id' => $user2->id,
+                'id_number' => '1000000002',
+                'first_name' => 'Carlo',
+                'last_name' => 'Belli',
+                'sex' => 'Male',
+                'profession' => 'Medico',
+                'position' => 'DOCTOR',
+                'speciality' => 'Pediatría',
+                'phone_number' => '0000000000',
+                'birthdate' => '1990-01-01',
+                'address' => 'N/A',
+            ]
+        );
 
         $this->command->info('Doctor Freddy eliminado y nuevos doctores agregados con exito!');
     }
